@@ -1,0 +1,14 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/api/grants/calculate-match", "destination": "/api/grants/calculate-match" },
+    { "source": "/api/grants", "destination": "/api/grants/index" },
+    { "source": "/api/agent/chat", "destination": "/api/agent/chat" },
+    { "source": "/api/proposals/generate", "destination": "/api/proposals/generate" },
+    { "source": "/api/profile/generate-pitch", "destination": "/api/profile/generate-pitch" },
+    { "source": "/api/tts/synthesize", "destination": "/api/tts/synthesize" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
