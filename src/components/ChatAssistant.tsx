@@ -77,6 +77,15 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
   const [isPlayingTts, setIsPlayingTts] = useState(false);
   const audioTtsRef = useRef<{ pause: () => void } | null>(null);
 
+  // Pre-load browser voices on mount so they're ready instantly when user clicks Listen
+  useEffect(() => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+    const load = () => window.speechSynthesis.getVoices();
+    load(); // trigger load immediately
+    window.speechSynthesis.onvoiceschanged = load; // cache when browser finishes loading
+    return () => { window.speechSynthesis.onvoiceschanged = null; };
+  }, []);
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
@@ -183,7 +192,16 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
 
     const speakNow = () => {
       const utterance = new SpeechSynthesisUtterance(textToSpeak);
-      utterance.lang = currentLanguage === 'hindi' ? 'hi-IN' : currentLanguage === 'punjabi' ? 'pa-IN' : 'en-US';
+      const LANG_MAP: Record<string, string> = {
+        english:  'en-US',
+        hindi:    'hi-IN',
+        punjabi:  'pa-IN',
+        spanish:  'es-ES',
+        french:   'fr-FR',
+        german:   'de-DE',
+        japanese: 'ja-JP',
+      };
+      utterance.lang = LANG_MAP[currentLanguage] ?? 'en-US';
 
       // Try to pick a voice that actually matches the language; Chrome can
       // silently no-op if no matching voice is found for utterance.lang.
