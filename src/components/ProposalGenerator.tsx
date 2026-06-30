@@ -20,63 +20,134 @@ interface SavedProposalDraft {
   createdAt: string;
 }
 
+// Detects a markdown table separator row like: |---|:---:|---|  or  ---|---
+function isTableSeparatorRow(line: string) {
+  const t = line.trim();
+  if (!t.includes('-')) return false;
+  const cells = t.replace(/^\||\|$/g, '').split('|');
+  if (cells.length === 0) return false;
+  return cells.every(cell => /^\s*:?-{2,}:?\s*$/.test(cell));
+}
+
+function splitTableRow(line: string) {
+  let t = line.trim();
+  if (t.startsWith('|')) t = t.slice(1);
+  if (t.endsWith('|')) t = t.slice(0, -1);
+  return t.split('|').map(cell => cell.trim());
+}
+
 // Reuse the secure in-file Markdown-to-HTML parser
 function parseMarkdownToHtml(markdown: string) {
   if (!markdown) return '';
   const lines = markdown.split('\n');
   let inList = false;
   let inCodeBlock = false;
-  
-  const htmlLines = lines.map(line => {
-    let trimmed = line.trim();
-    
-    if (trimmed.startsWith('```')) {
-      inCodeBlock = !inCodeBlock;
-      return inCodeBlock ? '<pre class="bg-[#F5F5F0] text-[#4A4A30] p-4 rounded-xl border border-[#DEDCCF] font-mono text-xs overflow-x-auto my-3">' : '</pre>';
+  let inTable = false;
+
+  const htmlLines: string[] = [];
+
+  const closeList = () => {
+    if (inList) {
+      inList = false;
+      htmlLines.push('</ul>');
     }
-    
-    if (inCodeBlock) return trimmed;
+  };
+
+  const closeTable = () => {
+    if (inTable) {
+      inTable = false;
+      htmlLines.push('</tbody></table></div>');
+    }
+  };
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const trimmed = line.trim();
+
+    if (trimmed.startsWith('```')) {
+      closeList();
+      closeTable();
+      inCodeBlock = !inCodeBlock;
+      htmlLines.push(inCodeBlock ? '<pre class="bg-[#F5F5F0] text-[#4A4A30] p-4 rounded-xl border border-[#DEDCCF] font-mono text-xs overflow-x-auto my-3">' : '</pre>');
+      continue;
+    }
+
+    if (inCodeBlock) {
+      htmlLines.push(trimmed);
+      continue;
+    }
+
+    // Table detection: current line looks like a row, and next line is a separator row
+    const nextLine = lines[i + 1];
+    if (!inTable && trimmed.includes('|') && nextLine !== undefined && isTableSeparatorRow(nextLine)) {
+      closeList();
+      const headerCells = splitTableRow(trimmed);
+      htmlLines.push('<div class="overflow-x-auto my-4 rounded-lg border border-[#DEDCCF]"><table class="min-w-full text-xs border-collapse">');
+      htmlLines.push('<thead class="bg-[#F0F0E8]"><tr>' + headerCells.map(c => `<th class="px-3 py-2 text-left font-display font-semibold text-[#4A4A30] border-b border-[#DEDCCF]">${parseInlineMarkdown(c)}</th>`).join('') + '</tr></thead>');
+      htmlLines.push('<tbody>');
+      inTable = true;
+      i++; // skip separator row
+      continue;
+    }
+
+    if (inTable) {
+      if (trimmed.includes('|') && trimmed !== '') {
+        const cells = splitTableRow(trimmed);
+        htmlLines.push('<tr class="even:bg-[#FAFAF7]">' + cells.map(c => `<td class="px-3 py-2 border-b border-[#DEDCCF] text-slate-800 align-top">${parseInlineMarkdown(c)}</td>`).join('') + '</tr>');
+        continue;
+      } else {
+        closeTable();
+      }
+    }
 
     if (trimmed.startsWith('#### ')) {
-      return `<h5 class="font-display font-semibold text-[#4A4A30] text-xs uppercase tracking-wider mt-5 mb-2">${trimmed.replace('#### ', '')}</h5>`;
+      closeList();
+      htmlLines.push(`<h5 class="font-display font-semibold text-[#4A4A30] text-xs uppercase tracking-wider mt-5 mb-2">${trimmed.replace('#### ', '')}</h5>`);
+      continue;
     }
     if (trimmed.startsWith('### ')) {
-      return `<h4 class="font-display font-semibold text-[#5A5A40] text-sm mt-6 mb-2 border-b border-[#DEDCCF] pb-1">${trimmed.replace('### ', '')}</h4>`;
+      closeList();
+      htmlLines.push(`<h4 class="font-display font-semibold text-[#5A5A40] text-sm mt-6 mb-2 border-b border-[#DEDCCF] pb-1">${trimmed.replace('### ', '')}</h4>`);
+      continue;
     }
     if (trimmed.startsWith('## ')) {
-      return `<h3 class="font-display font-bold text-[#1A1A1A] text-base mt-8 mb-4 border-b border-[#DEDCCF] pb-1.5">${trimmed.replace('## ', '')}</h3>`;
+      closeList();
+      htmlLines.push(`<h3 class="font-display font-bold text-[#1A1A1A] text-base mt-8 mb-4 border-b border-[#DEDCCF] pb-1.5">${trimmed.replace('## ', '')}</h3>`);
+      continue;
     }
     if (trimmed.startsWith('# ')) {
-      return `<h2 class="font-display font-bold text-[#5A5A40] text-lg mt-10 mb-4 pb-2 border-b-2 border-[#5A5A40]/30">${trimmed.replace('# ', '')}</h2>`;
+      closeList();
+      htmlLines.push(`<h2 class="font-display font-bold text-[#5A5A40] text-lg mt-10 mb-4 pb-2 border-b-2 border-[#5A5A40]/30">${trimmed.replace('# ', '')}</h2>`);
+      continue;
     }
 
     if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-      let content = trimmed.substring(2);
-      let listPrefix = '';
+      const content = trimmed.substring(2);
       if (!inList) {
         inList = true;
-        listPrefix = '<ul class="list-disc pl-5 space-y-2 my-3 text-xs text-slate-800">';
+        htmlLines.push('<ul class="list-disc pl-5 space-y-2 my-3 text-xs text-slate-800">');
       }
-      return `${listPrefix}<li class="leading-normal">${parseInlineMarkdown(content)}</li>`;
-    } else {
-      let listSuffix = '';
-      if (inList) {
-        inList = false;
-        listSuffix = '</ul>';
-      }
-      if (trimmed === '') {
-        return listSuffix + '<div class="h-3"></div>';
-      }
-      return listSuffix + `<p class="leading-relaxed text-xs text-slate-800 mb-4">${parseInlineMarkdown(line)}</p>`;
+      htmlLines.push(`<li class="leading-normal">${parseInlineMarkdown(content)}</li>`);
+      continue;
     }
-  });
+
+    closeList();
+    if (trimmed === '') {
+      htmlLines.push('<div class="h-3"></div>');
+    } else {
+      htmlLines.push(`<p class="leading-relaxed text-xs text-slate-800 mb-4">${parseInlineMarkdown(line)}</p>`);
+    }
+  }
+
+  closeList();
+  closeTable();
 
   return htmlLines.join('\n');
 }
 
 function parseInlineMarkdown(text: string) {
   let formatted = text;
-  formatted = formatted.replace(/\*\*(.*?)\*\"/g, '<strong class="font-bold text-[#4A4A30]">$1</strong>');
+  formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-[#4A4A30]">$1</strong>');
   formatted = formatted.replace(/\*(.*?)\*/g, '<em class="italic text-slate-600">$1</em>');
   formatted = formatted.replace(/`(.*?)`/g, '<code class="bg-[#F0F0E8] text-[#5A5A40] px-1.5 py-0.5 rounded font-mono text-[11px]">$1</code>');
   formatted = formatted.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[#5A5A40] hover:underline font-semibold">$1 ↗</a>');

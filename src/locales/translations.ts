@@ -137,6 +137,9 @@ export interface LocaleStrings {
   promptDpiitRecognition: string;
   promptDraftProposal: string;
   promptStateSchemes: string;
+  promptMatchGrants: string;
+  promptWomenGrants: string;
+  promptDeepTech: string;
 }
 
 export const TRANSLATIONS: Record<string, LocaleStrings> = {
@@ -279,6 +282,9 @@ export const TRANSLATIONS: Record<string, LocaleStrings> = {
     promptDpiitRecognition: "How to get DPIIT recognition?",
     promptDraftProposal: "Draft a grant proposal for my startup",
     promptStateSchemes: "State-level startup funding schemes",
+    promptMatchGrants: "Match grants for my profile",
+    promptWomenGrants: "Find women entrepreneur grants",
+    promptDeepTech: "Deep tech & Biotech grants",
   },
   hindi: {
     appName: "स्टार्टअप फंडिंग हब (Startup Funding Hub)",
@@ -419,6 +425,9 @@ export const TRANSLATIONS: Record<string, LocaleStrings> = {
     promptDpiitRecognition: "DPIIT मान्यता कैसे प्राप्त करें?",
     promptDraftProposal: "मेरे स्टार्टअप के लिए प्रस्ताव बनाएं",
     promptStateSchemes: "राज्य-स्तरीय फंडिंग योजनाएं",
+    promptMatchGrants: "मेरी प्रोफ़ाइल के लिए योजनाएं खोजें",
+    promptWomenGrants: "महिला उद्यमी अनुदान खोजें",
+    promptDeepTech: "डीप टेक और बायोटेक अनुदान",
   },
   punjabi: {
     appName: "ਸਟਾਰਟਅੱਪ ਫੰਡਿੰਗ ਹੱਬ (Startup Funding Hub)",
@@ -559,6 +568,9 @@ export const TRANSLATIONS: Record<string, LocaleStrings> = {
     promptDpiitRecognition: "DPIIT ਮਾਨਤਾ ਕਿਵੇਂ ਪ੍ਰਾਪਤ ਕਰੀਏ?",
     promptDraftProposal: "ਮੇਰੇ ਸਟਾਰਟਅੱਪ ਲਈ ਪ੍ਰਸਤਾਵ ਬਣਾਓ",
     promptStateSchemes: "ਰਾਜ-ਪੱਧਰੀ ਫੰਡਿੰਗ ਯੋਜਨਾਵਾਂ",
+    promptMatchGrants: "ਮੇਰੀ ਪ੍ਰੋਫਾਈਲ ਲਈ ਯੋਜਨਾਵਾਂ ਲੱਭੋ",
+    promptWomenGrants: "ਮਹਿਲਾ ਉੱਦਮੀ ਗ੍ਰਾਂਟਾਂ ਲੱਭੋ",
+    promptDeepTech: "ਡੀਪ ਟੈਕ ਅਤੇ ਬਾਇਓਟੈਕ ਗ੍ਰਾਂਟਾਂ",
   },
   spanish: {
     appName: "Startup Funding Hub",
@@ -699,6 +711,9 @@ export const TRANSLATIONS: Record<string, LocaleStrings> = {
     promptDpiitRecognition: "¿Cómo obtener el reconocimiento DPIIT?",
     promptDraftProposal: "Redactar una propuesta de subvención para mi startup",
     promptStateSchemes: "Esquemas de financiamiento estatal para startups",
+    promptMatchGrants: "Buscar subvenciones para mi perfil",
+    promptWomenGrants: "Buscar subvenciones para mujeres emprendedoras",
+    promptDeepTech: "Subvenciones de tecnología avanzada y biotecnología",
   },
   french: {
     appName: "Startup Funding Hub",
@@ -839,6 +854,9 @@ export const TRANSLATIONS: Record<string, LocaleStrings> = {
     promptDpiitRecognition: "Comment obtenir la reconnaissance DPIIT ?",
     promptDraftProposal: "Rédiger une proposition de subvention pour ma startup",
     promptStateSchemes: "Programmes de financement des startups au niveau des états",
+    promptMatchGrants: "Trouver des subventions pour mon profil",
+    promptWomenGrants: "Trouver des subventions pour femmes entrepreneures",
+    promptDeepTech: "Subventions deep tech et biotech",
   },
   german: {
     appName: "Startup Funding Hub",
@@ -979,6 +997,9 @@ export const TRANSLATIONS: Record<string, LocaleStrings> = {
     promptDpiitRecognition: "Wie erhalte ich die DPIIT-Anerkennung?",
     promptDraftProposal: "Einen Förderantrag für mein Startup entwerfen",
     promptStateSchemes: "Bundesstaatliche Förderprogramme für Startups",
+    promptMatchGrants: "Förderungen für mein Profil finden",
+    promptWomenGrants: "Förderungen für Unternehmerinnen finden",
+    promptDeepTech: "Deep-Tech- und Biotech-Förderungen",
   },
   japanese: {
     appName: "Startup Funding Hub",
@@ -1119,5 +1140,8 @@ export const TRANSLATIONS: Record<string, LocaleStrings> = {
     promptDpiitRecognition: "DPIIT認定を取得する方法は？",
     promptDraftProposal: "スタートアップ向けの助成金提案書を作成する",
     promptStateSchemes: "州レベルのスタートアップ資金制度",
+    promptMatchGrants: "私のプロフィールに合う助成金を探す",
+    promptWomenGrants: "女性起業家向け助成金を探す",
+    promptDeepTech: "ディープテック・バイオテック助成金",
   }
 };

@@ -290,9 +290,9 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
 
   // 10 useful quick prompts
   const quickPrompts = [
-    { text: "Match grants for my profile", icon: "✨" },
-    { text: "Find women entrepreneur grants", icon: "👩" },
-    { text: "Deep tech & Biotech grants", icon: "🧬" },
+    { text: t.promptMatchGrants, icon: "✨" },
+    { text: t.promptWomenGrants, icon: "👩" },
+    { text: t.promptDeepTech, icon: "🧬" },
     { text: t.promptSeedFunds, icon: "💰" },
     { text: t.promptSisfsEligibility, icon: "🏛️" },
     { text: t.promptBiracApply, icon: "🔬" },
