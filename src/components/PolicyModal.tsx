@@ -1,4 +1,5 @@
 import { X, Shield, FileText, Info, Lock } from 'lucide-react';
+import { TRANSLATIONS } from '../locales/translations';
 
 interface PolicyModalProps {
   isOpen: boolean;
@@ -10,16 +11,17 @@ interface PolicyModalProps {
 export default function PolicyModal({ isOpen, onClose, type, currentLanguage }: PolicyModalProps) {
   if (!isOpen || !type) return null;
 
+  const t = TRANSLATIONS[currentLanguage] || TRANSLATIONS.english;
   const currentYear = new Date().getFullYear();
 
   const getTitle = () => {
     switch (type) {
       case 'privacy':
-        return currentLanguage === 'hindi' ? 'गोपनीयता नीति (Privacy Policy)' : currentLanguage === 'punjabi' ? 'ਗੋਪਨੀਯਤਾ ਨੀਤੀ (Privacy Policy)' : 'Privacy Policy';
+        return t.privacyPolicy;
       case 'cookies':
-        return currentLanguage === 'hindi' ? 'कुकी नीति (Cookie Policy)' : currentLanguage === 'punjabi' ? 'ਕੂਕੀ ਨੀਤੀ (Cookie Policy)' : 'Cookie Policy';
+        return t.cookiePolicy;
       case 'terms':
-        return currentLanguage === 'hindi' ? 'सेवा की शर्तें (Terms of Service)' : currentLanguage === 'punjabi' ? 'ਸੇਵਾ ਦੀਆਂ ਸ਼ਰਤਾਂ (Terms of Service)' : 'Terms of Service';
+        return t.termsOfService;
       default:
         return '';
     }
@@ -185,7 +187,7 @@ export default function PolicyModal({ isOpen, onClose, type, currentLanguage }: 
             onClick={onClose}
             className="px-4 py-1.5 rounded-lg bg-[#5A5A40] text-white hover:bg-[#4A4A30] text-xs font-mono font-bold transition cursor-pointer"
           >
-            {currentLanguage === 'hindi' ? 'समझ गया' : currentLanguage === 'punjabi' ? 'ਸਮਝ ਗਿਆ' : 'Acknowledge'}
+            {t.acknowledge}
           </button>
         </div>
       </div>

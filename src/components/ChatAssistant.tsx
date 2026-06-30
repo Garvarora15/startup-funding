@@ -11,96 +11,38 @@ interface ChatAssistantProps {
 
 function parseMarkdownToHtml(markdown: string) {
   if (!markdown) return '';
-
-  const isTableRow = (line: string) => /^\|.+\|/.test(line.trim());
-  const isSeparatorRow = (line: string) => /^\|[\s\-|:]+\|$/.test(line.trim());
-  const parseTableRow = (line: string): string[] =>
-    line.trim().replace(/^\||\|$/g, '').split('|');
-
-  const renderTable = (rows: string[][]): string => {
-    if (rows.length === 0) return '';
-    let html = '<div class="overflow-x-auto my-3"><table class="w-full text-xs border-collapse rounded-xl overflow-hidden shadow-sm">';
-    rows.forEach((row, i) => {
-      if (i === 0) {
-        html += '<thead><tr>';
-        row.forEach(cell => {
-          html += `<th class="bg-[#5A5A40] text-white font-semibold px-3 py-2 text-left border border-[#4A4A30]">${parseInlineMarkdown(cell.trim())}</th>`;
-        });
-        html += '</tr></thead><tbody>';
-      } else {
-        html += i % 2 === 0 ? '<tr class="bg-[#F5F5F0]">' : '<tr class="bg-white">';
-        row.forEach(cell => {
-          html += `<td class="px-3 py-2 border border-[#DEDCCF] text-slate-700 leading-normal">${parseInlineMarkdown(cell.trim())}</td>`;
-        });
-        html += '</tr>';
-      }
-    });
-    html += '</tbody></table></div>';
-    return html;
-  };
-
-  // Pre-pass: group lines into table blocks vs regular text lines
-  type Block = { type: 'table'; rows: string[][] } | { type: 'text'; line: string };
-  const blocks: Block[] = [];
   const lines = markdown.split('\n');
-  let i = 0;
-  while (i < lines.length) {
-    const line = lines[i];
-    if (isTableRow(line)) {
-      const tableRows: string[][] = [];
-      while (i < lines.length && (isTableRow(lines[i]) || isSeparatorRow(lines[i]))) {
-        if (!isSeparatorRow(lines[i])) tableRows.push(parseTableRow(lines[i]));
-        i++;
-      }
-      blocks.push({ type: 'table', rows: tableRows });
-    } else {
-      blocks.push({ type: 'text', line });
-      i++;
-    }
-  }
-
-  // Render pass
   let inList = false;
   let inCodeBlock = false;
-  const output: string[] = [];
-
-  for (const block of blocks) {
-    if (block.type === 'table') {
-      if (inList) { output.push('</ul>'); inList = false; }
-      output.push(renderTable(block.rows));
-      continue;
-    }
-
-    const line = block.line;
-    const trimmed = line.trim();
-
+  
+  const htmlLines = lines.map(line => {
+    let trimmed = line.trim();
+    
     if (trimmed.startsWith('```')) {
       inCodeBlock = !inCodeBlock;
-      output.push(inCodeBlock
-        ? '<pre class="bg-[#F5F5F0] text-[#4A4A30] p-3 rounded-xl border border-[#DEDCCF] font-mono text-[11px] overflow-x-auto my-2">'
-        : '</pre>');
-      continue;
+      return inCodeBlock ? '<pre class="bg-[#F5F5F0] text-[#4A4A30] p-3 rounded-xl border border-[#DEDCCF] font-mono text-[11px] overflow-x-auto my-2">' : '</pre>';
     }
-    if (inCodeBlock) { output.push(trimmed); continue; }
+    if (inCodeBlock) return trimmed;
 
-    if (trimmed.startsWith('#### ')) { output.push(`<h5 class="font-display font-semibold text-[#4A4A30] text-xs uppercase tracking-wider mt-4 mb-2">${trimmed.replace('#### ', '')}</h5>`); continue; }
-    if (trimmed.startsWith('### ')) { output.push(`<h4 class="font-display font-semibold text-[#5A5A40] text-sm mt-5 mb-2">${trimmed.replace('### ', '')}</h4>`); continue; }
-    if (trimmed.startsWith('## ')) { output.push(`<h3 class="font-display font-bold text-[#1A1A1A] text-base mt-6 mb-3 border-b border-[#DEDCCF] pb-1">${trimmed.replace('## ', '')}</h3>`); continue; }
-    if (trimmed.startsWith('# ')) { output.push(`<h2 class="font-display font-bold text-[#1A1A1A] text-lg mt-6 mb-3">${trimmed.replace('# ', '')}</h2>`); continue; }
+    if (trimmed.startsWith('#### ')) return `<h5 class="font-display font-semibold text-[#4A4A30] text-xs uppercase tracking-wider mt-4 mb-2">${trimmed.replace('#### ', '')}</h5>`;
+    if (trimmed.startsWith('### ')) return `<h4 class="font-display font-semibold text-[#5A5A40] text-sm mt-5 mb-2">${trimmed.replace('### ', '')}</h4>`;
+    if (trimmed.startsWith('## ')) return `<h3 class="font-display font-bold text-[#1A1A1A] text-base mt-6 mb-3 border-b border-[#DEDCCF] pb-1">${trimmed.replace('## ', '')}</h3>`;
+    if (trimmed.startsWith('# ')) return `<h2 class="font-display font-bold text-[#1A1A1A] text-lg mt-6 mb-3">${trimmed.replace('# ', '')}</h2>`;
 
     if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-      const content = trimmed.substring(2);
-      if (!inList) { output.push('<ul class="list-disc pl-5 space-y-1.5 my-2 text-xs text-slate-800">'); inList = true; }
-      output.push(`<li class="leading-normal">${parseInlineMarkdown(content)}</li>`);
+      let content = trimmed.substring(2);
+      let listPrefix = '';
+      if (!inList) { inList = true; listPrefix = '<ul class="list-disc pl-5 space-y-1.5 my-2 text-xs text-slate-800">'; }
+      return `${listPrefix}<li class="leading-normal">${parseInlineMarkdown(content)}</li>`;
     } else {
-      if (inList) { output.push('</ul>'); inList = false; }
-      if (trimmed === '') output.push('<div class="h-2"></div>');
-      else output.push(`<p class="leading-relaxed text-xs text-slate-800 mb-3">${parseInlineMarkdown(line)}</p>`);
+      let listSuffix = '';
+      if (inList) { inList = false; listSuffix = '</ul>'; }
+      if (trimmed === '') return listSuffix + '<div class="h-2"></div>';
+      return listSuffix + `<p class="leading-relaxed text-xs text-slate-800 mb-3">${parseInlineMarkdown(line)}</p>`;
     }
-  }
+  });
 
-  if (inList) output.push('</ul>');
-  return output.join('\n');
+  return htmlLines.join('\n');
 }
 
 function parseInlineMarkdown(text: string) {
@@ -114,33 +56,26 @@ function parseInlineMarkdown(text: string) {
 
 export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, currentLanguage = 'english' }: ChatAssistantProps) {
   const t = TRANSLATIONS[currentLanguage] || TRANSLATIONS.english;
-  const CHAT_STORAGE_KEY = 'sfh_chat_messages';
-  const CHAT_TTL_MS = 5 * 60 * 1000; // 5 minutes
 
-  const getWelcomeMessage = (): ChatMessage => ({
-    id: 'welcome',
-    role: 'assistant',
-    content: `Hello! I am the **IBM Granite AI Funding Strategist**.\n\nI am connected to Watsonx.ai and equipped with detailed knowledge on 30 Indian government, institutional seed funding, and academic research/study schemes.\n\nFill out your **Startup Profile** on the left, and I can dynamically match schemes for your venture, explain your eligibility, or help you draft highly competitive proposals.\n\n**What would you like to explore today?**`,
-    timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-  });
-
-  const loadMessages = (): ChatMessage[] => {
-    try {
-      const raw = sessionStorage.getItem(CHAT_STORAGE_KEY);
-      if (!raw) return [getWelcomeMessage()];
-      const { messages: saved, savedAt } = JSON.parse(raw);
-      // Expire after 5 minutes
-      if (Date.now() - savedAt > CHAT_TTL_MS) {
-        sessionStorage.removeItem(CHAT_STORAGE_KEY);
-        return [getWelcomeMessage()];
-      }
-      return saved;
-    } catch {
-      return [getWelcomeMessage()];
+  const getSpeechLangCode = (lang: string): string => {
+    switch (lang) {
+      case 'hindi': return 'hi-IN';
+      case 'punjabi': return 'pa-IN';
+      case 'spanish': return 'es-ES';
+      case 'french': return 'fr-FR';
+      case 'german': return 'de-DE';
+      case 'japanese': return 'ja-JP';
+      default: return 'en-US';
     }
   };
-
-  const [messages, setMessages] = useState<ChatMessage[]>(loadMessages);
+  const [messages, setMessages] = useState<ChatMessage[]>([
+    {
+      id: 'welcome',
+      role: 'assistant',
+      content: `Hello! I am the **IBM Granite AI Funding Strategist**.\n\nI am connected to Watsonx.ai and equipped with detailed knowledge on 30 Indian government, institutional seed funding, and academic research/study schemes.\n\nFill out your **Startup Profile** on the left, and I can dynamically match schemes for your venture, explain your eligibility, or help you draft highly competitive proposals.\n\n**What would you like to explore today?**`,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    }
+  ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [reasoningLogs, setReasoningLogs] = useState<string[]>([]);
@@ -153,15 +88,6 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
   const [ttsMsgId, setTtsMsgId] = useState<string | null>(null);
   const [isPlayingTts, setIsPlayingTts] = useState(false);
   const audioTtsRef = useRef<{ pause: () => void } | null>(null);
-
-  // Pre-load browser voices on mount so they're ready instantly when user clicks Listen
-  useEffect(() => {
-    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
-    const load = () => window.speechSynthesis.getVoices();
-    load(); // trigger load immediately
-    window.speechSynthesis.onvoiceschanged = load; // cache when browser finishes loading
-    return () => { window.speechSynthesis.onvoiceschanged = null; };
-  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -206,7 +132,7 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
     } else {
       const prefix = input ? input.trim() + ' ' : '';
       startSpeechTextRef.current = prefix;
-      recognitionRef.current.lang = currentLanguage === 'hindi' ? 'hi-IN' : currentLanguage === 'punjabi' ? 'pa-IN' : 'en-US';
+      recognitionRef.current.lang = getSpeechLangCode(currentLanguage);
       recognitionRef.current.start();
     }
   };
@@ -269,16 +195,7 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
 
     const speakNow = () => {
       const utterance = new SpeechSynthesisUtterance(textToSpeak);
-      const LANG_MAP: Record<string, string> = {
-        english:  'en-US',
-        hindi:    'hi-IN',
-        punjabi:  'pa-IN',
-        spanish:  'es-ES',
-        french:   'fr-FR',
-        german:   'de-DE',
-        japanese: 'ja-JP',
-      };
-      utterance.lang = LANG_MAP[currentLanguage] ?? 'en-US';
+      utterance.lang = getSpeechLangCode(currentLanguage);
 
       // Try to pick a voice that actually matches the language; Chrome can
       // silently no-op if no matching voice is found for utterance.lang.
@@ -337,13 +254,13 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
     { text: "Match grants for my profile", icon: "✨" },
     { text: "Find women entrepreneur grants", icon: "👩" },
     { text: "Deep tech & Biotech grants", icon: "🧬" },
-    { text: currentLanguage === 'hindi' ? "₹25L+ सीमा के साथ सीड फंड" : currentLanguage === 'punjabi' ? "₹25L+ ਸੀਮਾ ਦੇ ਨਾਲ ਸੀਡ ਫੰਡ" : "Seed funds with ₹25L+ limits", icon: "💰" },
-    { text: currentLanguage === 'hindi' ? "SISFS के लिए पात्रता जांचें" : currentLanguage === 'punjabi' ? "SISFS ਲਈ ਯੋਗਤਾ ਜਾਂਚੋ" : "Check my SISFS eligibility", icon: "🏛️" },
-    { text: currentLanguage === 'hindi' ? "BIRAC के लिए कैसे आवेदन करें?" : currentLanguage === 'punjabi' ? "BIRAC ਲਈ ਕਿਵੇਂ ਅਰਜ਼ੀ ਦੇਣੀ ਹੈ?" : "How to apply for BIRAC grants?", icon: "🔬" },
-    { text: currentLanguage === 'hindi' ? "AI स्टार्टअप के लिए शीर्ष अनुदान" : currentLanguage === 'punjabi' ? "AI ਸਟਾਰਟਅੱਪ ਲਈ ਚੋਟੀ ਦੀਆਂ ਗ੍ਰਾਂਟਾਂ" : "Top grants for AI startups", icon: "🤖" },
-    { text: currentLanguage === 'hindi' ? "DPIIT मान्यता कैसे प्राप्त करें?" : currentLanguage === 'punjabi' ? "DPIIT ਮਾਨਤਾ ਕਿਵੇਂ ਪ੍ਰਾਪਤ ਕਰੀਏ?" : "How to get DPIIT recognition?", icon: "📋" },
-    { text: currentLanguage === 'hindi' ? "मेरे स्टार्टअप के लिए प्रस्ताव बनाएं" : currentLanguage === 'punjabi' ? "ਮੇਰੇ ਸਟਾਰਟਅੱਪ ਲਈ ਪ੍ਰਸਤਾਵ ਬਣਾਓ" : "Draft a grant proposal for my startup", icon: "📝" },
-    { text: currentLanguage === 'hindi' ? "राज्य-स्तरीय फंडिंग योजनाएं" : currentLanguage === 'punjabi' ? "ਰਾਜ-ਪੱਧਰੀ ਫੰਡਿੰਗ ਯੋਜਨਾਵਾਂ" : "State-level startup funding schemes", icon: "🗺️" },
+    { text: t.promptSeedFunds, icon: "💰" },
+    { text: t.promptSisfsEligibility, icon: "🏛️" },
+    { text: t.promptBiracApply, icon: "🔬" },
+    { text: t.promptAiGrants, icon: "🤖" },
+    { text: t.promptDpiitRecognition, icon: "📋" },
+    { text: t.promptDraftProposal, icon: "📝" },
+    { text: t.promptStateSchemes, icon: "🗺️" },
   ];
 
   const scrollBottom = () => {
@@ -354,13 +271,6 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
       });
     }
   };
-
-  // Persist chat messages to sessionStorage with timestamp for 5-min TTL
-  useEffect(() => {
-    try {
-      sessionStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify({ messages, savedAt: Date.now() }));
-    } catch { /* storage full or unavailable — fail silently */ }
-  }, [messages]);
 
   useEffect(() => { scrollBottom(); }, [messages, loading, reasoningLogs]);
 
@@ -460,13 +370,13 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
             </h3>
             <p className="text-[10px] text-[#10B981] font-mono flex items-center gap-1 mt-0.5 font-semibold">
               <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full animate-pulse" />
-              {currentLanguage === 'hindi' ? 'ऑनलाइन' : currentLanguage === 'punjabi' ? 'ਔਨਲਾਈਨ' : 'Online'} &bull; granite-4-h-small
+              {t.onlineStatus} &bull; granite-4-h-small
             </p>
           </div>
         </div>
         <div className="flex items-center gap-1.5 bg-[#ECEBE4] px-2.5 py-1 rounded-full text-[10px] font-mono text-[#4A4A30] border border-[#DEDCCF]">
           <Sparkles className="w-3.5 h-3.5 text-amber-600 animate-pulse" />
-          <span>{currentLanguage === 'hindi' ? 'कॉग्निटिव कोर' : currentLanguage === 'punjabi' ? 'ਕੋਗਨਿਟਿਵ ਕੋਰ' : 'Watsonx Cognitive Core'}</span>
+          <span>{t.cognitiveCore}</span>
         </div>
       </div>
 
@@ -494,9 +404,9 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
                     className="flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] text-[#5A5A40] hover:text-[#4A4A30] hover:bg-[#ECEBE4]/50 font-mono font-bold transition cursor-pointer"
                   >
                     {isPlayingTts && ttsMsgId === msg.id ? (
-                      <><Square className="w-2.5 h-2.5 fill-[#5A5A40] text-[#5A5A40]" /><span>{currentLanguage === 'hindi' ? 'रोकें' : currentLanguage === 'punjabi' ? 'ਰੋਕੋ' : 'Stop'}</span></>
+                      <><Square className="w-2.5 h-2.5 fill-[#5A5A40] text-[#5A5A40]" /><span>{t.stopLabel}</span></>
                     ) : (
-                      <><Volume2 className="w-3.5 h-3.5" /><span>{currentLanguage === 'hindi' ? 'सुनें' : currentLanguage === 'punjabi' ? 'ਸੁਣੋ' : 'Listen'}</span></>
+                      <><Volume2 className="w-3.5 h-3.5" /><span>{t.listenLabel}</span></>
                     )}
                   </button>
                 ) : <div />}
@@ -515,7 +425,7 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
             <div className="space-y-2 bg-[#F5F5F0] border border-[#DEDCCF] p-4 rounded-2xl rounded-tl-none w-full max-w-md shadow-sm">
               <div className="flex items-center gap-2 text-[10px] font-mono text-[#5A5A40] border-b border-[#DEDCCF] pb-2 mb-2">
                 <Terminal className="w-3.5 h-3.5" />
-                <span>{currentLanguage === 'hindi' ? 'IBM ग्रेनाइट रीजनिंग मॉनिटर' : currentLanguage === 'punjabi' ? 'IBM ਗ੍ਰੇਨਾਈਟ ਰੀਜ਼ਨਿੰਗ ਮਾਨੀਟਰ' : 'IBM Granite Reasoning Monitor'}</span>
+                <span>{t.reasoningMonitor}</span>
               </div>
               <div className="space-y-1.5 font-mono text-[9px] text-slate-600">
                 {reasoningLogs.map((log, idx) => (
@@ -526,7 +436,7 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
                 ))}
                 <div className="flex items-center gap-1.5 text-[#5A5A40] animate-pulse">
                   <span>&gt;</span>
-                  <span>{currentLanguage === 'hindi' ? 'संरचनात्मक रणनीतिक आउटपुट का विश्लेषण...' : currentLanguage === 'punjabi' ? 'ਸੰਰਚਨਾਤਮਕ ਰਣਨੀਤਕ ਆਉਟਪੁੱਟ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ...' : 'Synthesizing structural strategic outputs...'}</span>
+                  <span>{t.consolidatingChapters}</span>
                 </div>
               </div>
             </div>
@@ -538,7 +448,7 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
       {messages.length <= 2 && (
         <div className="px-5 py-3 border-t border-[#DEDCCF] bg-[#F5F5F0]">
           <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#8E8E80] mb-2">
-            {currentLanguage === 'hindi' ? 'सुझाए गए प्रश्न' : currentLanguage === 'punjabi' ? 'ਸੁਝਾਏ ਗਏ ਪ੍ਰਸ਼ਨ' : 'Suggested Queries'}
+            {t.suggestedQueries}
           </p>
           <div className="flex flex-wrap gap-1.5">
             {quickPrompts.map((qp, idx) => (
@@ -560,7 +470,7 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
           <input
             type="text"
             className="flex-1 bg-white text-[#1A1A1A] text-xs px-4 py-3 rounded-xl border border-[#DEDCCF] focus:outline-none focus:border-[#5A5A40] transition pr-16"
-            placeholder={isListening ? (currentLanguage === 'hindi' ? "सुन रहा हूँ... बोलें" : currentLanguage === 'punjabi' ? "ਸੁਣ ਰਿਹਾ ਹਾਂ... ਬੋਲੋ" : "Listening... Speak now") : (t.chatPlaceholder || "Query Watsonx about grants, eligibility, milestones...")}
+            placeholder={isListening ? t.listeningPlaceholder : (t.chatPlaceholder || "Query Watsonx about grants, eligibility, milestones...")}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={loading}

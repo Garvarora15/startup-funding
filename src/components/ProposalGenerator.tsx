@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { jsPDF } from 'jspdf';
 import { StartupProfile, Grant } from '../types';
 import { FileText, Cpu, Download, Copy, Printer, Check, RefreshCw, Terminal, AlertCircle, Trash2, History, Save } from 'lucide-react';
+import { TRANSLATIONS } from '../locales/translations';
 
 interface ProposalGeneratorProps {
   startupProfile: StartupProfile;
@@ -22,96 +23,55 @@ interface SavedProposalDraft {
 // Reuse the secure in-file Markdown-to-HTML parser
 function parseMarkdownToHtml(markdown: string) {
   if (!markdown) return '';
-
-  const isTableRow = (line: string) => /^\|.+\|/.test(line.trim());
-  const isSeparatorRow = (line: string) => /^\|[\s\-|:]+\|$/.test(line.trim());
-  const parseTableRow = (line: string): string[] =>
-    line.trim().replace(/^\||\|$/g, '').split('|');
-
-  const renderTable = (rows: string[][]): string => {
-    if (rows.length === 0) return '';
-    let html = '<div class="overflow-x-auto my-5"><table class="w-full text-xs border-collapse rounded-xl overflow-hidden shadow-sm">';
-    rows.forEach((row, i) => {
-      if (i === 0) {
-        html += '<thead><tr>';
-        row.forEach(cell => {
-          html += `<th class="bg-[#5A5A40] text-white font-semibold px-3 py-2 text-left border border-[#4A4A30]">${parseInlineMarkdown(cell.trim())}</th>`;
-        });
-        html += '</tr></thead><tbody>';
-      } else {
-        html += i % 2 === 0 ? '<tr class="bg-[#F5F5F0]">' : '<tr class="bg-white">';
-        row.forEach(cell => {
-          html += `<td class="px-3 py-2 border border-[#DEDCCF] text-slate-700 leading-normal">${parseInlineMarkdown(cell.trim())}</td>`;
-        });
-        html += '</tr>';
-      }
-    });
-    html += '</tbody></table></div>';
-    return html;
-  };
-
-  // Pre-pass: group lines into table blocks vs regular text lines
-  type Block = { type: 'table'; rows: string[][] } | { type: 'text'; line: string };
-  const blocks: Block[] = [];
   const lines = markdown.split('\n');
-  let i = 0;
-  while (i < lines.length) {
-    const line = lines[i];
-    if (isTableRow(line)) {
-      const tableRows: string[][] = [];
-      while (i < lines.length && (isTableRow(lines[i]) || isSeparatorRow(lines[i]))) {
-        if (!isSeparatorRow(lines[i])) tableRows.push(parseTableRow(lines[i]));
-        i++;
-      }
-      blocks.push({ type: 'table', rows: tableRows });
-    } else {
-      blocks.push({ type: 'text', line });
-      i++;
-    }
-  }
-
-  // Render pass
   let inList = false;
   let inCodeBlock = false;
-  const output: string[] = [];
-
-  for (const block of blocks) {
-    if (block.type === 'table') {
-      if (inList) { output.push('</ul>'); inList = false; }
-      output.push(renderTable(block.rows));
-      continue;
-    }
-
-    const line = block.line;
-    const trimmed = line.trim();
-
+  
+  const htmlLines = lines.map(line => {
+    let trimmed = line.trim();
+    
     if (trimmed.startsWith('```')) {
       inCodeBlock = !inCodeBlock;
-      output.push(inCodeBlock
-        ? '<pre class="bg-[#F5F5F0] text-[#4A4A30] p-4 rounded-xl border border-[#DEDCCF] font-mono text-xs overflow-x-auto my-3">'
-        : '</pre>');
-      continue;
+      return inCodeBlock ? '<pre class="bg-[#F5F5F0] text-[#4A4A30] p-4 rounded-xl border border-[#DEDCCF] font-mono text-xs overflow-x-auto my-3">' : '</pre>';
     }
-    if (inCodeBlock) { output.push(trimmed); continue; }
+    
+    if (inCodeBlock) return trimmed;
 
-    if (trimmed.startsWith('#### ')) { output.push(`<h5 class="font-display font-semibold text-[#4A4A30] text-xs uppercase tracking-wider mt-5 mb-2">${trimmed.replace('#### ', '')}</h5>`); continue; }
-    if (trimmed.startsWith('### ')) { output.push(`<h4 class="font-display font-semibold text-[#5A5A40] text-sm mt-6 mb-2 border-b border-[#DEDCCF] pb-1">${trimmed.replace('### ', '')}</h4>`); continue; }
-    if (trimmed.startsWith('## ')) { output.push(`<h3 class="font-display font-bold text-[#1A1A1A] text-base mt-8 mb-4 border-b border-[#DEDCCF] pb-1.5">${trimmed.replace('## ', '')}</h3>`); continue; }
-    if (trimmed.startsWith('# ')) { output.push(`<h2 class="font-display font-bold text-[#5A5A40] text-lg mt-10 mb-4 pb-2 border-b-2 border-[#5A5A40]/30">${trimmed.replace('# ', '')}</h2>`); continue; }
+    if (trimmed.startsWith('#### ')) {
+      return `<h5 class="font-display font-semibold text-[#4A4A30] text-xs uppercase tracking-wider mt-5 mb-2">${trimmed.replace('#### ', '')}</h5>`;
+    }
+    if (trimmed.startsWith('### ')) {
+      return `<h4 class="font-display font-semibold text-[#5A5A40] text-sm mt-6 mb-2 border-b border-[#DEDCCF] pb-1">${trimmed.replace('### ', '')}</h4>`;
+    }
+    if (trimmed.startsWith('## ')) {
+      return `<h3 class="font-display font-bold text-[#1A1A1A] text-base mt-8 mb-4 border-b border-[#DEDCCF] pb-1.5">${trimmed.replace('## ', '')}</h3>`;
+    }
+    if (trimmed.startsWith('# ')) {
+      return `<h2 class="font-display font-bold text-[#5A5A40] text-lg mt-10 mb-4 pb-2 border-b-2 border-[#5A5A40]/30">${trimmed.replace('# ', '')}</h2>`;
+    }
 
     if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-      const content = trimmed.substring(2);
-      if (!inList) { output.push('<ul class="list-disc pl-5 space-y-2 my-3 text-xs text-slate-800">'); inList = true; }
-      output.push(`<li class="leading-normal">${parseInlineMarkdown(content)}</li>`);
+      let content = trimmed.substring(2);
+      let listPrefix = '';
+      if (!inList) {
+        inList = true;
+        listPrefix = '<ul class="list-disc pl-5 space-y-2 my-3 text-xs text-slate-800">';
+      }
+      return `${listPrefix}<li class="leading-normal">${parseInlineMarkdown(content)}</li>`;
     } else {
-      if (inList) { output.push('</ul>'); inList = false; }
-      if (trimmed === '') output.push('<div class="h-3"></div>');
-      else output.push(`<p class="leading-relaxed text-xs text-slate-800 mb-4">${parseInlineMarkdown(line)}</p>`);
+      let listSuffix = '';
+      if (inList) {
+        inList = false;
+        listSuffix = '</ul>';
+      }
+      if (trimmed === '') {
+        return listSuffix + '<div class="h-3"></div>';
+      }
+      return listSuffix + `<p class="leading-relaxed text-xs text-slate-800 mb-4">${parseInlineMarkdown(line)}</p>`;
     }
-  }
+  });
 
-  if (inList) output.push('</ul>');
-  return output.join('\n');
+  return htmlLines.join('\n');
 }
 
 function parseInlineMarkdown(text: string) {
@@ -129,6 +89,7 @@ export default function ProposalGenerator({
   onClearSelectedGrant,
   currentLanguage = 'english'
 }: ProposalGeneratorProps) {
+  const t = TRANSLATIONS[currentLanguage] || TRANSLATIONS.english;
   const labels = currentLanguage === 'hindi' ? {
     contextPanel: 'प्रस्ताव प्रसंग पैनल',
     deselectBtn: 'योजना हटाएँ',
@@ -635,7 +596,7 @@ export default function ProposalGenerator({
             <h3 className="font-display font-semibold text-[#4A4A30] text-sm">{labels.contextPanel}</h3>
             <span className="text-[9px] text-[#5A5A40]/60 font-mono bg-[#5A5A40]/5 px-1.5 py-0.5 rounded border border-[#5A5A40]/10 flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              {currentLanguage === 'hindi' ? 'स्वतः-सुरक्षित' : currentLanguage === 'punjabi' ? 'ਆਟੋ-ਸੇਵਡ' : 'Auto-saved'}
+              {t.autoSaved}
             </span>
           </div>
           {selectedGrant && (
@@ -692,7 +653,7 @@ export default function ProposalGenerator({
             <input
               type="text"
               className="w-full bg-white text-[#1A1A1A] px-3 py-2 rounded-xl border border-[#DEDCCF] focus:outline-none focus:border-[#5A5A40]"
-              placeholder={currentLanguage === 'hindi' ? 'custom योजना टाइप करें...' : currentLanguage === 'punjabi' ? 'ਕਸਟਮ ਯੋਜਨਾ ਲਿਖੋ...' : 'Select a grant, or type custom scheme...'}
+              placeholder={t.selectGrantPlaceholder}
               value={form.targetGrantName}
               onChange={(e) => setForm({ ...form, targetGrantName: e.target.value })}
             />
@@ -726,7 +687,7 @@ export default function ProposalGenerator({
             </label>
             <textarea
               className="w-full bg-white text-[#1A1A1A] px-3 py-2 rounded-xl border border-[#DEDCCF] focus:outline-none focus:border-[#5A5A40] h-16 resize-none leading-relaxed text-[11px]"
-              placeholder={currentLanguage === 'hindi' ? 'जैसे: महिला उद्यमी नेतृत्व / नवीन डीप-टेक पेटेंट...' : currentLanguage === 'punjabi' ? 'ਜਿਵੇਂ: ਮਹਿਲਾ ਉੱਦਮੀ ਅਗਵਾਈ / ਨਵੀਨ ਡੀਪ-ਟੈੱਕ ਪੇਟੈਂਟ...' : 'e.g. Highlight our female founder leadership / unique deep-tech patent status...'}
+              placeholder={t.pitchHint}
               value={form.additionalNotes}
               onChange={(e) => setForm({ ...form, additionalNotes: e.target.value })}
             />
@@ -778,7 +739,7 @@ export default function ProposalGenerator({
                   title="Copy markdown content"
                 >
                   {copied ? <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#10B981]" /> : <Copy className="w-3 h-3 sm:w-3.5 sm:h-3.5" />}
-                  <span>{copied ? (currentLanguage === 'hindi' ? 'कॉपी किया' : currentLanguage === 'punjabi' ? 'ਕਾਪੀ ਕੀਤਾ' : 'Copied') : (currentLanguage === 'hindi' ? 'कॉपी' : currentLanguage === 'punjabi' ? 'ਕਾਪੀ' : 'Copy')}</span>
+                  <span>{copied ? t.copiedShortLabel : t.copyShortLabel}</span>
                 </button>
                 <button
                   onClick={handleDownload}
@@ -802,7 +763,7 @@ export default function ProposalGenerator({
                   title="Export to printer"
                 >
                   <Printer className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                  <span>{currentLanguage === 'hindi' ? 'प्रिंट' : currentLanguage === 'punjabi' ? 'ਪ੍ਰਿੰਟ' : 'Print'}</span>
+                  <span>{t.printLabel}</span>
                 </button>
               </div>
             )}
@@ -822,7 +783,7 @@ export default function ProposalGenerator({
                   >
                     {activeDrafts.map((d, idx) => (
                       <option key={d.id} value={d.id}>
-                        {currentLanguage === 'hindi' ? 'संस्करण' : currentLanguage === 'punjabi' ? 'ਸੰਸਕਰਣ' : 'Iteration'} {activeDrafts.length - idx} ({new Date(d.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })})
+                        {t.iterationLabel} {activeDrafts.length - idx} ({new Date(d.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })})
                       </option>
                     ))}
                   </select>
@@ -848,7 +809,7 @@ export default function ProposalGenerator({
                   title="Create new revision of current state"
                 >
                   <Save className="w-3 h-3 text-[#5A5A40]" />
-                  <span>{currentLanguage === 'hindi' ? 'स्नैपशॉट लें' : currentLanguage === 'punjabi' ? 'ਸਨੈਪਸ਼ਾਟ ਲਓ' : 'Snapshot Revision'}</span>
+                  <span>{t.snapshotRevision}</span>
                 </button>
               )}
             </div>
@@ -862,10 +823,10 @@ export default function ProposalGenerator({
               <Cpu className="w-10 h-10 text-[#5A5A40] animate-pulse" />
               <div className="space-y-1 w-full max-w-sm">
                 <p className="text-[#4A4A30] text-xs font-semibold uppercase tracking-wider">
-                  {currentLanguage === 'hindi' ? 'प्रस्ताव तैयार किया जा रहा है...' : currentLanguage === 'punjabi' ? 'ਪ੍ਰਸਤਾਵ ਤਿਆਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...' : 'Drafting Proposal...'}
+                  {t.draftingProposal}
                 </p>
                 <p className="text-slate-500 text-[10px]">
-                  {currentLanguage === 'hindi' ? 'कृपया प्रतीक्षा करें। IBM ग्रेनाइट मॉडल विशिष्ट विवरण तैयार कर रहा है।' : currentLanguage === 'punjabi' ? 'ਕਿਰਪਾ ਕਰਕੇ ਉਡੀਕ ਕਰੋ। IBM ਗ੍ਰੇਨਾਈਟ ਮਾਡਲ ਖਾਸ ਵੇਰਵੇ ਤਿਆਰ ਕਰ ਰਿਹਾ ਹੈ।' : 'Please stand by. IBM Granite model is creating custom narrative blocks.'}
+                  {t.pleaseStandBy}
                 </p>
               </div>
 
@@ -874,7 +835,7 @@ export default function ProposalGenerator({
                 <div className="flex items-center gap-1.5 text-[#5A5A40] border-b border-[#DEDCCF] pb-1.5 mb-2 font-bold">
                   <Terminal className="w-3.5 h-3.5" />
                   <span>
-                    {currentLanguage === 'hindi' ? 'IBM ग्रेनाइट पिच जनरेशन मॉनिटर' : currentLanguage === 'punjabi' ? 'IBM ਗ੍ਰੇਨਾਈਟ ਪਿੱਚ ਜਨਰੇਸ਼ਨ ਮਾਨੀਟਰ' : 'IBM Carbon Pitch Generation Monitor'}
+                    {t.pitchGenerationMonitor}
                   </span>
                 </div>
                 <div className="space-y-1">
@@ -887,7 +848,7 @@ export default function ProposalGenerator({
                   <div className="flex items-center gap-1.5 text-[#5A5A40] animate-pulse">
                     <span>&gt;</span>
                     <span>
-                      {currentLanguage === 'hindi' ? 'संरचनात्मक अध्यायों को एकीकृत किया जा रहा है...' : currentLanguage === 'punjabi' ? 'ਸੰਰਚਨਾਤਮਕ ਅਧਿਆਵਾਂ ਨੂੰ ਏਕੀਕ੍ਰਿਤ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...' : 'Consolidating structural chapters...'}
+                      {t.consolidatingChapters}
                     </span>
                   </div>
                 </div>

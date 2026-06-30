@@ -62,13 +62,7 @@ export default function StartupProfileForm({ profile, onChange, currentLanguage 
 
   const handleGenerateAIPitch = async () => {
     if (!profile.name) {
-      alert(
-        currentLanguage === 'hindi' 
-          ? "कृपया अपनी एआई पिच उत्पन्न करने के लिए पहले अपना स्टार्टअप उद्यम नाम दर्ज करें!" 
-          : currentLanguage === 'punjabi'
-          ? "ਕਿਰਪਾ ਕਰਕੇ ਆਪਣੀ ਏਆਈ ਪਿੱਚ ਬਣਾਉਣ ਲਈ ਪਹਿਲਾਂ ਆਪਣੇ ਸਟਾਰਟਅੱਪ ਉੱਦਮ ਦਾ ਨਾਮ ਦਰਜ ਕਰੋ!"
-          : "Please enter your Startup Venture Name first to generate a custom pitch!"
-      );
+      alert(t.enterNameFirstAlert);
       return;
     }
     setGenerating(true);
@@ -121,10 +115,10 @@ export default function StartupProfileForm({ profile, onChange, currentLanguage 
   const years = Array.from({ length: 10 }, (_, i) => currentYear - i);
 
   const pitchFormats = [
-    { value: 'elevator', label: currentLanguage === 'hindi' ? 'एलिवेटर पिच (2-वाक्य)' : currentLanguage === 'punjabi' ? 'ਐਲੀਵੇਟਰ ਪਿੱਚ (2-ਵਾਕ)' : 'Elevator Pitch (2-sentence)' },
-    { value: 'one-pager', label: currentLanguage === 'hindi' ? 'वन-पेजर सारांश (बुलेट बिंदु)' : currentLanguage === 'punjabi' ? 'ਵਨ-ਪੇਜਰ ਸੰਖੇਪ (ਬੁਲੇਟ ਪੁਆਇੰਟ)' : 'One-Pager Summary (Bullet points)' },
-    { value: 'twitter', label: currentLanguage === 'hindi' ? 'ट्विटर/एक्स पोस्ट शैली' : currentLanguage === 'punjabi' ? 'ਟਵਿੱਟਰ/ਐਕਸ ਪੋਸਟ ਸਟਾਈਲ' : 'Twitter/X Post Style' },
-    { value: 'investor-hook', label: currentLanguage === 'hindi' ? 'इन्वेस्टर डेक हुक' : currentLanguage === 'punjabi' ? 'ਇਨਵੈਸਟਰ ਡੈੱਕ ਹੁੱਕ' : 'Investor Deck Hook' },
+    { value: 'elevator', label: t.formatElevator },
+    { value: 'one-pager', label: t.formatOnePager },
+    { value: 'twitter', label: t.formatTwitter },
+    { value: 'investor-hook', label: t.formatInvestor },
   ];
 
   const pitchLanguages = [
@@ -138,10 +132,10 @@ export default function StartupProfileForm({ profile, onChange, currentLanguage 
   ];
 
   const updateFrequencies = [
-    { value: 'on-demand', label: currentLanguage === 'hindi' ? 'मैन्युअल (मांग पर)' : currentLanguage === 'punjabi' ? 'ਮੈਨੂਅਲ (ਮੰਗ ਤੇ)' : 'Manual (On-Demand)' },
-    { value: 'weekly', label: currentLanguage === 'hindi' ? 'साप्ताहिक ऑटो-रिफाइन' : currentLanguage === 'punjabi' ? 'ਹਫ਼ਤਾਵਾਰੀ ਆਟੋ-ਰਿਫਾਈਨ' : 'Weekly Auto-Refine' },
-    { value: 'monthly', label: currentLanguage === 'hindi' ? 'मासिक अनुपालन जांच' : currentLanguage === 'punjabi' ? 'ਮਾਸਿਕ ਪਾਲਣਾ ਜਾਂਚ' : 'Monthly Compliance Check' },
-    { value: 'realtime', label: currentLanguage === 'hindi' ? 'वास्तविक समय मिलान सिंक' : currentLanguage === 'punjabi' ? 'ਰੀਅਲ-ਟਾਈਮ ਮੈਚ ਸਿੰਕ' : 'Real-time Match Sync' },
+    { value: 'on-demand', label: t.freqManual },
+    { value: 'weekly', label: t.freqWeekly },
+    { value: 'monthly', label: t.monthlyComplianceCheck },
+    { value: 'realtime', label: t.realtimeMatchSync },
   ];
 
   const currentPresets = sectorPresets[profile.domain] || sectorPresets['any'];
@@ -208,11 +202,7 @@ export default function StartupProfileForm({ profile, onChange, currentLanguage 
               <div className="group relative cursor-help">
                 <HelpCircle className="w-3.5 h-3.5 text-slate-500" />
                 <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-1 w-48 bg-white text-slate-700 text-[10px] p-2 rounded-lg opacity-0 group-hover:opacity-100 transition duration-200 pointer-events-none z-20 border border-[#DEDCCF] font-normal shadow-md">
-                  {currentLanguage === 'hindi' 
-                    ? 'DPIIT प्रमाणन और < 10 वर्ष की कानूनी उम्र की आवश्यकता।' 
-                    : currentLanguage === 'punjabi'
-                    ? 'DPIIT ਪ੍ਰਮਾਣੀਕਰਨ ਅਤੇ < 10 ਸਾਲ ਦੀ ਕਾਨੂੰਨੀ ਉਮਰ ਦੀ ਲੋੜ।'
-                    : 'Requires DPIIT recognition and < 10 years of operational history.'}
+                  {t.incorporationYearTooltip}
                 </span>
               </div>
             </label>
@@ -259,14 +249,14 @@ export default function StartupProfileForm({ profile, onChange, currentLanguage 
           <div className="flex items-center gap-1.5 text-[10px] font-bold text-[#5A5A40] uppercase tracking-wider">
             <Sparkles className="w-3 h-3 text-[#5A5A40]" />
             <span>
-              {currentLanguage === 'hindi' ? 'एआई पिच सेटिंग्स' : currentLanguage === 'punjabi' ? 'ਏਆਈ ਪਿੱਚ ਸੈਟਿੰਗਜ਼' : 'AI Pitch Settings'}
+              {t.aiPitchSettings}
             </span>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div>
               <label className="block text-[9px] font-semibold text-[#5A5A40] uppercase tracking-wider mb-1">
-                {currentLanguage === 'hindi' ? 'प्रारूप' : currentLanguage === 'punjabi' ? 'ਫਾਰਮੈਟ' : 'Format'}
+                {t.formatLabel}
               </label>
               <select
                 className="w-full bg-white text-[#1A1A1A] text-xs px-2 py-1.5 rounded-lg border border-[#DEDCCF] focus:outline-none focus:border-[#5A5A40] transition"
@@ -281,7 +271,7 @@ export default function StartupProfileForm({ profile, onChange, currentLanguage 
 
             <div>
               <label className="block text-[9px] font-semibold text-[#5A5A40] uppercase tracking-wider mb-1">
-                {currentLanguage === 'hindi' ? 'अपडेट आवृत्ति' : currentLanguage === 'punjabi' ? 'ਅੱਪਡੇਟ ਬਾਰੰਬਾਰਤਾ' : 'Update Frequency'}
+                {t.updateFrequency}
               </label>
               <select
                 className="w-full bg-white text-[#1A1A1A] text-xs px-2 py-1.5 rounded-lg border border-[#DEDCCF] focus:outline-none focus:border-[#5A5A40] transition"
@@ -326,7 +316,7 @@ export default function StartupProfileForm({ profile, onChange, currentLanguage 
           {/* Presets segment */}
           <div className="mt-3">
             <span className="text-[10px] text-stone-500 font-semibold uppercase tracking-wider block mb-1.5 flex items-center gap-1">
-              <Lightbulb className="w-3 h-3 text-amber-500" /> {currentLanguage === 'hindi' ? 'सेक्टर टेम्पलेट चुनें:' : currentLanguage === 'punjabi' ? 'ਸੈਕਟਰ ਟੈਂਪਲੇਟ ਚੁਣੋ:' : 'Choose sector template:'}
+              <Lightbulb className="w-3 h-3 text-amber-500" /> {t.chooseSectorTemplate}
             </span>
             <div className="space-y-1.5">
               {currentPresets.map((preset, index) => (

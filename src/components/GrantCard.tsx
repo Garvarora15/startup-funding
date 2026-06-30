@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Grant } from '../types';
 import { Award, Calendar, FileText, CheckCircle, AlertTriangle, ExternalLink, ChevronDown, ChevronUp, Clock, AlertCircle, Volume2, Square, RefreshCw, Star } from 'lucide-react';
+import { TRANSLATIONS } from '../locales/translations';
 
 interface GrantCardProps {
   key?: string;
@@ -27,6 +28,7 @@ export default function GrantCard({
   const [expanded, setExpanded] = useState(false);
   const [ttsLoading, setTtsLoading] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const t = TRANSLATIONS[currentLanguage] || TRANSLATIONS.english;
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
 
   // Stop playing on unmount
@@ -264,7 +266,7 @@ export default function GrantCard({
   };
 
   const getDomainLabel = (domains: string[]) => {
-    if (domains.includes('any')) return currentLanguage === 'hindi' ? 'कोई भी क्षेत्र' : currentLanguage === 'punjabi' ? 'ਕੋਈ ਵੀ ਖੇਤਰ' : 'Any Sector';
+    if (domains.includes('any')) return t.anySectorShort;
     return domains.map(d => {
       if (currentLanguage === 'hindi') {
         if (d === 'ai') return 'एआई और सास';
@@ -397,10 +399,10 @@ export default function GrantCard({
             )}
             <span>
               {ttsLoading 
-                ? (currentLanguage === 'hindi' ? 'संश्लेषण...' : currentLanguage === 'punjabi' ? 'ਸੰਸ਼ਲੇਸ਼ਣ...' : 'Synthesizing...') 
+                ? t.synthesizing
                 : isPlaying 
-                  ? (currentLanguage === 'hindi' ? 'रोकें' : currentLanguage === 'punjabi' ? 'ਰੋਕੋ' : 'Stop') 
-                  : (currentLanguage === 'hindi' ? 'योजना विवरण सुनें' : currentLanguage === 'punjabi' ? 'ਵੇਰਵੇ ਸੁਣੋ' : 'Listen to Scheme')}
+                  ? t.stopLabel
+                  : t.listenToScheme}
             </span>
           </button>
         </div>

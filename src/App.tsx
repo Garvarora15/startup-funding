@@ -114,12 +114,12 @@ export default function App() {
   ];
 
   const minAmountOptions = [
-    { value: '0', label: currentLanguage === 'hindi' ? 'कोई भी राशि' : currentLanguage === 'punjabi' ? 'ਕੋਈ ਵੀ ਰਕਮ' : 'Any Funding Limit' },
-    { value: '500000', label: currentLanguage === 'hindi' ? '₹5 लाख और अधिक' : currentLanguage === 'punjabi' ? '₹5 ਲੱਖ ਅਤੇ ਵੱਧ' : '₹5 Lakh & Above' },
-    { value: '1500000', label: currentLanguage === 'hindi' ? '₹15 लाख और अधिक' : currentLanguage === 'punjabi' ? '₹15 ਲੱਖ ਅਤੇ ਵੱਧ' : '₹15 Lakh & Above' },
-    { value: '3000000', label: currentLanguage === 'hindi' ? '₹30 लाख और अधिक' : currentLanguage === 'punjabi' ? '₹30 ਲੱਖ ਅਤੇ ਵੱਧ' : '₹30 Lakh & Above' },
-    { value: '5000000', label: currentLanguage === 'hindi' ? '₹50 लाख और अधिक' : currentLanguage === 'punjabi' ? '₹50 ਲੱਖ ਅਤੇ ਵੱਧ' : '₹50 Lakh & Above' },
-    { value: '10000000', label: currentLanguage === 'hindi' ? '₹1 करोड़ और अधिक' : currentLanguage === 'punjabi' ? '₹1 ਕਰੋੜ ਅਤੇ ਵੱਧ' : '₹1 Crore & Above' }
+    { value: '0', label: t.fundingAny },
+    { value: '500000', label: t.fundingTier1 },
+    { value: '1500000', label: t.fundingTier2 },
+    { value: '3000000', label: t.fundingTier3 },
+    { value: '5000000', label: t.fundingTier4 },
+    { value: '10000000', label: t.fundingTier5 }
   ];
 
   // 2. Load and calculate match scores when the profile is updated
@@ -208,11 +208,11 @@ export default function App() {
               className="w-full bg-[#5A5A40] text-white hover:bg-[#4A4A30] py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl font-semibold text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-2 shadow-sm border border-[#4A4A30]"
             >
               <Save className="w-4 h-4" />
-              <span>{saveSuccess ? (currentLanguage === 'hindi' ? 'सफलतापूर्वक सहेजा गया!' : currentLanguage === 'punjabi' ? 'ਸਫਲਤਾਪੂਰਵਕ ਸੰਭਾਲਿਆ ਗਿਆ!' : 'Saved successfully!') : t.saveContextBtn}</span>
+              <span>{saveSuccess ? t.saveSuccessText : t.saveContextBtn}</span>
             </button>
             {saveSuccess && (
               <p className="text-[10px] text-[#10B981] font-semibold text-center font-mono animate-fadeIn">
-                {currentLanguage === 'hindi' ? '✓ मैच स्कोर और सिफारिशें वास्तविक समय में गतिशील रूप से अपडेट की गईं!' : currentLanguage === 'punjabi' ? '✓ ਮੈਚ ਸਕੋਰ ਅਤੇ ਸਿਫ਼ਾਰਸ਼ਾਂ ਰੀਅਲ-ਟਾਈਮ ਵਿੱਚ ਗਤੀਸ਼ੀਲ ਰੂਪ ਵਿੱਚ ਅੱਪਡੇਟ ਕੀਤੀਆਂ ਗਈਆਂ!' : '✓ Match scores & recommendations updated dynamically in real-time!'}
+                {t.saveNotification}
               </p>
             )}
           </div>
@@ -221,24 +221,24 @@ export default function App() {
           <div className="bg-[#ECEBE4] border border-[#DEDCCF] rounded-[24px] p-5 shadow-sm font-mono text-xs text-[#1A1A1A]">
             <h4 className="font-display font-semibold text-[#4A4A30] mb-3 flex items-center gap-2 text-sm">
               <Database className="w-4 h-4 text-[#5A5A40]" />
-              {currentLanguage === 'hindi' ? 'वास्तविक समय प्रोफाइल अंतर्दृष्टि' : currentLanguage === 'punjabi' ? 'ਰੀਅਲ-ਟਾਈਮ ਪ੍ਰੋਫਾਈਲ ਇਨਸਾਈਟਸ' : 'Real-time Profile Insights'}
+              {t.realtimeInsights}
             </h4>
             
             <div className="space-y-2.5">
               <div className="flex justify-between items-center bg-white p-2.5 rounded-xl border border-[#DEDCCF]">
-                <span className="text-[#5A5A40] font-medium">{currentLanguage === 'hindi' ? 'DPIIT योग्यता आयु:' : currentLanguage === 'punjabi' ? 'DPIIT ਯੋਗਤਾ ਉਮਰ:' : 'DPIIT Qualification Age:'}</span>
+                <span className="text-[#5A5A40] font-medium">{t.dpiitAge}</span>
                 <span className="text-[#1A1A1A] font-bold">
-                  {new Date().getFullYear() - profile.incorporationYear} {currentLanguage === 'hindi' ? 'वर्ष' : currentLanguage === 'punjabi' ? 'ਸਾਲ' : 'Years'}
+                  {new Date().getFullYear() - profile.incorporationYear} {t.yearsSuffix}
                 </span>
               </div>
               <div className="flex justify-between items-center bg-white p-2.5 rounded-xl border border-[#DEDCCF]">
-                <span className="text-[#5A5A40] font-medium">{currentLanguage === 'hindi' ? 'कुल दायरे वाली योजनाएं:' : currentLanguage === 'punjabi' ? 'ਕੁੱਲ ਦਾਇਰੇ ਵਾਲੀਆਂ ਯੋਜਨਾਵਾਂ:' : 'Total Scoped Schemes:'}</span>
-                <span className="text-[#5A5A40] font-bold">66 {currentLanguage === 'hindi' ? 'सत्यापित' : currentLanguage === 'punjabi' ? 'ਪ੍ਰਮਾਣਿਤ' : 'Authenticated'}</span>
+                <span className="text-[#5A5A40] font-medium">{t.totalSchemes}</span>
+                <span className="text-[#5A5A40] font-bold">66 {t.authenticatedLabel}</span>
               </div>
               <div className="flex justify-between items-center bg-white p-2.5 rounded-xl border border-[#DEDCCF]">
-                <span className="text-[#5A5A40] font-medium">{currentLanguage === 'hindi' ? 'शीर्ष रणनीतिक मिलान:' : currentLanguage === 'punjabi' ? 'ਚੋਟੀ ਦੇ ਰਣਨੀਤਕ ਮੈਚ:' : 'Top Strategic Match:'}</span>
+                <span className="text-[#5A5A40] font-medium">{t.topMatch}</span>
                 <span className="text-[#10B981] font-bold">
-                  {grants.length > 0 && matchScores[grants[0].id] ? `${matchScores[grants[0].id].score}% ${currentLanguage === 'hindi' ? 'मिलान' : currentLanguage === 'punjabi' ? 'ਮੈਚ' : 'Match'}` : 'N/A'}
+                  {grants.length > 0 && matchScores[grants[0].id] ? `${matchScores[grants[0].id].score}% ${t.matchLabel}` : 'N/A'}
                 </span>
               </div>
             </div>
@@ -260,7 +260,7 @@ export default function App() {
             >
               <Bot className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
               <span className="hidden xs:inline">{t.tabAgent || "IBM Granite AI Agent"}</span>
-              <span className="xs:hidden">{currentLanguage === 'hindi' ? 'एजेंट' : currentLanguage === 'punjabi' ? 'ਏਜੰਟ' : 'Agent'}</span>
+              <span className="xs:hidden">{t.tabAgentShort}</span>
             </button>
 
             <button
@@ -273,7 +273,7 @@ export default function App() {
             >
               <Database className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
               <span className="hidden xs:inline">{t.tabBrowse || "Browse All Schemes"}</span>
-              <span className="xs:hidden">{currentLanguage === 'hindi' ? 'योजनाएं' : currentLanguage === 'punjabi' ? 'ਯੋਜਨਾਵਾਂ' : 'Browse'}</span>
+              <span className="xs:hidden">{t.tabBrowseShort}</span>
             </button>
 
             <button
@@ -286,7 +286,7 @@ export default function App() {
             >
               <FileText className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
               <span className="hidden xs:inline">{t.tabProposal || "Proposal Generator"}</span>
-              <span className="xs:hidden">{currentLanguage === 'hindi' ? 'प्रस्ताव' : currentLanguage === 'punjabi' ? 'ਪ੍ਰਸਤਾਵ' : 'Draft'}</span>
+              <span className="xs:hidden">{t.tabProposalShort}</span>
               {selectedGrant && (
                 <span className="absolute top-1 right-1.5 sm:right-2 w-2 h-2 sm:w-2.5 sm:h-2.5 bg-red-500 rounded-full animate-ping" />
               )}
@@ -335,7 +335,7 @@ export default function App() {
                           IBM Watson NLU
                         </span>
                         <span className="font-semibold text-[#4A4A30]">
-                          {currentLanguage === 'hindi' ? 'विश्लेषित अवधारणाएं:' : currentLanguage === 'punjabi' ? 'ਵਿਸ਼ਲੇਸ਼ਣ ਕੀਤੀਆਂ ਧਾਰਨਾਵਾਂ:' : 'Parsed Concepts:'}
+                          {t.parsedConcepts}
                         </span>
                         <div className="flex flex-wrap gap-1">
                           {nluMetadata.keywords.slice(0, 4).map((kw: any, idx: number) => (
@@ -347,7 +347,7 @@ export default function App() {
                       </div>
                       <div className="flex items-center gap-1.5 font-mono text-[10px] font-bold">
                         <span>
-                          {currentLanguage === 'hindi' ? 'भावना (Sentiment):' : currentLanguage === 'punjabi' ? 'ਭਾਵਨਾ (Sentiment):' : 'Sentiment:'}
+                          {t.sentimentLabel}
                         </span>
                         <span className={`px-2 py-0.5 rounded text-white ${
                           nluMetadata.sentiment.score > 0.1 
@@ -414,19 +414,11 @@ export default function App() {
                     >
                       <Star className={`w-3.5 h-3.5 ${showFavoritesOnly ? 'fill-white text-white animate-pulse' : 'text-[#8E8E80]'}`} />
                       <span>
-                        {currentLanguage === 'hindi' 
-                          ? (showFavoritesOnly ? 'सभी योजनाएं दिखाएं' : 'केवल पसंदीदा दिखाएं') 
-                          : currentLanguage === 'punjabi' 
-                            ? (showFavoritesOnly ? 'ਸਾਰੀਆਂ ਯੋਜਨਾਵਾਂ ਦਿਖਾਓ' : 'ਸਿਰਫ਼ ਪਸੰਦੀਦਾ ਦਿਖਾਓ') 
-                            : (showFavoritesOnly ? 'Show All Schemes' : 'Show Favorites Only')}
+                        {showFavoritesOnly ? t.showAllSchemes : t.showFavoritesOnly}
                       </span>
                     </button>
                     <span className="text-[10px] font-mono font-semibold text-[#8E8E80]">
-                      {currentLanguage === 'hindi' 
-                        ? `${displayedGrants.length} योजनाएं प्रदर्शित` 
-                        : currentLanguage === 'punjabi' 
-                          ? `${displayedGrants.length} ਯੋਜਨਾਵਾਂ ਦਿਖਾਈਆਂ` 
-                          : `${displayedGrants.length} schemes displayed`}
+                      {`${displayedGrants.length} ${t.schemesDisplayedSuffix}`}
                     </span>
                   </div>
                 </div>
@@ -436,7 +428,7 @@ export default function App() {
                   <div className="py-20 flex justify-center items-center gap-3">
                     <RefreshCw className="w-6 h-6 text-[#5A5A40] animate-spin" />
                     <span className="text-[#8E8E80] text-sm font-mono">
-                      {currentLanguage === 'hindi' ? 'पूर्ण डेटाबेस इंडेक्स क्वेरी चल रही है...' : currentLanguage === 'punjabi' ? 'ਪੂਰੀ ਡਾਟਾਬੇਸ ਇੰਡੈਕਸ ਕੁਐਰੀ ਚੱਲ ਰਹੀ ਹੈ...' : 'Running full database index query...'}
+                      {t.runningQuery}
                     </span>
                   </div>
                 ) : displayedGrants.length > 0 ? (
@@ -467,21 +459,13 @@ export default function App() {
                     <HelpCircle className="w-12 h-12 text-[#8E8E80] mx-auto mb-3" />
                     <p className="text-sm font-semibold text-[#4A4A30]">
                       {showFavoritesOnly
-                        ? (currentLanguage === 'hindi' ? 'कोई पसंदीदा योजना नहीं मिली' : currentLanguage === 'punjabi' ? 'ਕੋਈ ਪਸੰਦੀਦਾ ਯੋਜਨਾ ਨਹੀਂ ਮਿਲੀ' : 'No bookmarked favorite schemes found')
-                        : (currentLanguage === 'hindi' ? 'कोई मेल खाने वाली योजना नहीं मिली' : currentLanguage === 'punjabi' ? 'ਕੋਈ ਮੇਲ ਖਾਂਦੀ ਯੋਜਨਾ ਨਹੀਂ ਮਿਲੀ' : 'No matching grant schemes found')}
+                        ? t.noGrantsBookmarked
+                        : t.noMatchingGrants}
                     </p>
                     <p className="text-xs text-[#8E8E80] max-w-sm mx-auto mt-1 leading-normal">
                       {showFavoritesOnly
-                        ? (currentLanguage === 'hindi' 
-                            ? 'पसंदीदा सूची में जोड़ने के लिए योजनाओं पर स्टार बटन दबाएं।' 
-                            : currentLanguage === 'punjabi' 
-                              ? 'ਪਸੰਦੀਦਾ ਸੂਚੀ ਵਿੱਚ ਜੋੜਨ ਲਈ ਸਕੀਮਾਂ ਤੇ ਸਟਾਰ ਬਟਨ ਦਬਾਓ।' 
-                              : "Press the star icon on any grant card to add it to your favorites.")
-                        : (currentLanguage === 'hindi' 
-                            ? 'अपने खोज मापदंडों को शिथिल करने का प्रयास करें, "कोई भी चरण" या "कोई भी क्षेत्र" चुनें।' 
-                            : currentLanguage === 'punjabi' 
-                              ? 'ਆਪਣੇ ਖੋਜ ਮਾਪਦੰਡਾਂ ਨੂੰ ਢਿੱਲਾ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰੋ, "ਕੋਈ ਵੀ ਪੜਾਅ" ਜਾਂ "ਕੋਈ ਵੀ ਖੇਤਰ" ਚੁਣੋ।' 
-                              : "Try relaxing your query parameters, selecting 'Any Stage' or 'Any Sector', or lowering the funding amount limit.")}
+                        ? t.favoritesHint
+                        : t.relaxFiltersHint}
                     </p>
                   </div>
                 )}

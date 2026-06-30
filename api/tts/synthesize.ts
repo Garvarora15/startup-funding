@@ -21,6 +21,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     else if (language === 'spanish') voice = 'es-ES_LauraV3Voice';
     else if (language === 'french') voice = 'fr-FR_ReneeV3Voice';
     else if (language === 'german') voice = 'de-DE_BirgitV3Voice';
+    else if (language === 'japanese') voice = 'ja-JP_EmiV3Voice';
 
     const endpoint = `${baseUrl.replace(/\/$/, '')}/v1/synthesize?voice=${voice}`;
     const authHeader = `Basic ${Buffer.from(`apikey:${apiKey}`).toString('base64')}`;
