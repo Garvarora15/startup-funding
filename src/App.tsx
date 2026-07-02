@@ -195,7 +195,7 @@ export default function App() {
   const displayedGrants = showFavoritesOnly ? grants.filter(g => favorites.includes(g.id)) : grants;
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans">
+    <div className="min-h-screen bg-[#08302A] text-[#E6F5F0] flex flex-col font-sans">
       <Navbar currentLanguage={currentLanguage} onLanguageChange={setCurrentLanguage} />
 
       {/* Main Grid Layout */}
@@ -225,24 +225,24 @@ export default function App() {
           </div>
           
           {/* Quick Real-time Metrics Dashboard */}
-          <div className="bg-gradient-to-br from-[#000054] to-[#000054] border border-[#3D3DAD] rounded-[24px] p-5 shadow-sm font-mono text-xs text-[#F1F5F9] transition-shadow duration-300 hover:shadow-md">
+          <div className="bg-gradient-to-br from-[#0E332C] to-[#0E332C] border border-[#23574B] rounded-[24px] p-5 shadow-sm font-mono text-xs text-[#F1F5F9] transition-shadow duration-300 hover:shadow-md">
             <h4 className="font-display font-semibold text-[#2563EB] mb-3 flex items-center gap-2 text-sm">
               <Database className="w-4 h-4 text-[#3B82F6]" />
               {t.realtimeInsights}
             </h4>
             
             <div className="space-y-2.5">
-              <div className="flex justify-between items-center bg-[#000054] p-2.5 rounded-xl border border-[#3D3DAD] transition-all duration-200 hover:border-[#3B82F6]/40 hover:shadow-sm">
+              <div className="flex justify-between items-center bg-[#0E332C] p-2.5 rounded-xl border border-[#23574B] transition-all duration-200 hover:border-[#3B82F6]/40 hover:shadow-sm">
                 <span className="text-[#3B82F6] font-medium">{t.dpiitAge}</span>
                 <span className="text-[#F1F5F9] font-bold">
                   {new Date().getFullYear() - profile.incorporationYear} {t.yearsSuffix}
                 </span>
               </div>
-              <div className="flex justify-between items-center bg-[#000054] p-2.5 rounded-xl border border-[#3D3DAD] transition-all duration-200 hover:border-[#3B82F6]/40 hover:shadow-sm">
+              <div className="flex justify-between items-center bg-[#0E332C] p-2.5 rounded-xl border border-[#23574B] transition-all duration-200 hover:border-[#3B82F6]/40 hover:shadow-sm">
                 <span className="text-[#3B82F6] font-medium">{t.totalSchemes}</span>
                 <span className="text-[#3B82F6] font-bold">{GRANTS.length} {t.authenticatedLabel}</span>
               </div>
-              <div className="flex justify-between items-center bg-[#000054] p-2.5 rounded-xl border border-[#3D3DAD] transition-all duration-200 hover:border-[#3B82F6]/40 hover:shadow-sm">
+              <div className="flex justify-between items-center bg-[#0E332C] p-2.5 rounded-xl border border-[#23574B] transition-all duration-200 hover:border-[#3B82F6]/40 hover:shadow-sm">
                 <span className="text-[#3B82F6] font-medium">{t.topMatch}</span>
                 <span className="text-[#14B8A6] font-bold">
                   {grants.length > 0 && matchScores[grants[0].id] ? `${matchScores[grants[0].id].score}% ${t.matchLabel}` : 'N/A'}
@@ -256,7 +256,7 @@ export default function App() {
         <div className="lg:col-span-7 flex flex-col gap-6 lg:self-start">
           
           {/* Navigation Tabs */}
-          <div className="bg-[#000054] border border-[#3D3DAD] rounded-2xl p-1 flex sm:p-1.5 gap-1 shadow-sm relative">
+          <div className="bg-[#0E332C] border border-[#23574B] rounded-2xl p-1 flex sm:p-1.5 gap-1 shadow-sm relative">
             <button
               onClick={() => setActiveTab('assistant')}
               className={`flex-1 py-2 sm:py-3 px-1 sm:px-4 rounded-xl flex items-center justify-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
@@ -322,12 +322,12 @@ export default function App() {
               <div className="space-y-6">
                 
                 {/* Search & Smart Filter Bar */}
-                <div className="bg-[#000054] border border-[#3D3DAD] rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col gap-3">
+                <div className="bg-[#0E332C] border border-[#23574B] rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col gap-3">
                   <div className="relative">
                     <Search className="w-4 h-4 text-[#3B82F6] absolute left-3.5 top-3.5" />
                     <input
                       type="text"
-                      className="w-full bg-[#000054] text-[#F1F5F9] text-xs pl-10 pr-4 py-3 rounded-xl border border-[#3D3DAD] focus:outline-none focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
+                      className="w-full bg-[#0E332C] text-[#F1F5F9] text-xs pl-10 pr-4 py-3 rounded-xl border border-[#23574B] focus:outline-none focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
                       placeholder={t.searchPlaceholder || "Search schemes — e.g. biotech, NIDHI, women..."}
                       value={q}
                       onChange={(e) => setQ(e.target.value)}
@@ -336,7 +336,7 @@ export default function App() {
 
                   {/* Watson NLU Live Metadata */}
                   {nluMetadata && nluMetadata.keywords && nluMetadata.keywords.length > 0 && (
-                    <div className="bg-[#000054] border border-[#3D3DAD] rounded-xl px-3.5 py-2.5 text-xs text-[#3B82F6] flex flex-col md:flex-row md:items-center md:justify-between gap-2.5">
+                    <div className="bg-[#0E332C] border border-[#23574B] rounded-xl px-3.5 py-2.5 text-xs text-[#3B82F6] flex flex-col md:flex-row md:items-center md:justify-between gap-2.5">
                       <div className="flex flex-wrap items-center gap-1.5">
                         <span className="font-mono font-bold text-[9px] uppercase tracking-wider bg-[#3B82F6] text-white px-1.5 py-0.5 rounded">
                           IBM Watson NLU
@@ -346,7 +346,7 @@ export default function App() {
                         </span>
                         <div className="flex flex-wrap gap-1">
                           {nluMetadata.keywords.slice(0, 4).map((kw: any, idx: number) => (
-                            <span key={idx} className="bg-[#000054] px-2 py-0.5 rounded border border-[#3D3DAD] text-[#2563EB] font-mono text-[10px] font-bold">
+                            <span key={idx} className="bg-[#0E332C] px-2 py-0.5 rounded border border-[#23574B] text-[#2563EB] font-mono text-[10px] font-bold">
                               {kw.text}
                             </span>
                           ))}
@@ -373,7 +373,7 @@ export default function App() {
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
                       <select
-                        className="w-full bg-[#000054] text-[#F1F5F9] text-xs px-3 py-2.5 rounded-xl border border-[#3D3DAD] focus:outline-none focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 hover:border-[#3B82F6]/50 transition-all cursor-pointer"
+                        className="w-full bg-[#0E332C] text-[#F1F5F9] text-xs px-3 py-2.5 rounded-xl border border-[#23574B] focus:outline-none focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 hover:border-[#3B82F6]/50 transition-all cursor-pointer"
                         value={stageFilter}
                         onChange={(e) => setStageFilter(e.target.value)}
                       >
@@ -385,7 +385,7 @@ export default function App() {
 
                     <div>
                       <select
-                        className="w-full bg-[#000054] text-[#F1F5F9] text-xs px-3 py-2.5 rounded-xl border border-[#3D3DAD] focus:outline-none focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 hover:border-[#3B82F6]/50 transition-all cursor-pointer"
+                        className="w-full bg-[#0E332C] text-[#F1F5F9] text-xs px-3 py-2.5 rounded-xl border border-[#23574B] focus:outline-none focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 hover:border-[#3B82F6]/50 transition-all cursor-pointer"
                         value={domainFilter}
                         onChange={(e) => setDomainFilter(e.target.value)}
                       >
@@ -397,7 +397,7 @@ export default function App() {
 
                     <div>
                       <select
-                        className="w-full bg-[#000054] text-[#F1F5F9] text-xs px-3 py-2.5 rounded-xl border border-[#3D3DAD] focus:outline-none focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 hover:border-[#3B82F6]/50 transition-all cursor-pointer"
+                        className="w-full bg-[#0E332C] text-[#F1F5F9] text-xs px-3 py-2.5 rounded-xl border border-[#23574B] focus:outline-none focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 hover:border-[#3B82F6]/50 transition-all cursor-pointer"
                         value={minAmountFilter}
                         onChange={(e) => setMinAmountFilter(Number(e.target.value))}
                       >
@@ -409,14 +409,14 @@ export default function App() {
                   </div>
 
                   {/* Bookmark Favorites Only Toggle Pill */}
-                  <div className="flex flex-wrap items-center justify-between gap-3 pt-2.5 border-t border-[#3D3DAD]/50">
+                  <div className="flex flex-wrap items-center justify-between gap-3 pt-2.5 border-t border-[#23574B]/50">
                     <button
                       type="button"
                       onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
                       className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border text-[11px] font-mono font-bold transition-all duration-200 cursor-pointer hover:scale-[1.03] active:scale-[0.97] ${
                         showFavoritesOnly 
                           ? 'bg-gradient-to-r from-amber-500 to-amber-400 border-amber-600 text-white shadow-sm hover:shadow-md' 
-                          : 'bg-[#000054] border-[#3D3DAD] text-[#3B82F6] hover:bg-[#000054] hover:text-[#2563EB]'
+                          : 'bg-[#0E332C] border-[#23574B] text-[#3B82F6] hover:bg-[#0E332C] hover:text-[#2563EB]'
                       }`}
                     >
                       <Star className={`w-3.5 h-3.5 ${showFavoritesOnly ? 'fill-white text-white animate-pulse' : 'text-[#94A3B8]'}`} />
@@ -462,7 +462,7 @@ export default function App() {
                       ))}
                   </div>
                 ) : (
-                  <div className="bg-[#000054] border border-[#3D3DAD] rounded-2xl py-20 px-6 text-center shadow-sm">
+                  <div className="bg-[#0E332C] border border-[#23574B] rounded-2xl py-20 px-6 text-center shadow-sm">
                     <HelpCircle className="w-12 h-12 text-[#94A3B8] mx-auto mb-3" />
                     <p className="text-sm font-semibold text-[#2563EB]">
                       {showFavoritesOnly

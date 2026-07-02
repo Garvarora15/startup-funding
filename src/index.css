@@ -40,8 +40,8 @@
 }
 
 body {
-  background: #FFFFFF;
-  color: #0F172A;
+  background: #08302A;
+  color: #E6F5F0;
 }
 
 /* Custom scrollbar */
@@ -50,16 +50,16 @@ body {
   height: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #F1F5F9;
+  background: #0B2A24;
   border-radius: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: #000054;
+  background: #1D9E75;
   border-radius: 10px;
-  border: 2px solid #F1F5F9;
+  border: 2px solid #0B2A24;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3D3DAD;
+  background: #5DCAA5;
 }
 
 /* Smooth default transitions on interactive elements */
