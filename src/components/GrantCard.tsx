@@ -50,10 +50,19 @@ export default function GrantCard({
       return;
     }
 
+    const speechText = `${grant.name}. Funding amount is ${grant.amount_display}. Provided by ${grant.source}. Scheme description: ${grant.description}. Eligibility criteria: ${grant.eligibility}`;
+
+    // Watson TTS (and most browser engines) have no real Punjabi/Gurmukhi
+    // voice — feeding Gurmukhi text to a Hindi voice silently drops most of
+    // the words. Go straight to browser speech synthesis, same as the chat
+    // assistant's TTS handling.
+    if (currentLanguage === 'punjabi') {
+      fallbackWebSpeech(speechText);
+      return;
+    }
+
     setTtsLoading(true);
     try {
-      const speechText = `${grant.name}. Funding amount is ${grant.amount_display}. Provided by ${grant.source}. Scheme description: ${grant.description}. Eligibility criteria: ${grant.eligibility}`;
-      
       const response = await fetch('/api/tts/synthesize', {
         method: 'POST',
         headers: {
@@ -86,7 +95,7 @@ export default function GrantCard({
       }
     } catch (err) {
       console.warn("Server TTS failed, falling back to browser speech synthesis:", err);
-      fallbackWebSpeech(`${grant.name}. Amount: ${grant.amount_display}. Description: ${grant.description}`);
+      fallbackWebSpeech(speechText);
     } finally {
       setTtsLoading(false);
     }
@@ -97,34 +106,61 @@ export default function GrantCard({
       console.warn("Speech synthesis is not supported in this browser.");
       return;
     }
-    
+
+    const getSpeechLangCode = () => {
+      if (currentLanguage === 'hindi') return 'hi-IN';
+      if (currentLanguage === 'punjabi') return 'pa-IN';
+      if (currentLanguage === 'spanish') return 'es-ES';
+      if (currentLanguage === 'french') return 'fr-FR';
+      if (currentLanguage === 'german') return 'de-DE';
+      if (currentLanguage === 'japanese') return 'ja-JP';
+      return 'en-US';
+    };
+
+    const speakNow = () => {
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+      utterance.lang = getSpeechLangCode();
+
+      // Try to pick a voice that actually matches the language; Chrome can
+      // silently no-op if no matching voice is found for utterance.lang.
+      const voices = window.speechSynthesis.getVoices();
+      const matchedVoice = voices.find(v => v.lang === utterance.lang) || voices.find(v => v.lang?.startsWith(utterance.lang.split('-')[0]));
+      if (matchedVoice) utterance.voice = matchedVoice;
+      else if (currentLanguage !== 'english') utterance.lang = 'en-US'; // graceful degrade if no voice for this language
+
+      utterance.onend = () => { setIsPlaying(false); };
+      utterance.onerror = () => { setIsPlaying(false); };
+      window.speechSynthesis.speak(utterance);
+    };
+
     window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(textToSpeak);
-    
-    if (currentLanguage === 'hindi') {
-      utterance.lang = 'hi-IN';
-    } else if (currentLanguage === 'punjabi') {
-      utterance.lang = 'pa-IN';
-    } else {
-      utterance.lang = 'en-US';
-    }
-    
-    utterance.onend = () => {
-      setIsPlaying(false);
-    };
-    utterance.onerror = () => {
-      setIsPlaying(false);
-    };
-    
     setIsPlaying(true);
-    window.speechSynthesis.speak(utterance);
-    
     setAudio({
       pause: () => {
         window.speechSynthesis.cancel();
         setIsPlaying(false);
       }
     } as any);
+
+    // Chrome can silently drop an utterance if speak() is called in the same
+    // tick as cancel(), or before the voice list has finished loading.
+    const voicesReady = window.speechSynthesis.getVoices().length > 0;
+    if (voicesReady) {
+      setTimeout(speakNow, 50);
+    } else {
+      let hasSpoken = false;
+      const speakOnce = () => {
+        if (hasSpoken) return;
+        hasSpoken = true;
+        speakNow();
+      };
+      window.speechSynthesis.onvoiceschanged = () => {
+        window.speechSynthesis.onvoiceschanged = null;
+        setTimeout(speakOnce, 50);
+      };
+      // Safety net in case onvoiceschanged never fires
+      setTimeout(speakOnce, 500);
+    }
   };
 
   const getDeadlineBadge = () => {
@@ -277,6 +313,12 @@ export default function GrantCard({
         if (d === 'fintech') return 'फिनटेक';
         if (d === 'cleantech') return 'क्लीनटेक';
         if (d === 'hardware') return 'हार्डवेयर';
+        if (d === 'manufacturing') return 'विनिर्माण';
+        if (d === 'edtech') return 'एडटेक';
+        if (d === 'spacetech') return 'स्पेस टेक';
+        if (d === 'mobility') return 'ईवी और मोबिलिटी';
+        if (d === 'ecommerce') return 'ई-कॉमर्स';
+        if (d === 'gaming') return 'गेमिंग';
       } else if (currentLanguage === 'punjabi') {
         if (d === 'ai') return 'ਏਆਈ ਅਤੇ ਸਾਸ';
         if (d === 'deeptech') return 'ਡੀਪ ਟੈੱਕ ਅਤੇ ਰੋਬੋਟਿਕਸ';
@@ -286,6 +328,12 @@ export default function GrantCard({
         if (d === 'fintech') return 'ਫਿਨਟੈੱਕ';
         if (d === 'cleantech') return 'ਕਲੀਨਟੈੱਕ';
         if (d === 'hardware') return 'ਹਾਰਡਵੇਅਰ';
+        if (d === 'manufacturing') return 'ਨਿਰਮਾਣ';
+        if (d === 'edtech') return 'ਐਡਟੈੱਕ';
+        if (d === 'spacetech') return 'ਸਪੇਸ ਟੈੱਕ';
+        if (d === 'mobility') return 'ਈਵੀ ਅਤੇ ਮੋਬਿਲਿਟੀ';
+        if (d === 'ecommerce') return 'ਈ-ਕਾਮਰਸ';
+        if (d === 'gaming') return 'ਗੇਮਿੰਗ';
       }
       return d.toUpperCase();
     }).join(' · ');

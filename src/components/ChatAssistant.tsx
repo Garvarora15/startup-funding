@@ -111,7 +111,7 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
     {
       id: 'welcome',
       role: 'assistant',
-      content: `Hello! I am the **IBM Granite AI Funding Strategist**.\n\nI am connected to Watsonx.ai and equipped with detailed knowledge on 30 Indian government, institutional seed funding, and academic research/study schemes.\n\nFill out your **Startup Profile** on the left, and I can dynamically match schemes for your venture, explain your eligibility, or help you draft highly competitive proposals.\n\n**What would you like to explore today?**`,
+      content: `Hello! I am the **IBM Granite AI Funding Strategist**.\n\nI am connected to Watsonx.ai and equipped with detailed knowledge on 66 Indian government, institutional seed funding, and academic research/study schemes.\n\nFill out your **Startup Profile** on the left, and I can dynamically match schemes for your venture, explain your eligibility, or help you draft highly competitive proposals.\n\n**What would you like to explore today?**`,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     }
   ]);
@@ -278,10 +278,10 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
     setMessages(prev => prev.map(m => {
       if (m.id === 'welcome') {
         const welcomeText = currentLanguage === 'hindi'
-          ? `नमस्ते! मैं आपका **IBM Granite एआई फंडिंग रणनीतिकार** हूँ।\n\nमैं Watsonx.ai से जुड़ा हूँ और 30 भारतीय सरकारी, संस्थागत और शैक्षणिक योजनाओं की विस्तृत जानकारी से सुसज्जित हूँ।\n\nबाईं ओर अपना **स्टार्टअप प्रोफ़ाइल** भरें और मैं आपके लिए योजनाएं खोजूंगा।\n\n**आज आप क्या तलाशना चाहेंगे?**`
+          ? `नमस्ते! मैं आपका **IBM Granite एआई फंडिंग रणनीतिकार** हूँ।\n\nमैं Watsonx.ai से जुड़ा हूँ और 66 भारतीय सरकारी, संस्थागत और शैक्षणिक योजनाओं की विस्तृत जानकारी से सुसज्जित हूँ।\n\nबाईं ओर अपना **स्टार्टअप प्रोफ़ाइल** भरें और मैं आपके लिए योजनाएं खोजूंगा।\n\n**आज आप क्या तलाशना चाहेंगे?**`
           : currentLanguage === 'punjabi'
-          ? `ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ! ਮੈਂ ਤੁਹਾਡਾ **IBM Granite AI ਫੰਡਿੰਗ ਰਣਨੀਤੀਕਾਰ** ਹਾਂ।\n\nਮੈਂ Watsonx.ai ਨਾਲ ਜੁੜਿਆ ਹੋਇਆ ਹਾਂ।\n\nਖੱਬੇ ਪਾਸੇ ਆਪਣਾ **ਸਟਾਰਟਅੱਪ ਪ੍ਰੋਫਾਈਲ** ਭਰੋ।\n\n**ਅੱਜ ਤੁਸੀਂ ਕੀ ਖੋਜਣਾ ਚਾਹੋਗੇ?**`
-          : `Hello! I am the **IBM Granite AI Funding Strategist**.\n\nI am connected to Watsonx.ai and equipped with detailed knowledge on 30 Indian government, institutional seed funding, and academic research/study schemes.\n\nFill out your **Startup Profile** on the left, and I can dynamically match schemes for your venture, explain your eligibility, or help you draft highly competitive proposals.\n\n**What would you like to explore today?**`;
+          ? `ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ! ਮੈਂ ਤੁਹਾਡਾ **IBM Granite AI ਫੰਡਿੰਗ ਰਣਨੀਤੀਕਾਰ** ਹਾਂ।\n\nਮੈਂ Watsonx.ai ਨਾਲ ਜੁੜਿਆ ਹੋਇਆ ਹਾਂ ਅਤੇ 66 ਭਾਰਤੀ ਸਰਕਾਰੀ, ਸੰਸਥਾਗਤ ਅਤੇ ਅਕਾਦਮਿਕ ਯੋਜਨਾਵਾਂ ਦੀ ਵਿਸਤ੍ਰਿਤ ਜਾਣਕਾਰੀ ਨਾਲ ਲੈਸ ਹਾਂ।\n\nਖੱਬੇ ਪਾਸੇ ਆਪਣਾ **ਸਟਾਰਟਅੱਪ ਪ੍ਰੋਫਾਈਲ** ਭਰੋ ਅਤੇ ਮੈਂ ਤੁਹਾਡੇ ਲਈ ਯੋਜਨਾਵਾਂ ਲੱਭਾਂਗਾ।\n\n**ਅੱਜ ਤੁਸੀਂ ਕੀ ਖੋਜਣਾ ਚਾਹੋਗੇ?**`
+          : `Hello! I am the **IBM Granite AI Funding Strategist**.\n\nI am connected to Watsonx.ai and equipped with detailed knowledge on 66 Indian government, institutional seed funding, and academic research/study schemes.\n\nFill out your **Startup Profile** on the left, and I can dynamically match schemes for your venture, explain your eligibility, or help you draft highly competitive proposals.\n\n**What would you like to explore today?**`;
         return { ...m, content: welcomeText };
       }
       return m;
@@ -316,21 +316,21 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
   const simulateReasoning = async () => {
     const logs = currentLanguage === 'hindi' ? [
       "🔄 Watsonx.ai IBM ग्रेनाइट इन्फरेंस कंटेनर प्रारंभ किया जा रहा है...",
-      "📂 भारतीय स्टार्टअप फंडिंग ज्ञानकोश (30 सक्रिय योजनाएं) लोड किया जा रहा है...",
+      "📂 भारतीय स्टार्टअप फंडिंग ज्ञानकोश (66 सक्रिय योजनाएं) लोड किया जा रहा है...",
       `🏢 प्रसंग लॉक: '${startupProfile.name || 'अनाम'}' '${startupProfile.domain}' क्षेत्र में स्टार्टअप...`,
       "🧠 DPIIT मान्यता, आयु प्रतिबंध और वित्तीय सीमाओं का विश्लेषण...",
       "⚖️ समानता के माध्यम से अनुकूल योजनाओं की रैंकिंग...",
       "📝 प्रासंगिक, उच्च-प्रभाव रणनीतिक फीडबैक उत्पन्न किया जा रहा है..."
     ] : currentLanguage === 'punjabi' ? [
       "🔄 Watsonx.ai IBM ਗ੍ਰੇਨਾਈਟ ਇਨਫਰੈਂਸ ਕੰਟੇਨਰ ਚਾਲੂ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...",
-      "📂 ਭਾਰਤੀ ਸਟਾਰਟਅੱਪ ਫੰਡਿੰਗ ਗਿਆਨਕੋਸ਼ (30 ਸਰਗਰਮ ਯੋਜਨਾਵਾਂ) ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...",
+      "📂 ਭਾਰਤੀ ਸਟਾਰਟਅੱਪ ਫੰਡਿੰਗ ਗਿਆਨਕੋਸ਼ (66 ਸਰਗਰਮ ਯੋਜਨਾਵਾਂ) ਲੋਡ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ...",
       `🏢 ਪ੍ਰਸੰਗ ਲਾਕ: '${startupProfile.name || 'ਅਨਾਮ'}' '${startupProfile.domain}' ਖੇਤਰ ਵਿੱਚ ਸਟਾਰਟਅੱਪ...`,
       "🧠 DPIIT ਮਾਨਤਾ, ਉਮਰ ਦੀਆਂ ਪਾਬੰਦੀਆਂ ਅਤੇ ਵਿੱਤੀ ਸੀਮਾਵਾਂ ਦਾ ਵਿਸ਼ਲੇਸ਼ਣ...",
       "⚖️ ਸਮਾਨਤਾ ਰਾਹੀਂ ਅਨੁਕੂਲ ਯੋਜਨਾਵਾਂ ਦੀ ਰੈਂਕਿੰਗ...",
       "📝 ਪ੍ਰਸੰਗਿਕ, ਉੱਚ-ਪ੍ਰਭਾਵ ਰਣਨੀਤਕ ਫੀਡਬੈਕ ਤਿਆਰ ਕੀਤਾ ਜਾ ਰਿਹਾ ਹੈ..."
     ] : [
       "🔄 Initializing Watsonx.ai IBM Granite inference container...",
-      "📂 Loading Indian Startup Funding Knowledge Base (30 active schemes)...",
+      "📂 Loading Indian Startup Funding Knowledge Base (66 active schemes)...",
       `🏢 Context locked: Startup '${startupProfile.name || 'Anonymous'}' in '${startupProfile.domain}' domain...`,
       "🧠 Analysing DPIIT recognition, age constraints, and funding thresholds...",
       "⚖️ Ranking matching schemes via cosine semantic embedding similarity...",

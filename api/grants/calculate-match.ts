@@ -20,9 +20,10 @@ export default function handler(req: VercelRequest, res: VercelResponse) {
       if (stageMatch) { score += 20; reasons.push(`Perfect stage fit: Ideal for your '${stage}' stage.`); }
       else { score -= 20; reasons.push(`Stage mismatch: Targets [${grant.stage.join(', ')}], not '${stage}'.`); }
 
-      const domainMatch = grant.domain.includes('any') || grant.domain.some(d => d.toLowerCase() === domain);
-      if (domainMatch) { score += 20; reasons.push(`Perfect domain alignment: Targets the '${domain}' sector.`); }
-      else if (grant.domain.includes('any')) { score += 10; reasons.push('Broad sector fit: Open to all startup domains.'); }
+      const domainExactMatch = grant.domain.some(d => d.toLowerCase() === domain);
+      const domainIsAny = grant.domain.includes('any');
+      if (domainExactMatch) { score += 20; reasons.push(`Perfect domain alignment: Targets the '${domain}' sector.`); }
+      else if (domainIsAny) { score += 10; reasons.push('Broad sector fit: Open to all startup domains.'); }
       else { score -= 15; reasons.push(`Domain mismatch: Targets [${grant.domain.join(', ')}], not '${domain}'.`); }
 
       if (grant.id === 'sisfs-001') {

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { StartupProfile, Grant } from './types';
+import { GRANTS } from './data/grants';
 import Navbar from './components/Navbar';
 import StartupProfileForm from './components/StartupProfileForm';
 import GrantCard from './components/GrantCard';
@@ -110,7 +111,13 @@ export default function App() {
     { value: 'agritech', label: t.domainAgritech || 'Agritech & Agriculture' },
     { value: 'fintech', label: t.domainFintech || 'Fintech' },
     { value: 'cleantech', label: t.domainCleantech || 'Cleantech & Climate' },
-    { value: 'hardware', label: t.domainHardware || 'Hardware & Manufacturing' }
+    { value: 'hardware', label: t.domainHardware || 'Hardware & Manufacturing' },
+    { value: 'manufacturing', label: t.domainManufacturing || 'Advanced Manufacturing' },
+    { value: 'edtech', label: t.domainEdtech || 'EdTech & Education' },
+    { value: 'spacetech', label: t.domainSpacetech || 'Space Technology' },
+    { value: 'mobility', label: t.domainMobility || 'EV & Mobility' },
+    { value: 'ecommerce', label: t.domainEcommerce || 'D2C & E-commerce' },
+    { value: 'gaming', label: t.domainGaming || 'Gaming, AVGC & Media' }
   ];
 
   const minAmountOptions = [
@@ -233,7 +240,7 @@ export default function App() {
               </div>
               <div className="flex justify-between items-center bg-white p-2.5 rounded-xl border border-[#DEDCCF]">
                 <span className="text-[#5A5A40] font-medium">{t.totalSchemes}</span>
-                <span className="text-[#5A5A40] font-bold">66 {t.authenticatedLabel}</span>
+                <span className="text-[#5A5A40] font-bold">{GRANTS.length} {t.authenticatedLabel}</span>
               </div>
               <div className="flex justify-between items-center bg-white p-2.5 rounded-xl border border-[#DEDCCF]">
                 <span className="text-[#5A5A40] font-medium">{t.topMatch}</span>

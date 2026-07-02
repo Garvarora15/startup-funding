@@ -44,6 +44,11 @@ export interface LocaleStrings {
   domainCleantech: string;
   domainHardware: string;
   domainManufacturing: string;
+  domainEdtech: string;
+  domainSpacetech: string;
+  domainMobility: string;
+  domainEcommerce: string;
+  domainGaming: string;
   fundingLimitAny: string;
   runningQuery: string;
   noGrantsFound: string;
@@ -189,6 +194,11 @@ export const TRANSLATIONS: Record<string, LocaleStrings> = {
     domainCleantech: "Cleantech & Climate",
     domainHardware: "Hardware & Manufacturing",
     domainManufacturing: "Advanced Manufacturing",
+    domainEdtech: "EdTech & Education",
+    domainSpacetech: "Space Technology",
+    domainMobility: "EV & Mobility",
+    domainEcommerce: "D2C & E-commerce",
+    domainGaming: "Gaming, AVGC & Media",
     fundingLimitAny: "Any Funding Limit",
     runningQuery: "Running full database index query...",
     noGrantsFound: "No matched schemes found. Try relaxing your filters.",
@@ -332,6 +342,11 @@ export const TRANSLATIONS: Record<string, LocaleStrings> = {
     domainCleantech: "क्लीनटेक और जलवायु",
     domainHardware: "हार्डवेयर और विनिर्माण",
     domainManufacturing: "उन्नत विनिर्माण",
+    domainEdtech: "एडटेक और शिक्षा",
+    domainSpacetech: "स्पेस टेक्नोलॉजी",
+    domainMobility: "ईवी और मोबिलिटी",
+    domainEcommerce: "डी2सी और ई-कॉमर्स",
+    domainGaming: "गेमिंग और मीडिया",
     fundingLimitAny: "कोई भी फंडिंग सीमा",
     runningQuery: "पूर्ण डेटाबेस इंडेक्स क्वेरी चल रही है...",
     noGrantsFound: "कोई मेल खाने वाली योजना नहीं मिली। फ़िल्टर ढीला करें।",
@@ -475,6 +490,11 @@ export const TRANSLATIONS: Record<string, LocaleStrings> = {
     domainCleantech: "ਕਲੀਨਟੈਕ ਅਤੇ ਜਲਵਾਯੂ",
     domainHardware: "ਹਾਰਡਵੇਅਰ ਅਤੇ ਨਿਰਮਾਣ",
     domainManufacturing: "ਉੱਨਤ ਨਿਰਮਾਣ",
+    domainEdtech: "ਐਡਟੈੱਕ ਅਤੇ ਸਿੱਖਿਆ",
+    domainSpacetech: "ਸਪੇਸ ਟੈਕਨਾਲੋਜੀ",
+    domainMobility: "ਈਵੀ ਅਤੇ ਮੋਬਿਲਿਟੀ",
+    domainEcommerce: "ਡੀ2ਸੀ ਅਤੇ ਈ-ਕਾਮਰਸ",
+    domainGaming: "ਗੇਮਿੰਗ ਅਤੇ ਮੀਡੀਆ",
     fundingLimitAny: "ਕੋਈ ਵੀ ਫੰਡਿੰਗ ਸੀਮਾ",
     runningQuery: "ਪੂਰੀ ਡਾਟਾਬੇਸ ਇੰਡੈਕਸ ਕਵੇਰੀ ਚੱਲ ਰਹੀ ਹੈ...",
     noGrantsFound: "ਕੋਈ ਮੇਲ ਖਾਂਦੀ ਯੋਜਨਾ ਨਹੀਂ ਮਿਲੀ। ਫਿਲਟਰ ਬਦਲੋ।",
@@ -618,6 +638,11 @@ export const TRANSLATIONS: Record<string, LocaleStrings> = {
     domainCleantech: "Tecnología Limpia",
     domainHardware: "Hardware e IoT",
     domainManufacturing: "Manufactura Avanzada",
+    domainEdtech: "EdTech y Educación",
+    domainSpacetech: "Tecnología Espacial",
+    domainMobility: "VE y Movilidad",
+    domainEcommerce: "D2C y Comercio Electrónico",
+    domainGaming: "Videojuegos y Medios",
     fundingLimitAny: "Cualquier Límite",
     runningQuery: "Consultando la base de datos...",
     noGrantsFound: "No se encontraron esquemas. Intenta relajar los filtros.",
@@ -761,6 +786,11 @@ export const TRANSLATIONS: Record<string, LocaleStrings> = {
     domainCleantech: "Cleantech & Climat",
     domainHardware: "Matériel & IoT",
     domainManufacturing: "Fabrication Avancée",
+    domainEdtech: "EdTech & Éducation",
+    domainSpacetech: "Technologie Spatiale",
+    domainMobility: "VE & Mobilité",
+    domainEcommerce: "D2C & E-commerce",
+    domainGaming: "Jeux Vidéo & Médias",
     fundingLimitAny: "Aucun Limite",
     runningQuery: "Recherche dans la base de données...",
     noGrantsFound: "Aucun programme trouvé. Essayez d'élargir les filtres.",
@@ -904,6 +934,11 @@ export const TRANSLATIONS: Record<string, LocaleStrings> = {
     domainCleantech: "Cleantech & Klima",
     domainHardware: "Hardware & IoT",
     domainManufacturing: "Erweiterte Fertigung",
+    domainEdtech: "EdTech & Bildung",
+    domainSpacetech: "Raumfahrttechnologie",
+    domainMobility: "E-Mobilität",
+    domainEcommerce: "D2C & E-Commerce",
+    domainGaming: "Gaming & Medien",
     fundingLimitAny: "Beliebiges Limit",
     runningQuery: "Abfrage der Datenbank...",
     noGrantsFound: "Keine übereinstimmenden Programme gefunden.",
@@ -1047,6 +1082,11 @@ export const TRANSLATIONS: Record<string, LocaleStrings> = {
     domainCleantech: "クリーンテック・気候変動",
     domainHardware: "ハードウェア＆IoT",
     domainManufacturing: "高度製造技術",
+    domainEdtech: "エドテック・教育",
+    domainSpacetech: "宇宙技術",
+    domainMobility: "EV・モビリティ",
+    domainEcommerce: "D2C・Eコマース",
+    domainGaming: "ゲーミング・メディア",
     fundingLimitAny: "上限なし",
     runningQuery: "データベースを検索中...",
     noGrantsFound: "該当するプログラムが見つかりませんでした。",

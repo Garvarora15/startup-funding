@@ -49,6 +49,26 @@ const sectorPresets: Record<string, string[]> = {
   manufacturing: [
     "Pioneering laser-assisted metal deposition printers to build lightweight aerospace turbine brackets.",
     "Deploying cyber-physical digital twin systems that reduce production line changeover times by 40%."
+  ],
+  edtech: [
+    "Building an adaptive AI tutoring platform that personalizes K-12 curriculum pathways using real-time learning analytics.",
+    "Developing offline-first vernacular e-learning modules to bring certified skill training to tier-3 and tier-4 towns."
+  ],
+  spacetech: [
+    "Engineering low-cost miniaturized propulsion systems for nanosatellite constellations supporting rural connectivity.",
+    "Building AI-powered satellite imagery analytics to forecast crop health and water stress across river basins."
+  ],
+  mobility: [
+    "Designing swappable battery-infrastructure networks to accelerate last-mile electric two- and three-wheeler adoption.",
+    "Developing predictive fleet-management software that cuts EV downtime through battery-health telemetry and routing."
+  ],
+  ecommerce: [
+    "Building a vernacular-first D2C marketplace connecting rural artisans directly with urban consumers via social commerce.",
+    "Developing AI-driven hyperlocal delivery routing to cut last-mile logistics costs for small D2C brands."
+  ],
+  gaming: [
+    "Building a mobile-first multiplayer gaming studio blending Indian folklore IP with competitive esports mechanics.",
+    "Developing AVGC tooling that lets independent animators produce broadcast-quality VFX on consumer-grade hardware."
   ]
 };
 
@@ -101,6 +121,11 @@ export default function StartupProfileForm({ profile, onChange, currentLanguage 
     { value: 'cleantech', label: t.domainCleantech },
     { value: 'hardware', label: t.domainHardware },
     { value: 'manufacturing', label: t.domainManufacturing },
+    { value: 'edtech', label: t.domainEdtech },
+    { value: 'spacetech', label: t.domainSpacetech },
+    { value: 'mobility', label: t.domainMobility },
+    { value: 'ecommerce', label: t.domainEcommerce },
+    { value: 'gaming', label: t.domainGaming },
   ];
 
   const stages = [
