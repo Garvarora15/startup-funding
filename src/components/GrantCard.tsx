@@ -273,16 +273,11 @@ export default function GrantCard({
 
   const deadlineBadge = getDeadlineBadge();
 
+  // Match score color classes using elegant natural tone variants
   const getScoreColor = (num: number) => {
-    if (num >= 80) return 'text-emerald-700 bg-emerald-50 border-emerald-200';
-    if (num >= 55) return 'text-amber-700 bg-amber-50 border-amber-200';
-    return 'text-rose-700 bg-rose-50 border-rose-200';
-  };
-
-  const getScoreRing = (num: number) => {
-    if (num >= 80) return 'from-emerald-400 to-teal-400';
-    if (num >= 55) return 'from-amber-400 to-orange-400';
-    return 'from-rose-400 to-red-400';
+    if (num >= 80) return 'text-[#10B981] bg-[#10B981]/5 border-[#10B981]/20';
+    if (num >= 55) return 'text-[#b45309] bg-[#fef3c7] border-[#fde68a]';
+    return 'text-[#b91c1c] bg-[#fee2e2] border-[#fecaca]';
   };
 
   const getStageLabel = (stages: string[]) => {
@@ -380,52 +375,52 @@ export default function GrantCard({
   };
 
   return (
-    <div className="bg-white border border-slate-200 rounded-2xl shadow-sm card-hover relative overflow-hidden flex flex-col justify-between text-slate-800">
-      {/* Vivid gradient accent bar */}
-      <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${getScoreRing(score)}`} />
+    <div className="bg-white border border-[#E4DEF5] rounded-[20px] p-5 shadow-sm hover:border-[#6D28D9] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-[#1E1533]">
+      {/* Visual Accent Bar */}
+      <div className="absolute top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-[#6D28D9] via-[#7C3AED] to-[#A78BFA]" />
 
-      <div className="p-5">
+      <div>
         {/* Title and Score Row */}
-        <div className="flex justify-between items-start gap-3 mb-3">
-          <div className="flex-1 min-w-0">
-            <h3 className="font-display font-bold text-slate-800 text-[14px] tracking-tight leading-snug">
+        <div className="flex justify-between items-start gap-4 mb-2">
+          <div className="flex-1">
+            <h3 className="font-display font-semibold text-[#4C1D95] text-base tracking-tight leading-tight hover:text-[#6D28D9] transition duration-200">
               {grant.name}
             </h3>
-            <p className="text-xs text-slate-400 font-medium mt-0.5 truncate">
+            <p className="text-xs text-[#8B85A6] font-medium mt-1">
               {labels.source} {grant.source}
             </p>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => onToggleFavorite(grant.id)}
-              className={`w-8 h-8 rounded-xl border transition cursor-pointer flex items-center justify-center ${
-                isFavorite
-                  ? 'bg-amber-50 border-amber-200 text-amber-500 hover:bg-amber-100 shadow-sm'
-                  : 'bg-slate-50 border-slate-200 text-slate-300 hover:text-amber-400 hover:border-amber-200 hover:bg-amber-50'
+              className={`p-2 rounded-xl border transition-all duration-200 cursor-pointer flex items-center justify-center hover:scale-110 active:scale-95 ${
+                isFavorite 
+                  ? 'bg-amber-50 border-amber-200 text-amber-500 hover:bg-amber-100 shadow-sm' 
+                  : 'bg-[#F1EBFF] border-[#E4DEF5] text-[#8B85A6] hover:bg-[#EDE6FB] hover:text-[#6D28D9]'
               }`}
               title={isFavorite ? "Remove from Favorites" : "Add to Favorites"}
             >
-              <Star className={`w-3.5 h-3.5 ${isFavorite ? 'fill-amber-500 text-amber-500' : ''}`} />
+              <Star className={`w-4 h-4 ${isFavorite ? 'fill-amber-500 text-amber-500' : ''}`} />
             </button>
 
-            <div className={`flex flex-col items-center justify-center min-w-[52px] px-2.5 py-1.5 rounded-xl border text-center ${getScoreColor(score)}`}>
-              <span className="text-[8px] font-mono font-bold uppercase tracking-widest opacity-70">{labels.match}</span>
-              <span className="text-sm font-extrabold font-mono leading-none">{score}%</span>
+            <div className={`flex flex-col items-center justify-center px-3 py-1.5 rounded-xl border text-center ${getScoreColor(score)}`}>
+              <span className="text-[9px] font-mono font-semibold uppercase tracking-wider text-[#8B85A6]">{labels.match}</span>
+              <span className="text-sm font-bold font-mono leading-none mt-0.5">{score}%</span>
             </div>
           </div>
         </div>
 
         {/* Amount, Stage, Domain & Deadline Badges */}
-        <div className="flex flex-wrap gap-1.5 mb-3">
-          <span className="bg-indigo-50 text-indigo-700 border border-indigo-100 text-[11px] font-semibold px-2.5 py-1 rounded-lg">
+        <div className="flex flex-wrap gap-1.5 my-3">
+          <span className="bg-[#F1EBFF] text-[#6D28D9] border border-[#E4DEF5] text-[11px] font-semibold px-2.5 py-1 rounded-lg">
             💰 {grant.amount_display}
           </span>
-          <span className="bg-violet-50 text-violet-700 border border-violet-100 text-[10px] font-mono px-2.5 py-1 rounded-full">
+          <span className="bg-[#EDE6FB] text-[#4C1D95] border border-[#E4DEF5] text-[10px] font-mono px-2.5 py-1 rounded-full">
             🚀 {getStageLabel(grant.stage)}
           </span>
-          <span className="bg-slate-50 text-slate-600 border border-slate-200 text-[10px] font-mono px-2.5 py-1 rounded-full">
+          <span className="bg-[#EDE6FB] text-[#4C1D95] border border-[#E4DEF5] text-[10px] font-mono px-2.5 py-1 rounded-full">
             🏷️ {getDomainLabel(grant.domain)}
           </span>
           {deadlineBadge && (
@@ -436,66 +431,66 @@ export default function GrantCard({
           )}
         </div>
 
-        {/* TTS Button */}
-        <div className="flex items-center gap-2 mb-3">
+        {/* TTS Player Action Bar */}
+        <div className="flex items-center gap-2 mb-3.5">
           <button
             onClick={handleReadAloud}
             disabled={ttsLoading}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border text-[10.5px] font-mono font-bold cursor-pointer disabled:opacity-50 transition ${
-              isPlaying
-                ? 'bg-rose-50 border-rose-200 text-rose-700 hover:bg-rose-100'
-                : 'bg-indigo-50 border-indigo-100 text-indigo-700 hover:bg-indigo-100'
-            }`}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#E4DEF5] bg-[#F8F6FF] hover:bg-[#EDE6FB] hover:scale-[1.03] active:scale-[0.97] text-[#6D28D9] transition-all duration-200 text-[10.5px] font-mono font-bold cursor-pointer disabled:opacity-50 disabled:hover:scale-100"
           >
             {ttsLoading ? (
               <RefreshCw className="w-3.5 h-3.5 animate-spin" />
             ) : isPlaying ? (
-              <Square className="w-2.5 h-2.5 fill-rose-700 text-rose-700" />
+              <Square className="w-2.5 h-2.5 fill-[#6D28D9] text-[#6D28D9]" />
             ) : (
-              <Volume2 className="w-3.5 h-3.5" />
+              <Volume2 className="w-3.5 h-3.5 text-[#6D28D9]" />
             )}
-            <span>{ttsLoading ? t.synthesizing : isPlaying ? t.stopLabel : t.listenToScheme}</span>
+            <span>
+              {ttsLoading 
+                ? t.synthesizing
+                : isPlaying 
+                  ? t.stopLabel
+                  : t.listenToScheme}
+            </span>
           </button>
         </div>
 
-        {/* Description */}
-        <p className="text-xs text-slate-600 leading-relaxed font-sans mb-1">
+        {/* Short Description */}
+        <p className="text-xs text-slate-700 leading-relaxed font-sans mb-4">
           {grant.description}
         </p>
       </div>
 
-      <div className="px-5 pb-5">
-        {/* Collapsible reasoning */}
-        <div className="border-t border-slate-100 pt-3 mt-1">
+      <div>
+        {/* Collapsible reasoning list */}
+        <div className="border-t border-[#E4DEF5] pt-3 mt-2">
           <button
             onClick={() => setExpanded(!expanded)}
-            className="flex items-center justify-between w-full text-indigo-600 hover:text-indigo-800 transition text-xs font-semibold uppercase tracking-wider group"
+            className="flex items-center justify-between w-full text-[#6D28D9] hover:text-[#1E1533] transition text-xs font-semibold uppercase tracking-wider"
           >
             <span>{labels.reasoningHeader}</span>
-            <div className={`w-5 h-5 rounded-full bg-indigo-50 group-hover:bg-indigo-100 flex items-center justify-center transition ${expanded ? 'rotate-180' : ''}`}>
-              <ChevronDown className="w-3 h-3" />
-            </div>
+            {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </button>
 
           {expanded && (
-            <div className="mt-3 space-y-2.5 bg-gradient-to-br from-indigo-50/60 to-violet-50/40 p-3.5 rounded-xl border border-indigo-100 text-xs animate-fadeIn">
+            <div className="mt-3 space-y-2 bg-[#F8F6FF] p-3.5 rounded-xl border border-[#E4DEF5] text-xs">
               <div>
-                <span className="text-indigo-700 font-semibold block mb-1">{labels.boardReqs}</span>
-                <p className="text-slate-700 leading-relaxed font-sans">{grant.eligibility}</p>
+                <span className="text-slate-600 font-medium block mb-1">{labels.boardReqs}</span>
+                <p className="text-slate-800 leading-normal font-sans">{grant.eligibility}</p>
               </div>
 
-              <div className="space-y-1.5 pt-2 border-t border-indigo-100">
-                <span className="text-indigo-700 font-semibold block">{labels.matchExplanation}</span>
+              <div className="space-y-1.5 pt-2 border-t border-[#E4DEF5]">
+                <span className="text-slate-600 font-medium block">{labels.matchExplanation}</span>
                 {reasons.map((reason, idx) => {
                   const isWarning = reason.toLowerCase().includes('warning') || reason.toLowerCase().includes('mismatch') || reason.toLowerCase().includes('ineligible');
                   return (
-                    <div key={idx} className="flex items-start gap-2 leading-relaxed">
+                    <div key={idx} className="flex items-start gap-1.5 leading-normal">
                       {isWarning ? (
-                        <AlertTriangle className="w-3.5 h-3.5 text-rose-500 shrink-0 mt-0.5" />
+                        <AlertTriangle className="w-3.5 h-3.5 text-rose-600 shrink-0 mt-0.5" />
                       ) : (
-                        <CheckCircle className="w-3.5 h-3.5 text-emerald-500 shrink-0 mt-0.5" />
+                        <CheckCircle className="w-3.5 h-3.5 text-[#10B981] shrink-0 mt-0.5" />
                       )}
-                      <span className={isWarning ? 'text-rose-800' : 'text-slate-700'}>{reason}</span>
+                      <span className={isWarning ? 'text-rose-900' : 'text-slate-800'}>{reason}</span>
                     </div>
                   );
                 })}
@@ -505,16 +500,16 @@ export default function GrantCard({
         </div>
 
         {/* Action Bar */}
-        <div className="flex gap-2 border-t border-slate-100 pt-3 mt-3 text-xs font-mono">
+        <div className="flex gap-1.5 sm:gap-2 border-t border-[#E4DEF5] pt-3 sm:pt-4 mt-3 sm:mt-4 text-[10.5px] sm:text-xs font-mono">
           <button
             onClick={() => onSelectForProposal(grant)}
-            className={`flex-[2] flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border font-semibold transition cursor-pointer ${
+            className={`flex-[2] flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-2 sm:py-2.5 rounded-xl border font-semibold transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98] ${
               isSelectedForProposal
-                ? 'bg-gradient-to-r from-indigo-600 to-violet-600 border-transparent text-white shadow-md shadow-indigo-200'
-                : 'border-indigo-100 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 hover:border-indigo-200'
+                ? 'bg-gradient-to-r from-[#6D28D9] to-[#7C3AED] border-transparent text-white shadow-md'
+                : 'border-[#E4DEF5] bg-[#F1EBFF] text-[#6D28D9] hover:bg-[#EDE6FB] hover:shadow-sm'
             }`}
           >
-            <FileText className="w-3.5 h-3.5 shrink-0" />
+            <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
             <span className="truncate">{isSelectedForProposal ? labels.selectedBtn : labels.draftBtn}</span>
           </button>
 
@@ -522,18 +517,18 @@ export default function GrantCard({
             href={grant.application_link}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-100 hover:text-slate-900 hover:border-slate-300 transition duration-200"
+            className="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-2 sm:py-2.5 rounded-xl border border-[#E4DEF5] bg-[#F1EBFF] text-slate-700 hover:bg-[#EDE6FB] hover:text-[#1E1533] hover:border-[#6D28D9] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
             title="Launch Official Application Portal"
           >
-            <ExternalLink className="w-3.5 h-3.5 shrink-0" />
-            <span className="font-semibold text-[10px] uppercase tracking-wider">{labels.portal}</span>
+            <ExternalLink className="w-3 sm:w-3.5 h-3 sm:h-3.5 shrink-0" />
+            <span className="font-semibold text-[10px] sm:text-[11px] uppercase tracking-wider">{labels.portal}</span>
           </a>
         </div>
 
         {/* Footer info row */}
-        <div className="flex justify-between text-[10px] text-slate-400 font-mono mt-2.5">
+        <div className="flex justify-between text-[10px] text-[#8B85A6] font-mono mt-3">
           <span className="flex items-center gap-1">
-            <Calendar className="w-3 h-3 text-indigo-300" /> {labels.deadline} {grant.deadline}
+            <Calendar className="w-3 h-3 text-[#6D28D9]" /> {labels.deadline} {grant.deadline}
           </span>
           <span>{labels.synced} {grant.last_scraped}</span>
         </div>

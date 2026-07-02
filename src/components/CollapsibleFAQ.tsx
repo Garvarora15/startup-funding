@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 
 interface FAQItem {
   q: string;
@@ -93,35 +93,35 @@ export default function CollapsibleFAQ({ currentLanguage }: CollapsibleFAQProps)
   };
 
   return (
-    <div id="faq-section" className="bg-white border border-indigo-100 rounded-2xl p-6 shadow-sm mt-8">
-      <h3 className="font-display font-bold text-slate-800 text-sm md:text-base tracking-tight mb-5 flex items-center gap-2.5">
-        <div className="w-7 h-7 rounded-lg bg-indigo-100 flex items-center justify-center">
-          <span className="text-indigo-600 text-xs font-mono font-bold">?</span>
-        </div>
+    <div id="faq-section" className="bg-white border border-[#E4DEF5] rounded-2xl p-6 shadow-sm mt-8">
+      <h3 className="font-display font-semibold text-[#4C1D95] text-sm md:text-base tracking-tight mb-4 flex items-center gap-2">
+        <span className="flex items-center justify-center w-6 h-6 rounded bg-[#6D28D9]/10 text-[#6D28D9] text-xs font-mono font-bold">?</span>
         <span>{getTitle()}</span>
       </h3>
-      <div className="space-y-2">
+      <div className="space-y-2.5">
         {faqs.map((faq, idx) => {
           const isOpen = openIdx === idx;
           return (
-            <div
-              key={idx}
-              className={`border rounded-xl overflow-hidden transition-all duration-200 ${isOpen ? 'border-indigo-200 shadow-sm' : 'border-slate-200'}`}
+            <div 
+              key={idx} 
+              className="border border-[#E4DEF5] rounded-xl overflow-hidden transition-colors duration-200"
             >
               <button
                 type="button"
                 onClick={() => setOpenIdx(isOpen ? null : idx)}
-                className={`w-full flex items-center justify-between p-4 text-left transition cursor-pointer ${isOpen ? 'bg-indigo-50 hover:bg-indigo-50/80' : 'bg-slate-50 hover:bg-indigo-50/50'}`}
+                className="w-full flex items-center justify-between p-4 bg-[#F8F6FF] hover:bg-[#EDE6FB] text-left transition cursor-pointer"
               >
-                <span className={`font-sans font-semibold text-xs md:text-sm transition ${isOpen ? 'text-indigo-800' : 'text-slate-700'}`}>
+                <span className="font-sans font-semibold text-[#4C1D95] text-xs md:text-sm">
                   {faq.q}
                 </span>
-                <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ml-3 transition-all ${isOpen ? 'bg-indigo-200 rotate-180' : 'bg-slate-200'}`}>
-                  <ChevronDown className={`w-3 h-3 ${isOpen ? 'text-indigo-700' : 'text-slate-500'}`} />
-                </div>
+                {isOpen ? (
+                  <ChevronUp className="w-4 h-4 text-[#6D28D9] shrink-0 ml-2" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-[#6D28D9] shrink-0 ml-2" />
+                )}
               </button>
               {isOpen && (
-                <div className="p-4 bg-white border-t border-indigo-100 font-sans text-xs text-slate-700 leading-relaxed animate-fadeIn">
+                <div className="p-4 bg-white border-t border-[#E4DEF5] font-sans text-xs text-[#2D1B4E] leading-relaxed">
                   {faq.a}
                 </div>
               )}

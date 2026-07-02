@@ -195,14 +195,14 @@ export default function App() {
   const displayedGrants = showFavoritesOnly ? grants.filter(g => favorites.includes(g.id)) : grants;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50/40 to-violet-50/30 text-slate-800 flex flex-col font-sans">
+    <div className="min-h-screen bg-transparent text-slate-800 flex flex-col font-sans">
       <Navbar currentLanguage={currentLanguage} onLanguageChange={setCurrentLanguage} />
 
       {/* Main Grid Layout */}
       <div className="flex-1 max-w-[1536px] w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:items-start">
         
-        {/* Left Config Panel */}
-        <div className="lg:col-span-5 flex flex-col gap-5 lg:sticky lg:top-6 lg:max-h-[calc(100vh-80px)] lg:overflow-y-auto pr-1 animate-fadeIn lg:self-start">
+        {/* Left Config Panel (4 Columns in large screens) - Kept fully persistent and individually scrollable on desktop */}
+        <div className="lg:col-span-5 flex flex-col gap-6 lg:sticky lg:top-6 lg:max-h-[calc(100vh-80px)] lg:overflow-y-auto pr-2 animate-fadeIn lg:self-start">
           <StartupProfileForm profile={profile} onChange={setProfile} currentLanguage={currentLanguage} />
           
           {/* Save Profile Button */}
@@ -212,41 +212,39 @@ export default function App() {
                 setSaveSuccess(true);
                 setTimeout(() => setSaveSuccess(false), 3000);
               }}
-              className="w-full bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 text-white py-3 px-4 rounded-xl font-semibold text-xs uppercase tracking-wider transition cursor-pointer flex items-center justify-center gap-2 shadow-md shadow-indigo-200 border border-indigo-500/20"
+              className="w-full bg-gradient-to-r from-[#6D28D9] to-[#7C3AED] text-white hover:from-[#5B21B6] hover:to-[#6D28D9] py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl font-semibold text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] border border-[#4C1D95]"
             >
               <Save className="w-4 h-4" />
               <span>{saveSuccess ? t.saveSuccessText : t.saveContextBtn}</span>
             </button>
             {saveSuccess && (
-              <p className="text-[10px] text-emerald-600 font-semibold text-center font-mono animate-fadeIn">
+              <p className="text-[10px] text-[#10B981] font-semibold text-center font-mono animate-fadeIn">
                 {t.saveNotification}
               </p>
             )}
           </div>
           
           {/* Quick Real-time Metrics Dashboard */}
-          <div className="bg-white border border-indigo-100 rounded-2xl p-5 shadow-sm">
-            <h4 className="font-display font-bold text-slate-700 mb-4 flex items-center gap-2 text-sm">
-              <div className="w-7 h-7 rounded-lg bg-indigo-100 flex items-center justify-center">
-                <Database className="w-3.5 h-3.5 text-indigo-600" />
-              </div>
+          <div className="bg-gradient-to-br from-[#EDE6FB] to-[#F1EBFF] border border-[#E4DEF5] rounded-[24px] p-5 shadow-sm font-mono text-xs text-[#1E1533] transition-shadow duration-300 hover:shadow-md">
+            <h4 className="font-display font-semibold text-[#4C1D95] mb-3 flex items-center gap-2 text-sm">
+              <Database className="w-4 h-4 text-[#6D28D9]" />
               {t.realtimeInsights}
             </h4>
             
             <div className="space-y-2.5">
-              <div className="flex justify-between items-center bg-gradient-to-r from-indigo-50 to-violet-50 p-3 rounded-xl border border-indigo-100">
-                <span className="text-slate-600 font-medium text-xs">{t.dpiitAge}</span>
-                <span className="text-indigo-700 font-bold text-xs bg-indigo-100 px-2.5 py-0.5 rounded-full">
+              <div className="flex justify-between items-center bg-white p-2.5 rounded-xl border border-[#E4DEF5] transition-all duration-200 hover:border-[#6D28D9]/40 hover:shadow-sm">
+                <span className="text-[#6D28D9] font-medium">{t.dpiitAge}</span>
+                <span className="text-[#1E1533] font-bold">
                   {new Date().getFullYear() - profile.incorporationYear} {t.yearsSuffix}
                 </span>
               </div>
-              <div className="flex justify-between items-center bg-gradient-to-r from-violet-50 to-purple-50 p-3 rounded-xl border border-violet-100">
-                <span className="text-slate-600 font-medium text-xs">{t.totalSchemes}</span>
-                <span className="text-violet-700 font-bold text-xs bg-violet-100 px-2.5 py-0.5 rounded-full">{GRANTS.length} {t.authenticatedLabel}</span>
+              <div className="flex justify-between items-center bg-white p-2.5 rounded-xl border border-[#E4DEF5] transition-all duration-200 hover:border-[#6D28D9]/40 hover:shadow-sm">
+                <span className="text-[#6D28D9] font-medium">{t.totalSchemes}</span>
+                <span className="text-[#6D28D9] font-bold">{GRANTS.length} {t.authenticatedLabel}</span>
               </div>
-              <div className="flex justify-between items-center bg-gradient-to-r from-emerald-50 to-teal-50 p-3 rounded-xl border border-emerald-100">
-                <span className="text-slate-600 font-medium text-xs">{t.topMatch}</span>
-                <span className="text-emerald-700 font-bold text-xs bg-emerald-100 px-2.5 py-0.5 rounded-full">
+              <div className="flex justify-between items-center bg-white p-2.5 rounded-xl border border-[#E4DEF5] transition-all duration-200 hover:border-[#6D28D9]/40 hover:shadow-sm">
+                <span className="text-[#6D28D9] font-medium">{t.topMatch}</span>
+                <span className="text-[#10B981] font-bold">
                   {grants.length > 0 && matchScores[grants[0].id] ? `${matchScores[grants[0].id].score}% ${t.matchLabel}` : 'N/A'}
                 </span>
               </div>
@@ -254,50 +252,50 @@ export default function App() {
           </div>
         </div>
 
-        {/* Right Workspace */}
-        <div className="lg:col-span-7 flex flex-col gap-5 lg:self-start">
+        {/* Right Workspace (8 Columns in large screens) */}
+        <div className="lg:col-span-7 flex flex-col gap-6 lg:self-start">
           
           {/* Navigation Tabs */}
-          <div className="bg-white border border-slate-200 rounded-2xl p-1.5 flex gap-1.5 shadow-sm">
+          <div className="bg-[#EDE6FB] border border-[#E4DEF5] rounded-2xl p-1 flex sm:p-1.5 gap-1 shadow-sm relative">
             <button
               onClick={() => setActiveTab('assistant')}
-              className={`flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-xl flex items-center justify-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+              className={`flex-1 py-2 sm:py-3 px-1 sm:px-4 rounded-xl flex items-center justify-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
                 activeTab === 'assistant'
-                  ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-200'
-                  : 'text-slate-500 hover:text-indigo-600 hover:bg-indigo-50'
+                  ? 'bg-gradient-to-r from-[#6D28D9] to-[#7C3AED] text-white shadow-md scale-[1.02]'
+                  : 'text-[#6D28D9] hover:text-[#1E1533] hover:bg-[#D8CEF0] hover:scale-[1.01]'
               }`}
             >
-              <Bot className="w-4 h-4" />
+              <Bot className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
               <span className="hidden xs:inline">{t.tabAgent || "IBM Granite AI Agent"}</span>
               <span className="xs:hidden">{t.tabAgentShort}</span>
             </button>
 
             <button
               onClick={() => setActiveTab('browse')}
-              className={`flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-xl flex items-center justify-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
+              className={`flex-1 py-2 sm:py-3 px-1 sm:px-4 rounded-xl flex items-center justify-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
                 activeTab === 'browse'
-                  ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-200'
-                  : 'text-slate-500 hover:text-indigo-600 hover:bg-indigo-50'
+                  ? 'bg-gradient-to-r from-[#6D28D9] to-[#7C3AED] text-white shadow-md scale-[1.02]'
+                  : 'text-[#6D28D9] hover:text-[#1E1533] hover:bg-[#D8CEF0] hover:scale-[1.01]'
               }`}
             >
-              <Database className="w-4 h-4" />
+              <Database className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
               <span className="hidden xs:inline">{t.tabBrowse || "Browse All Schemes"}</span>
               <span className="xs:hidden">{t.tabBrowseShort}</span>
             </button>
 
             <button
               onClick={() => setActiveTab('proposal')}
-              className={`flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-xl flex items-center justify-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 relative cursor-pointer ${
+              className={`flex-1 py-2 sm:py-3 px-1 sm:px-4 rounded-xl flex items-center justify-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 relative cursor-pointer ${
                 activeTab === 'proposal'
-                  ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-md shadow-indigo-200'
-                  : 'text-slate-500 hover:text-indigo-600 hover:bg-indigo-50'
+                  ? 'bg-gradient-to-r from-[#6D28D9] to-[#7C3AED] text-white shadow-md scale-[1.02]'
+                  : 'text-[#6D28D9] hover:text-[#1E1533] hover:bg-[#D8CEF0] hover:scale-[1.01]'
               }`}
             >
-              <FileText className="w-4 h-4" />
+              <FileText className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
               <span className="hidden xs:inline">{t.tabProposal || "Proposal Generator"}</span>
               <span className="xs:hidden">{t.tabProposalShort}</span>
               {selectedGrant && (
-                <span className="absolute top-1 right-2 w-2 h-2 bg-rose-500 rounded-full animate-ping" />
+                <span className="absolute top-1 right-1.5 sm:right-2 w-2 h-2 sm:w-2.5 sm:h-2.5 bg-red-500 rounded-full animate-ping" />
               )}
             </button>
           </div>
@@ -321,15 +319,15 @@ export default function App() {
 
             {/* Tab 2: Browse Schemes */}
             {activeTab === 'browse' && (
-              <div className="space-y-5">
+              <div className="space-y-6">
                 
                 {/* Search & Smart Filter Bar */}
-                <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-sm flex flex-col gap-3">
+                <div className="bg-white border border-[#E4DEF5] rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col gap-3">
                   <div className="relative">
-                    <Search className="w-4 h-4 text-indigo-400 absolute left-3.5 top-3.5" />
+                    <Search className="w-4 h-4 text-[#6D28D9] absolute left-3.5 top-3.5" />
                     <input
                       type="text"
-                      className="w-full bg-indigo-50/60 text-slate-800 text-sm pl-10 pr-4 py-3 rounded-xl border border-indigo-100 focus:outline-none focus:border-indigo-400 focus:bg-white transition placeholder:text-slate-400"
+                      className="w-full bg-[#F8F6FF] text-[#1E1533] text-xs pl-10 pr-4 py-3 rounded-xl border border-[#E4DEF5] focus:outline-none focus:border-[#6D28D9] focus:ring-2 focus:ring-[#6D28D9]/20 transition-all"
                       placeholder={t.searchPlaceholder || "Search schemes — e.g. biotech, NIDHI, women..."}
                       value={q}
                       onChange={(e) => setQ(e.target.value)}
@@ -338,27 +336,29 @@ export default function App() {
 
                   {/* Watson NLU Live Metadata */}
                   {nluMetadata && nluMetadata.keywords && nluMetadata.keywords.length > 0 && (
-                    <div className="bg-gradient-to-r from-indigo-50 to-violet-50 border border-indigo-100 rounded-xl px-3.5 py-2.5 text-xs text-indigo-700 flex flex-col md:flex-row md:items-center md:justify-between gap-2.5">
+                    <div className="bg-[#F1EBFF] border border-[#E4DEF5] rounded-xl px-3.5 py-2.5 text-xs text-[#6D28D9] flex flex-col md:flex-row md:items-center md:justify-between gap-2.5">
                       <div className="flex flex-wrap items-center gap-1.5">
-                        <span className="font-mono font-bold text-[9px] uppercase tracking-wider bg-indigo-600 text-white px-2 py-0.5 rounded-full">
+                        <span className="font-mono font-bold text-[9px] uppercase tracking-wider bg-[#6D28D9] text-white px-1.5 py-0.5 rounded">
                           IBM Watson NLU
                         </span>
-                        <span className="font-semibold text-indigo-800">
+                        <span className="font-semibold text-[#4C1D95]">
                           {t.parsedConcepts}
                         </span>
                         <div className="flex flex-wrap gap-1">
                           {nluMetadata.keywords.slice(0, 4).map((kw: any, idx: number) => (
-                            <span key={idx} className="bg-white px-2 py-0.5 rounded-full border border-indigo-200 text-indigo-700 font-mono text-[10px] font-bold shadow-sm">
+                            <span key={idx} className="bg-white px-2 py-0.5 rounded border border-[#E4DEF5] text-[#4C1D95] font-mono text-[10px] font-bold">
                               {kw.text}
                             </span>
                           ))}
                         </div>
                       </div>
                       <div className="flex items-center gap-1.5 font-mono text-[10px] font-bold">
-                        <span>{t.sentimentLabel}</span>
-                        <span className={`px-2.5 py-0.5 rounded-full text-white text-[9px] ${
+                        <span>
+                          {t.sentimentLabel}
+                        </span>
+                        <span className={`px-2 py-0.5 rounded text-white ${
                           nluMetadata.sentiment.score > 0.1 
-                            ? 'bg-emerald-500' 
+                            ? 'bg-[#10B981]' 
                             : nluMetadata.sentiment.score < -0.1 
                               ? 'bg-rose-500' 
                               : 'bg-slate-500'
@@ -371,39 +371,60 @@ export default function App() {
 
                   {/* Multi-Filter Row */}
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    {[
-                      { value: stageFilter, setter: setStageFilter, options: stageOptions },
-                      { value: domainFilter, setter: setDomainFilter, options: domainOptions },
-                      { value: String(minAmountFilter), setter: (v: string) => setMinAmountFilter(Number(v)), options: minAmountOptions },
-                    ].map((filter, i) => (
+                    <div>
                       <select
-                        key={i}
-                        className="w-full bg-white text-slate-700 text-xs px-3 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:border-indigo-400 focus:ring-1 focus:ring-indigo-200 transition"
-                        value={filter.value}
-                        onChange={(e) => filter.setter(e.target.value)}
+                        className="w-full bg-[#F8F6FF] text-[#1E1533] text-xs px-3 py-2.5 rounded-xl border border-[#E4DEF5] focus:outline-none focus:border-[#6D28D9] focus:ring-2 focus:ring-[#6D28D9]/20 hover:border-[#6D28D9]/50 transition-all cursor-pointer"
+                        value={stageFilter}
+                        onChange={(e) => setStageFilter(e.target.value)}
                       >
-                        {filter.options.map((opt: any) => (
+                        {stageOptions.map(opt => (
                           <option key={opt.value} value={opt.value}>{opt.label}</option>
                         ))}
                       </select>
-                    ))}
+                    </div>
+
+                    <div>
+                      <select
+                        className="w-full bg-[#F8F6FF] text-[#1E1533] text-xs px-3 py-2.5 rounded-xl border border-[#E4DEF5] focus:outline-none focus:border-[#6D28D9] focus:ring-2 focus:ring-[#6D28D9]/20 hover:border-[#6D28D9]/50 transition-all cursor-pointer"
+                        value={domainFilter}
+                        onChange={(e) => setDomainFilter(e.target.value)}
+                      >
+                        {domainOptions.map(opt => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <select
+                        className="w-full bg-[#F8F6FF] text-[#1E1533] text-xs px-3 py-2.5 rounded-xl border border-[#E4DEF5] focus:outline-none focus:border-[#6D28D9] focus:ring-2 focus:ring-[#6D28D9]/20 hover:border-[#6D28D9]/50 transition-all cursor-pointer"
+                        value={minAmountFilter}
+                        onChange={(e) => setMinAmountFilter(Number(e.target.value))}
+                      >
+                        {minAmountOptions.map(opt => (
+                          <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
 
-                  {/* Bookmark Favorites Only Toggle */}
-                  <div className="flex flex-wrap items-center justify-between gap-3 pt-2.5 border-t border-slate-100">
+                  {/* Bookmark Favorites Only Toggle Pill */}
+                  <div className="flex flex-wrap items-center justify-between gap-3 pt-2.5 border-t border-[#E4DEF5]/50">
                     <button
                       type="button"
                       onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
-                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border text-[11px] font-mono font-bold transition-all duration-200 cursor-pointer ${
+                      className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border text-[11px] font-mono font-bold transition-all duration-200 cursor-pointer hover:scale-[1.03] active:scale-[0.97] ${
                         showFavoritesOnly 
-                          ? 'bg-amber-500 border-amber-500 text-white shadow-md shadow-amber-200 hover:bg-amber-600' 
-                          : 'bg-white border-slate-200 text-slate-500 hover:bg-amber-50 hover:border-amber-300 hover:text-amber-700'
+                          ? 'bg-gradient-to-r from-amber-500 to-amber-400 border-amber-600 text-white shadow-sm hover:shadow-md' 
+                          : 'bg-[#F8F6FF] border-[#E4DEF5] text-[#6D28D9] hover:bg-[#EDE6FB] hover:text-[#4C1D95]'
                       }`}
                     >
-                      <Star className={`w-3.5 h-3.5 ${showFavoritesOnly ? 'fill-white text-white' : 'text-slate-400'}`} />
-                      <span>{showFavoritesOnly ? t.showAllSchemes : t.showFavoritesOnly}</span>
+                      <Star className={`w-3.5 h-3.5 ${showFavoritesOnly ? 'fill-white text-white animate-pulse' : 'text-[#8B85A6]'}`} />
+                      <span>
+                        {showFavoritesOnly ? t.showAllSchemes : t.showFavoritesOnly}
+                      </span>
                     </button>
-                    <span className="text-[10px] font-mono font-semibold text-slate-400 bg-slate-50 px-2.5 py-1 rounded-full border border-slate-200">
+                    <span className="text-[10px] font-mono font-semibold text-[#8B85A6]">
                       {`${displayedGrants.length} ${t.schemesDisplayedSuffix}`}
                     </span>
                   </div>
@@ -412,11 +433,14 @@ export default function App() {
                 {/* Grants List Grid */}
                 {loadingGrants ? (
                   <div className="py-20 flex justify-center items-center gap-3">
-                    <RefreshCw className="w-6 h-6 text-indigo-500 animate-spin" />
-                    <span className="text-slate-500 text-sm font-mono">{t.runningQuery}</span>
+                    <RefreshCw className="w-6 h-6 text-[#6D28D9] animate-spin" />
+                    <span className="text-[#8B85A6] text-sm font-mono">
+                      {t.runningQuery}
+                    </span>
                   </div>
                 ) : displayedGrants.length > 0 ? (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Sort grants so higher scores show first */}
                     {[...displayedGrants]
                       .sort((a, b) => {
                         const scoreA = matchScores[a.id]?.score || 0;
@@ -438,15 +462,17 @@ export default function App() {
                       ))}
                   </div>
                 ) : (
-                  <div className="bg-white border border-slate-200 rounded-2xl py-20 px-6 text-center shadow-sm">
-                    <div className="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                      <HelpCircle className="w-8 h-8 text-indigo-300" />
-                    </div>
-                    <p className="text-sm font-semibold text-slate-700">
-                      {showFavoritesOnly ? t.noGrantsBookmarked : t.noMatchingGrants}
+                  <div className="bg-white border border-[#E4DEF5] rounded-2xl py-20 px-6 text-center shadow-sm">
+                    <HelpCircle className="w-12 h-12 text-[#8B85A6] mx-auto mb-3" />
+                    <p className="text-sm font-semibold text-[#4C1D95]">
+                      {showFavoritesOnly
+                        ? t.noGrantsBookmarked
+                        : t.noMatchingGrants}
                     </p>
-                    <p className="text-xs text-slate-400 max-w-sm mx-auto mt-1.5 leading-relaxed">
-                      {showFavoritesOnly ? t.favoritesHint : t.relaxFiltersHint}
+                    <p className="text-xs text-[#8B85A6] max-w-sm mx-auto mt-1 leading-normal">
+                      {showFavoritesOnly
+                        ? t.favoritesHint
+                        : t.relaxFiltersHint}
                     </p>
                   </div>
                 )}

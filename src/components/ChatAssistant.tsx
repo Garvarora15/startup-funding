@@ -34,7 +34,7 @@ function parseMarkdownToHtml(markdown: string) {
 
     if (trimmed.startsWith('```')) {
       inCodeBlock = !inCodeBlock;
-      htmlLines.push(inCodeBlock ? '<pre class="bg-indigo-50 text-indigo-900 p-3 rounded-xl border border-indigo-100 font-mono text-[11px] overflow-x-auto my-2">' : '</pre>');
+      htmlLines.push(inCodeBlock ? '<pre class="bg-[#F8F6FF] text-[#4C1D95] p-3 rounded-xl border border-[#E4DEF5] font-mono text-[11px] overflow-x-auto my-2">' : '</pre>');
       continue;
     }
     if (inCodeBlock) { htmlLines.push(trimmed); continue; }
@@ -50,23 +50,23 @@ function parseMarkdownToHtml(markdown: string) {
       while (i < lines.length && lines[i].trim().startsWith('|')) {
         const cells = splitTableRow(lines[i].trim());
         bodyRowsHtml.push(
-          `<tr class="border-b border-slate-100">${cells.map(c => `<td class="px-2.5 py-1.5 align-top">${parseInlineMarkdown(c)}</td>`).join('')}</tr>`
+          `<tr class="border-b border-[#E4DEF5]">${cells.map(c => `<td class="px-2.5 py-1.5 align-top">${parseInlineMarkdown(c)}</td>`).join('')}</tr>`
         );
         i++;
       }
       i--; // step back one since the outer for-loop will increment
 
-      const theadHtml = `<thead><tr class="bg-indigo-50 border-b-2 border-indigo-100">${headerCells.map(c => `<th class="px-2.5 py-1.5 text-left font-display font-semibold text-indigo-800">${parseInlineMarkdown(c)}</th>`).join('')}</tr></thead>`;
+      const theadHtml = `<thead><tr class="bg-[#F1EBFF] border-b-2 border-[#E4DEF5]">${headerCells.map(c => `<th class="px-2.5 py-1.5 text-left font-display font-semibold text-[#4C1D95]">${parseInlineMarkdown(c)}</th>`).join('')}</tr></thead>`;
       htmlLines.push(
-        `<div class="overflow-x-auto my-3 rounded-xl border border-indigo-100"><table class="w-full text-[11px] border-collapse">${theadHtml}<tbody>${bodyRowsHtml.join('')}</tbody></table></div>`
+        `<div class="overflow-x-auto my-3 rounded-lg border border-[#E4DEF5]"><table class="w-full text-[11px] border-collapse">${theadHtml}<tbody>${bodyRowsHtml.join('')}</tbody></table></div>`
       );
       continue;
     }
 
-    if (trimmed.startsWith('#### ')) { htmlLines.push(`<h5 class="font-display font-semibold text-indigo-700 text-xs uppercase tracking-wider mt-4 mb-2">${trimmed.replace('#### ', '')}</h5>`); continue; }
-    if (trimmed.startsWith('### ')) { htmlLines.push(`<h4 class="font-display font-semibold text-indigo-800 text-sm mt-5 mb-2">${trimmed.replace('### ', '')}</h4>`); continue; }
-    if (trimmed.startsWith('## ')) { htmlLines.push(`<h3 class="font-display font-bold text-slate-800 text-base mt-6 mb-3 border-b border-indigo-100 pb-1">${trimmed.replace('## ', '')}</h3>`); continue; }
-    if (trimmed.startsWith('# ')) { htmlLines.push(`<h2 class="font-display font-bold text-slate-900 text-lg mt-6 mb-3">${trimmed.replace('# ', '')}</h2>`); continue; }
+    if (trimmed.startsWith('#### ')) { htmlLines.push(`<h5 class="font-display font-semibold text-[#4C1D95] text-xs uppercase tracking-wider mt-4 mb-2">${trimmed.replace('#### ', '')}</h5>`); continue; }
+    if (trimmed.startsWith('### ')) { htmlLines.push(`<h4 class="font-display font-semibold text-[#6D28D9] text-sm mt-5 mb-2">${trimmed.replace('### ', '')}</h4>`); continue; }
+    if (trimmed.startsWith('## ')) { htmlLines.push(`<h3 class="font-display font-bold text-[#1E1533] text-base mt-6 mb-3 border-b border-[#E4DEF5] pb-1">${trimmed.replace('## ', '')}</h3>`); continue; }
+    if (trimmed.startsWith('# ')) { htmlLines.push(`<h2 class="font-display font-bold text-[#1E1533] text-lg mt-6 mb-3">${trimmed.replace('# ', '')}</h2>`); continue; }
 
     if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
       let content = trimmed.substring(2);
@@ -86,10 +86,10 @@ function parseMarkdownToHtml(markdown: string) {
 
 function parseInlineMarkdown(text: string) {
   let formatted = text;
-  formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-indigo-800">$1</strong>');
+  formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-[#4C1D95]">$1</strong>');
   formatted = formatted.replace(/\*(.*?)\*/g, '<em class="italic text-slate-600">$1</em>');
-  formatted = formatted.replace(/`(.*?)`/g, '<code class="bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded font-mono text-[11px] border border-indigo-100">$1</code>');
-  formatted = formatted.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-indigo-600 hover:text-indigo-800 hover:underline font-semibold inline-flex items-center gap-0.5">$1 <span class="text-[9px]">↗</span></a>');
+  formatted = formatted.replace(/`(.*?)`/g, '<code class="bg-[#F1EBFF] text-[#6D28D9] px-1.5 py-0.5 rounded font-mono text-[11px]">$1</code>');
+  formatted = formatted.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[#6D28D9] hover:underline font-semibold inline-flex items-center gap-0.5">$1 <span class="text-[9px]">↗</span></a>');
   return formatted;
 }
 
@@ -395,69 +395,61 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
   };
 
   return (
-    <div className="bg-white border border-slate-200 rounded-2xl shadow-sm flex flex-col h-[780px] relative overflow-hidden">
+    <div className="bg-white border border-[#E4DEF5] rounded-2xl shadow-sm flex flex-col h-[780px] relative overflow-hidden">
 
       {/* Header */}
-      <div className="bg-gradient-to-r from-indigo-700 via-violet-700 to-indigo-800 px-5 py-4 flex items-center justify-between">
+      <div className="bg-[#F1EBFF] border-b border-[#E4DEF5] px-5 py-4 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-white/15 border border-white/25 flex items-center justify-center shadow-sm">
-            <Bot className="w-5 h-5 text-white" />
+          <div className="w-8 h-8 rounded-lg bg-[#EDE6FB] border border-[#E4DEF5] flex items-center justify-center">
+            <Bot className="w-4 h-4 text-[#6D28D9]" />
           </div>
           <div>
-            <h3 className="font-display font-bold text-white text-xs uppercase tracking-wider">
+            <h3 className="font-display font-semibold text-[#4C1D95] text-xs uppercase tracking-wider">
               {t.copilotTitle || "IBM Granite Watsonx.ai Co-Pilot"}
             </h3>
-            <p className="text-[10px] text-emerald-300 font-mono flex items-center gap-1 mt-0.5 font-semibold">
-              <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-pulse" />
+            <p className="text-[10px] text-[#10B981] font-mono flex items-center gap-1 mt-0.5 font-semibold">
+              <span className="w-1.5 h-1.5 bg-[#10B981] rounded-full animate-pulse" />
               {t.onlineStatus} &bull; granite-4-h-small
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-1.5 bg-white/15 px-2.5 py-1.5 rounded-full text-[10px] font-mono text-white border border-white/25">
-          <Sparkles className="w-3.5 h-3.5 text-amber-300 animate-pulse" />
+        <div className="flex items-center gap-1.5 bg-[#EDE6FB] px-2.5 py-1 rounded-full text-[10px] font-mono text-[#4C1D95] border border-[#E4DEF5]">
+          <Sparkles className="w-3.5 h-3.5 text-amber-600 animate-pulse" />
           <span>{t.cognitiveCore}</span>
         </div>
       </div>
 
       {/* Messages */}
-      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto px-5 py-5 space-y-4 bg-gradient-to-b from-indigo-50/20 to-slate-50/30">
+      <div ref={messagesContainerRef} className="flex-1 overflow-y-auto px-5 py-6 space-y-4 bg-[#F8F6FF]/30">
         {messages.map((msg) => (
-          <div key={msg.id} className={`flex items-start gap-3 max-w-[88%] ${msg.role === 'user' ? 'ml-auto flex-row-reverse' : ''}`}>
-            <div className={`w-8 h-8 rounded-xl shrink-0 flex items-center justify-center border text-xs font-mono font-bold ${
-              msg.role === 'user'
-                ? 'bg-gradient-to-br from-indigo-600 to-violet-600 border-transparent text-white shadow-sm'
-                : 'bg-white border-indigo-100 text-indigo-600 shadow-sm'
-            }`}>
+          <div key={msg.id} className={`flex items-start gap-3 max-w-[85%] ${msg.role === 'user' ? 'ml-auto flex-row-reverse' : ''}`}>
+            <div className={`w-8 h-8 rounded-lg shrink-0 flex items-center justify-center border text-xs font-mono font-bold ${msg.role === 'user' ? 'bg-[#6D28D9] border-transparent text-white' : 'bg-[#F1EBFF] border-[#E4DEF5] text-[#6D28D9]'}`}>
               {msg.role === 'user' ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
             </div>
-            <div className="space-y-1 min-w-0">
-              <div className={`p-3.5 rounded-2xl text-xs leading-relaxed ${
-                msg.role === 'user'
-                  ? 'bg-gradient-to-br from-indigo-600 to-violet-700 text-white rounded-tr-sm shadow-md shadow-indigo-200/50'
-                  : 'bg-white text-slate-800 rounded-tl-sm border border-indigo-100 shadow-sm'
-              }`}>
+            <div className="space-y-1">
+              <div className={`p-3.5 rounded-2xl text-xs leading-relaxed ${msg.role === 'user' ? 'bg-[#6D28D9] text-white rounded-tr-none border border-[#4C1D95]/15 shadow-sm' : 'bg-white text-slate-800 rounded-tl-none border border-[#E4DEF5] shadow-sm'}`}>
                 {msg.role === 'user' ? (
                   <p className="whitespace-pre-wrap">{msg.content}</p>
                 ) : (
                   <div className="prose prose-xs leading-normal text-slate-800" dangerouslySetInnerHTML={{ __html: parseMarkdownToHtml(msg.content) }} />
                 )}
               </div>
-              <div className="flex items-center justify-between gap-4 mt-1 min-w-[120px]">
+              <div className="flex items-center justify-between gap-4 mt-1.5 min-w-[120px]">
                 {msg.role === 'assistant' ? (
                   <button
                     type="button"
                     onClick={() => speakMessage(msg.id, msg.content)}
                     title={currentLanguage === 'punjabi' ? 'Punjabi voice quality may be limited or unavailable in your browser' : undefined}
-                    className="flex items-center gap-1 px-2 py-0.5 rounded-lg text-[10px] text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 font-mono font-bold transition cursor-pointer"
+                    className="flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] text-[#6D28D9] hover:text-[#4C1D95] hover:bg-[#EDE6FB]/50 font-mono font-bold transition cursor-pointer"
                   >
                     {isPlayingTts && ttsMsgId === msg.id ? (
-                      <><Square className="w-2.5 h-2.5 fill-indigo-600 text-indigo-600" /><span>{t.stopLabel}</span></>
+                      <><Square className="w-2.5 h-2.5 fill-[#6D28D9] text-[#6D28D9]" /><span>{t.stopLabel}</span></>
                     ) : (
                       <><Volume2 className="w-3.5 h-3.5" /><span>{t.listenLabel}</span></>
                     )}
                   </button>
                 ) : <div />}
-                <span className="block text-[9px] text-slate-400 font-mono shrink-0 ml-auto">{msg.timestamp}</span>
+                <span className="block text-[9px] text-[#8B85A6] font-mono shrink-0 ml-auto">{msg.timestamp}</span>
               </div>
             </div>
           </div>
@@ -465,23 +457,23 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
 
         {/* Reasoning Logs */}
         {loading && (
-          <div className="flex items-start gap-3 max-w-[88%]">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center shrink-0 shadow-sm">
-              <Bot className="w-4 h-4 text-white animate-bounce" />
+          <div className="flex items-start gap-3 max-w-[85%]">
+            <div className="w-8 h-8 rounded-lg bg-[#F1EBFF] border border-[#E4DEF5] flex items-center justify-center shrink-0">
+              <Bot className="w-4 h-4 text-[#6D28D9] animate-bounce" />
             </div>
-            <div className="space-y-2 bg-gradient-to-br from-indigo-50 to-violet-50 border border-indigo-100 p-4 rounded-2xl rounded-tl-sm w-full max-w-md shadow-sm">
-              <div className="flex items-center gap-2 text-[10px] font-mono text-indigo-600 border-b border-indigo-100 pb-2 mb-2">
-                <Terminal className="w-3.5 h-3.5 text-indigo-500" />
-                <span className="font-bold">{t.reasoningMonitor}</span>
+            <div className="space-y-2 bg-[#F8F6FF] border border-[#E4DEF5] p-4 rounded-2xl rounded-tl-none w-full max-w-md shadow-sm">
+              <div className="flex items-center gap-2 text-[10px] font-mono text-[#6D28D9] border-b border-[#E4DEF5] pb-2 mb-2">
+                <Terminal className="w-3.5 h-3.5" />
+                <span>{t.reasoningMonitor}</span>
               </div>
               <div className="space-y-1.5 font-mono text-[9px] text-slate-600">
                 {reasoningLogs.map((log, idx) => (
                   <div key={idx} className="flex items-center gap-1.5 animate-fade-in">
-                    <span className="text-emerald-500 font-bold">&gt;</span>
+                    <span className="text-[#10B981] font-bold">&gt;</span>
                     <span>{log}</span>
                   </div>
                 ))}
-                <div className="flex items-center gap-1.5 text-indigo-400 animate-pulse">
+                <div className="flex items-center gap-1.5 text-[#6D28D9] animate-pulse">
                   <span>&gt;</span>
                   <span>{t.consolidatingChapters}</span>
                 </div>
@@ -491,19 +483,15 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
         )}
       </div>
 
-      {/* Quick Prompts */}
+      {/* Quick Prompts - show until user sends 2 messages */}
       {messages.length <= 2 && (
-        <div className="px-5 py-3 border-t border-slate-100 bg-slate-50/70">
-          <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-2">
+        <div className="px-5 py-3 border-t border-[#E4DEF5] bg-[#F8F6FF]">
+          <p className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#8B85A6] mb-2">
             {t.suggestedQueries}
           </p>
           <div className="flex flex-wrap gap-1.5">
             {quickPrompts.map((qp, idx) => (
-              <button
-                key={idx}
-                onClick={() => handleSend(qp.text)}
-                className="bg-white border border-indigo-100 text-slate-600 hover:text-indigo-700 hover:border-indigo-300 hover:bg-indigo-50 text-[11px] px-2.5 py-1.5 rounded-xl transition flex items-center gap-1.5 cursor-pointer shadow-sm"
-              >
+              <button key={idx} onClick={() => handleSend(qp.text)} className="bg-white border border-[#E4DEF5] text-slate-700 hover:text-[#6D28D9] hover:border-[#6D28D9] text-[11px] px-2.5 py-1.5 rounded-xl transition flex items-center gap-1.5 cursor-pointer shadow-sm">
                 <span>{qp.icon}</span>
                 <span>{qp.text}</span>
               </button>
@@ -513,33 +501,20 @@ export default function ChatAssistant({ startupProfile, onSelectGrantFromChat, c
       )}
 
       {/* Input */}
-      <div className="p-4 bg-white border-t border-slate-100 flex items-center gap-2">
-        <button
-          type="button"
-          onClick={toggleListening}
-          disabled={loading}
-          className={`shrink-0 w-10 h-10 rounded-xl flex items-center justify-center border transition cursor-pointer ${
-            isListening
-              ? 'bg-rose-500 border-rose-500 text-white animate-pulse shadow-md shadow-rose-200'
-              : 'bg-indigo-50 border-indigo-100 text-indigo-600 hover:bg-indigo-100 hover:border-indigo-200'
-          }`}
-        >
+      <div className="p-4 bg-[#F1EBFF] border-t border-[#E4DEF5] flex items-center gap-2">
+        <button type="button" onClick={toggleListening} disabled={loading} className={`shrink-0 w-10 h-10 rounded-xl flex items-center justify-center border transition cursor-pointer ${isListening ? 'bg-rose-500 border-rose-600 text-white animate-pulse' : 'bg-white border-[#E4DEF5] text-[#6D28D9] hover:bg-[#EDE6FB]'}`}>
           {isListening ? <MicOff className="w-4 h-4 animate-bounce" /> : <Mic className="w-4 h-4" />}
         </button>
         <form onSubmit={(e) => { e.preventDefault(); handleSend(input); }} className="flex-1 flex gap-2 relative">
           <input
             type="text"
-            className="flex-1 bg-slate-50 text-slate-800 text-xs px-4 py-3 rounded-xl border border-slate-200 focus:outline-none focus:border-indigo-400 focus:bg-white focus:ring-1 focus:ring-indigo-100 transition pr-16 placeholder:text-slate-400"
+            className="flex-1 bg-white text-[#1E1533] text-xs px-4 py-3 rounded-xl border border-[#E4DEF5] focus:outline-none focus:border-[#6D28D9] transition pr-16"
             placeholder={isListening ? t.listeningPlaceholder : (t.chatPlaceholder || "Query Watsonx about grants, eligibility, milestones...")}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             disabled={loading}
           />
-          <button
-            type="submit"
-            disabled={!input.trim() || loading}
-            className="absolute right-2 top-1.5 bottom-1.5 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 disabled:opacity-40 disabled:pointer-events-none text-white px-3.5 rounded-lg flex items-center justify-center transition cursor-pointer shadow-sm"
-          >
+          <button type="submit" disabled={!input.trim() || loading} className="absolute right-2 top-1.5 bottom-1.5 bg-[#6D28D9] hover:bg-[#4C1D95] disabled:opacity-50 disabled:pointer-events-none text-white px-3.5 rounded-lg flex items-center justify-center transition cursor-pointer">
             <Send className="w-3.5 h-3.5" />
           </button>
         </form>

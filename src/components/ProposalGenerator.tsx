@@ -68,7 +68,7 @@ function parseMarkdownToHtml(markdown: string) {
       closeList();
       closeTable();
       inCodeBlock = !inCodeBlock;
-      htmlLines.push(inCodeBlock ? '<pre class="bg-indigo-50 text-indigo-800 p-4 rounded-xl border border-indigo-100 font-mono text-xs overflow-x-auto my-3">' : '</pre>');
+      htmlLines.push(inCodeBlock ? '<pre class="bg-[#F8F6FF] text-[#4C1D95] p-4 rounded-xl border border-[#E4DEF5] font-mono text-xs overflow-x-auto my-3">' : '</pre>');
       continue;
     }
 
@@ -82,8 +82,8 @@ function parseMarkdownToHtml(markdown: string) {
     if (!inTable && trimmed.includes('|') && nextLine !== undefined && isTableSeparatorRow(nextLine)) {
       closeList();
       const headerCells = splitTableRow(trimmed);
-      htmlLines.push('<div class="overflow-x-auto my-4 rounded-lg border border-indigo-100"><table class="min-w-full text-xs border-collapse">');
-      htmlLines.push('<thead class="bg-slate-50"><tr>' + headerCells.map(c => `<th class="px-3 py-2 text-left font-display font-semibold text-indigo-800 border-b border-indigo-100">${parseInlineMarkdown(c)}</th>`).join('') + '</tr></thead>');
+      htmlLines.push('<div class="overflow-x-auto my-4 rounded-lg border border-[#E4DEF5]"><table class="min-w-full text-xs border-collapse">');
+      htmlLines.push('<thead class="bg-[#F1EBFF]"><tr>' + headerCells.map(c => `<th class="px-3 py-2 text-left font-display font-semibold text-[#4C1D95] border-b border-[#E4DEF5]">${parseInlineMarkdown(c)}</th>`).join('') + '</tr></thead>');
       htmlLines.push('<tbody>');
       inTable = true;
       i++; // skip separator row
@@ -93,7 +93,7 @@ function parseMarkdownToHtml(markdown: string) {
     if (inTable) {
       if (trimmed.includes('|') && trimmed !== '') {
         const cells = splitTableRow(trimmed);
-        htmlLines.push('<tr class="even:bg-slate-50/50">' + cells.map(c => `<td class="px-3 py-2 border-b border-indigo-100 text-slate-800 align-top">${parseInlineMarkdown(c)}</td>`).join('') + '</tr>');
+        htmlLines.push('<tr class="even:bg-[#FBFAFF]">' + cells.map(c => `<td class="px-3 py-2 border-b border-[#E4DEF5] text-slate-800 align-top">${parseInlineMarkdown(c)}</td>`).join('') + '</tr>');
         continue;
       } else {
         closeTable();
@@ -102,22 +102,22 @@ function parseMarkdownToHtml(markdown: string) {
 
     if (trimmed.startsWith('#### ')) {
       closeList();
-      htmlLines.push(`<h5 class="font-display font-semibold text-indigo-800 text-xs uppercase tracking-wider mt-5 mb-2">${trimmed.replace('#### ', '')}</h5>`);
+      htmlLines.push(`<h5 class="font-display font-semibold text-[#4C1D95] text-xs uppercase tracking-wider mt-5 mb-2">${trimmed.replace('#### ', '')}</h5>`);
       continue;
     }
     if (trimmed.startsWith('### ')) {
       closeList();
-      htmlLines.push(`<h4 class="font-display font-semibold text-indigo-700 text-sm mt-6 mb-2 border-b border-indigo-100 pb-1">${trimmed.replace('### ', '')}</h4>`);
+      htmlLines.push(`<h4 class="font-display font-semibold text-[#6D28D9] text-sm mt-6 mb-2 border-b border-[#E4DEF5] pb-1">${trimmed.replace('### ', '')}</h4>`);
       continue;
     }
     if (trimmed.startsWith('## ')) {
       closeList();
-      htmlLines.push(`<h3 class="font-display font-bold text-slate-900 text-base mt-8 mb-4 border-b border-indigo-100 pb-1.5">${trimmed.replace('## ', '')}</h3>`);
+      htmlLines.push(`<h3 class="font-display font-bold text-[#1E1533] text-base mt-8 mb-4 border-b border-[#E4DEF5] pb-1.5">${trimmed.replace('## ', '')}</h3>`);
       continue;
     }
     if (trimmed.startsWith('# ')) {
       closeList();
-      htmlLines.push(`<h2 class="font-display font-bold text-indigo-700 text-lg mt-10 mb-4 pb-2 border-b-2 border-indigo-600/30">${trimmed.replace('# ', '')}</h2>`);
+      htmlLines.push(`<h2 class="font-display font-bold text-[#6D28D9] text-lg mt-10 mb-4 pb-2 border-b-2 border-[#6D28D9]/30">${trimmed.replace('# ', '')}</h2>`);
       continue;
     }
 
@@ -147,10 +147,10 @@ function parseMarkdownToHtml(markdown: string) {
 
 function parseInlineMarkdown(text: string) {
   let formatted = text;
-  formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-indigo-800">$1</strong>');
+  formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-[#4C1D95]">$1</strong>');
   formatted = formatted.replace(/\*(.*?)\*/g, '<em class="italic text-slate-600">$1</em>');
-  formatted = formatted.replace(/`(.*?)`/g, '<code class="bg-slate-50 text-indigo-700 px-1.5 py-0.5 rounded font-mono text-[11px]">$1</code>');
-  formatted = formatted.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-indigo-700 hover:underline font-semibold">$1 ↗</a>');
+  formatted = formatted.replace(/`(.*?)`/g, '<code class="bg-[#F1EBFF] text-[#6D28D9] px-1.5 py-0.5 rounded font-mono text-[11px]">$1</code>');
+  formatted = formatted.replace(/\[(.*?)\]\((.*?)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" class="text-[#6D28D9] hover:underline font-semibold">$1 ↗</a>');
   return formatted;
 }
 
@@ -511,7 +511,7 @@ export default function ProposalGenerator({
 
     let cursorY = 20;
 
-    // Header banner background (#5A5A40)
+    // Header banner background (#6D28D9)
     doc.setFillColor(90, 90, 64);
     doc.rect(0, 0, pageWidth, 35, 'F');
 
@@ -571,7 +571,7 @@ export default function ProposalGenerator({
         text = trimmed.replace('# ', '').toUpperCase();
         isHeader = true;
         doc.setFont('Helvetica', 'bold');
-        doc.setTextColor(90, 90, 64); // Brand #5A5A40
+        doc.setTextColor(90, 90, 64); // Brand #6D28D9
         addNewPageIfRequired(12);
         cursorY += 3;
       } else if (trimmed.startsWith('## ')) {
@@ -630,14 +630,14 @@ export default function ProposalGenerator({
         <head>
           <title>${form.startupName} - Grant Proposal Draft</title>
           <style>
-            body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; padding: 40px; color: #1a1a1a; line-height: 1.6; background: #fafaf9; }
-            h1 { color: #5a5a40; border-bottom: 2px solid #5a5a40; padding-bottom: 10px; font-size: 24px; font-family: Georgia, serif; }
-            h2 { color: #1a1a1a; border-bottom: 1px solid #dedccf; padding-bottom: 5px; font-size: 18px; margin-top: 30px; font-family: Georgia, serif; }
-            h3 { color: #5a5a40; font-size: 14px; margin-top: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
+            body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; padding: 40px; color: #1E1533; line-height: 1.6; background: #FBFAFF; }
+            h1 { color: #6D28D9; border-bottom: 2px solid #6D28D9; padding-bottom: 10px; font-size: 24px; font-family: Georgia, serif; }
+            h2 { color: #1E1533; border-bottom: 1px solid #E4DEF5; padding-bottom: 5px; font-size: 18px; margin-top: 30px; font-family: Georgia, serif; }
+            h3 { color: #6D28D9; font-size: 14px; margin-top: 20px; text-transform: uppercase; letter-spacing: 0.5px; }
             p { font-size: 13px; margin-bottom: 15px; text-align: justify; }
             ul { font-size: 13px; padding-left: 20px; }
             li { margin-bottom: 8px; }
-            .meta { font-family: monospace; font-size: 11px; background: #f0f0e8; padding: 15px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #dedccf; }
+            .meta { font-family: monospace; font-size: 11px; background: #F1EBFF; padding: 15px; border-radius: 8px; margin-bottom: 25px; border: 1px solid #E4DEF5; }
           </style>
         </head>
         <body>
@@ -660,12 +660,12 @@ export default function ProposalGenerator({
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
       
       {/* Editor Form (5 cols) */}
-      <div className="lg:col-span-5 bg-indigo-50 border border-indigo-100 rounded-[24px] p-5 shadow-sm relative text-slate-900">
-        <div className="flex items-center justify-between mb-5 pb-3 border-b border-indigo-100">
+      <div className="lg:col-span-5 bg-[#EDE6FB] border border-[#E4DEF5] rounded-[24px] p-5 shadow-sm relative text-[#1E1533]">
+        <div className="flex items-center justify-between mb-5 pb-3 border-b border-[#E4DEF5]">
           <div className="flex items-center gap-2 flex-wrap">
-            <FileText className="w-5 h-5 text-indigo-700" />
-            <h3 className="font-display font-semibold text-indigo-800 text-sm">{labels.contextPanel}</h3>
-            <span className="text-[9px] text-indigo-700/60 font-mono bg-indigo-700/5 px-1.5 py-0.5 rounded border border-indigo-500/10 flex items-center gap-1">
+            <FileText className="w-5 h-5 text-[#6D28D9]" />
+            <h3 className="font-display font-semibold text-[#4C1D95] text-sm">{labels.contextPanel}</h3>
+            <span className="text-[9px] text-[#6D28D9]/60 font-mono bg-[#6D28D9]/5 px-1.5 py-0.5 rounded border border-[#6D28D9]/10 flex items-center gap-1">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               {t.autoSaved}
             </span>
@@ -681,13 +681,13 @@ export default function ProposalGenerator({
         </div>
 
         {selectedGrant ? (
-          <div className="mb-4 bg-indigo-700/5 border border-indigo-500/20 px-3.5 py-3 rounded-xl flex items-start gap-2 text-xs">
-            <div className="p-1 rounded bg-indigo-50 text-indigo-700 shrink-0 mt-0.5">
+          <div className="mb-4 bg-[#6D28D9]/5 border border-[#6D28D9]/20 px-3.5 py-3 rounded-xl flex items-start gap-2 text-xs">
+            <div className="p-1 rounded bg-[#EDE6FB] text-[#6D28D9] shrink-0 mt-0.5">
               <Cpu className="w-4.5 h-4.5" />
             </div>
             <div>
-              <p className="text-indigo-800 font-semibold">{labels.lockedTitle}</p>
-              <p className="text-indigo-700 font-mono text-[10px] mt-0.5 leading-normal">{selectedGrant.name}</p>
+              <p className="text-[#4C1D95] font-semibold">{labels.lockedTitle}</p>
+              <p className="text-[#6D28D9] font-mono text-[10px] mt-0.5 leading-normal">{selectedGrant.name}</p>
             </div>
           </div>
         ) : (
@@ -706,24 +706,24 @@ export default function ProposalGenerator({
 
         <div className="space-y-4 text-xs">
           <div>
-            <label className="block text-[10px] font-semibold text-indigo-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-[10px] font-semibold text-[#6D28D9] uppercase tracking-wider mb-1.5">
               {labels.startupName}
             </label>
             <input
               type="text"
-              className="w-full bg-white text-slate-900 px-3 py-2 rounded-xl border border-indigo-100 focus:outline-none focus:border-indigo-500"
+              className="w-full bg-white text-[#1E1533] px-3 py-2 rounded-xl border border-[#E4DEF5] focus:outline-none focus:border-[#6D28D9]"
               value={form.startupName}
               onChange={(e) => setForm({ ...form, startupName: e.target.value })}
             />
           </div>
 
           <div>
-            <label className="block text-[10px] font-semibold text-indigo-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-[10px] font-semibold text-[#6D28D9] uppercase tracking-wider mb-1.5">
               {labels.grantName}
             </label>
             <input
               type="text"
-              className="w-full bg-white text-slate-900 px-3 py-2 rounded-xl border border-indigo-100 focus:outline-none focus:border-indigo-500"
+              className="w-full bg-white text-[#1E1533] px-3 py-2 rounded-xl border border-[#E4DEF5] focus:outline-none focus:border-[#6D28D9]"
               placeholder={t.selectGrantPlaceholder}
               value={form.targetGrantName}
               onChange={(e) => setForm({ ...form, targetGrantName: e.target.value })}
@@ -731,33 +731,33 @@ export default function ProposalGenerator({
           </div>
 
           <div>
-            <label className="block text-[10px] font-semibold text-indigo-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-[10px] font-semibold text-[#6D28D9] uppercase tracking-wider mb-1.5">
               {labels.grantEligibility}
             </label>
             <textarea
-              className="w-full bg-white text-slate-900 px-3 py-2 rounded-xl border border-indigo-100 focus:outline-none focus:border-indigo-500 h-20 resize-none leading-relaxed text-[11px]"
+              className="w-full bg-white text-[#1E1533] px-3 py-2 rounded-xl border border-[#E4DEF5] focus:outline-none focus:border-[#6D28D9] h-20 resize-none leading-relaxed text-[11px]"
               value={form.targetGrantDetails}
               onChange={(e) => setForm({ ...form, targetGrantDetails: e.target.value })}
             />
           </div>
 
           <div>
-            <label className="block text-[10px] font-semibold text-indigo-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-[10px] font-semibold text-[#6D28D9] uppercase tracking-wider mb-1.5">
               {labels.startupDesc}
             </label>
             <textarea
-              className="w-full bg-white text-slate-900 px-3 py-2 rounded-xl border border-indigo-100 focus:outline-none focus:border-indigo-500 h-20 resize-none leading-relaxed text-[11px]"
+              className="w-full bg-white text-[#1E1533] px-3 py-2 rounded-xl border border-[#E4DEF5] focus:outline-none focus:border-[#6D28D9] h-20 resize-none leading-relaxed text-[11px]"
               value={form.startupDescription}
               onChange={(e) => setForm({ ...form, startupDescription: e.target.value })}
             />
           </div>
 
           <div>
-            <label className="block text-[10px] font-semibold text-indigo-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-[10px] font-semibold text-[#6D28D9] uppercase tracking-wider mb-1.5">
               {labels.additionalNotes}
             </label>
             <textarea
-              className="w-full bg-white text-slate-900 px-3 py-2 rounded-xl border border-indigo-100 focus:outline-none focus:border-indigo-500 h-16 resize-none leading-relaxed text-[11px]"
+              className="w-full bg-white text-[#1E1533] px-3 py-2 rounded-xl border border-[#E4DEF5] focus:outline-none focus:border-[#6D28D9] h-16 resize-none leading-relaxed text-[11px]"
               placeholder={t.pitchHint}
               value={form.additionalNotes}
               onChange={(e) => setForm({ ...form, additionalNotes: e.target.value })}
@@ -774,7 +774,7 @@ export default function ProposalGenerator({
           <button
             onClick={generateProposal}
             disabled={loading}
-            className="w-full bg-indigo-700 hover:bg-indigo-800 disabled:opacity-50 disabled:pointer-events-none text-white font-semibold py-2 sm:py-3 px-3 sm:px-4 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer shadow-sm text-xs sm:text-sm"
+            className="w-full bg-[#6D28D9] hover:bg-[#4C1D95] disabled:opacity-50 disabled:pointer-events-none text-white font-semibold py-2 sm:py-3 px-3 sm:px-4 rounded-xl transition flex items-center justify-center gap-2 cursor-pointer shadow-sm text-xs sm:text-sm"
           >
             {loading ? (
               <>
@@ -792,29 +792,29 @@ export default function ProposalGenerator({
       </div>
 
       {/* Output Console (7 cols) */}
-      <div className="lg:col-span-7 bg-white border border-indigo-100 rounded-[24px] p-6 shadow-sm h-[590px] flex flex-col relative overflow-hidden text-slate-900">
+      <div className="lg:col-span-7 bg-white border border-[#E4DEF5] rounded-[24px] p-6 shadow-sm h-[590px] flex flex-col relative overflow-hidden text-[#1E1533]">
         
         {/* Actions bar */}
-        <div className="flex flex-col gap-3 pb-3 sm:pb-4 mb-4 border-b border-indigo-100">
+        <div className="flex flex-col gap-3 pb-3 sm:pb-4 mb-4 border-b border-[#E4DEF5]">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
             <div>
-              <h3 className="font-display font-semibold text-indigo-800 text-sm">{labels.draftDoc}</h3>
-              <p className="text-[10px] text-slate-400">{labels.poweredBy}</p>
+              <h3 className="font-display font-semibold text-[#4C1D95] text-sm">{labels.draftDoc}</h3>
+              <p className="text-[10px] text-[#8B85A6]">{labels.poweredBy}</p>
             </div>
 
             {proposal && (
               <div className="flex flex-wrap items-center gap-1 sm:gap-1.5 text-xs font-mono w-full sm:w-auto justify-start sm:justify-end">
                 <button
                   onClick={handleCopy}
-                  className="flex items-center gap-1 bg-slate-50 hover:bg-indigo-50 border border-indigo-100 text-slate-700 hover:text-slate-900 px-2 py-1 rounded-lg transition cursor-pointer text-[10px] sm:text-xs"
+                  className="flex items-center gap-1 bg-[#F1EBFF] hover:bg-[#EDE6FB] border border-[#E4DEF5] text-slate-700 hover:text-[#1E1533] px-2 py-1 rounded-lg transition cursor-pointer text-[10px] sm:text-xs"
                   title="Copy markdown content"
                 >
-                  {copied ? <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-600" /> : <Copy className="w-3 h-3 sm:w-3.5 sm:h-3.5" />}
+                  {copied ? <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#10B981]" /> : <Copy className="w-3 h-3 sm:w-3.5 sm:h-3.5" />}
                   <span>{copied ? t.copiedShortLabel : t.copyShortLabel}</span>
                 </button>
                 <button
                   onClick={handleDownload}
-                  className="flex items-center gap-1 bg-slate-50 hover:bg-indigo-50 border border-indigo-100 text-slate-700 hover:text-slate-900 px-2 py-1 rounded-lg transition cursor-pointer text-[10px] sm:text-xs"
+                  className="flex items-center gap-1 bg-[#F1EBFF] hover:bg-[#EDE6FB] border border-[#E4DEF5] text-slate-700 hover:text-[#1E1533] px-2 py-1 rounded-lg transition cursor-pointer text-[10px] sm:text-xs"
                   title="Save as Markdown file"
                 >
                   <Download className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
@@ -822,7 +822,7 @@ export default function ProposalGenerator({
                 </button>
                 <button
                   onClick={handleDownloadPDF}
-                  className="flex items-center gap-1 bg-indigo-700 hover:bg-indigo-800 text-white px-2 py-1 rounded-lg transition cursor-pointer text-[10px] sm:text-xs font-bold"
+                  className="flex items-center gap-1 bg-[#6D28D9] hover:bg-[#4C1D95] text-white px-2 py-1 rounded-lg transition cursor-pointer text-[10px] sm:text-xs font-bold"
                   title="Download premium styled PDF report"
                 >
                   <Download className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
@@ -830,7 +830,7 @@ export default function ProposalGenerator({
                 </button>
                 <button
                   onClick={handlePrint}
-                  className="flex items-center gap-1 bg-slate-50 hover:bg-indigo-50 border border-indigo-100 text-slate-700 hover:text-slate-900 px-2 py-1 rounded-lg transition cursor-pointer text-[10px] sm:text-xs"
+                  className="flex items-center gap-1 bg-[#F1EBFF] hover:bg-[#EDE6FB] border border-[#E4DEF5] text-slate-700 hover:text-[#1E1533] px-2 py-1 rounded-lg transition cursor-pointer text-[10px] sm:text-xs"
                   title="Export to printer"
                 >
                   <Printer className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
@@ -842,15 +842,15 @@ export default function ProposalGenerator({
 
           {/* Iteration & Draft Control Segment */}
           {form.targetGrantName && (proposal || activeDrafts.length > 0) && (
-            <div className="flex flex-wrap items-center justify-between gap-3 bg-indigo-50 border border-indigo-100 p-2 rounded-xl text-xs animate-fadeIn">
+            <div className="flex flex-wrap items-center justify-between gap-3 bg-[#F8F6FF] border border-[#E4DEF5] p-2 rounded-xl text-xs animate-fadeIn">
               <div className="flex items-center gap-2">
-                <History className="w-3.5 h-3.5 text-indigo-700" />
-                <span className="font-semibold text-indigo-800 text-[11px]">{labels.savedVersions}</span>
+                <History className="w-3.5 h-3.5 text-[#6D28D9]" />
+                <span className="font-semibold text-[#4C1D95] text-[11px]">{labels.savedVersions}</span>
                 {activeDrafts.length > 0 ? (
                   <select
                     value={selectedDraftId}
                     onChange={(e) => setSelectedDraftId(e.target.value)}
-                    className="bg-white border border-indigo-100 rounded px-2.5 py-1 text-[10px] font-mono outline-none focus:border-indigo-500 text-slate-900"
+                    className="bg-white border border-[#E4DEF5] rounded px-2.5 py-1 text-[10px] font-mono outline-none focus:border-[#6D28D9] text-[#1E1533]"
                   >
                     {activeDrafts.map((d, idx) => (
                       <option key={d.id} value={d.id}>
@@ -876,10 +876,10 @@ export default function ProposalGenerator({
               {proposal && (
                 <button
                   onClick={() => saveDraftIteration(proposal, true)}
-                  className="flex items-center gap-1 bg-indigo-700/10 hover:bg-indigo-700/20 border border-indigo-600/30 text-indigo-800 px-2 py-1 rounded-lg transition cursor-pointer font-bold font-mono text-[10px]"
+                  className="flex items-center gap-1 bg-[#6D28D9]/10 hover:bg-[#6D28D9]/20 border border-[#6D28D9]/30 text-[#4C1D95] px-2 py-1 rounded-lg transition cursor-pointer font-bold font-mono text-[10px]"
                   title="Create new revision of current state"
                 >
-                  <Save className="w-3 h-3 text-indigo-700" />
+                  <Save className="w-3 h-3 text-[#6D28D9]" />
                   <span>{t.snapshotRevision}</span>
                 </button>
               )}
@@ -891,9 +891,9 @@ export default function ProposalGenerator({
         <div className="flex-1 overflow-y-auto pr-2">
           {loading ? (
             <div className="h-full flex flex-col justify-center items-center gap-4 text-center">
-              <Cpu className="w-10 h-10 text-indigo-700 animate-pulse" />
+              <Cpu className="w-10 h-10 text-[#6D28D9] animate-pulse" />
               <div className="space-y-1 w-full max-w-sm">
-                <p className="text-indigo-800 text-xs font-semibold uppercase tracking-wider">
+                <p className="text-[#4C1D95] text-xs font-semibold uppercase tracking-wider">
                   {t.draftingProposal}
                 </p>
                 <p className="text-slate-500 text-[10px]">
@@ -902,8 +902,8 @@ export default function ProposalGenerator({
               </div>
 
               {/* Watsonx detailed phase logs */}
-              <div className="bg-indigo-50 border border-indigo-100 p-4 rounded-xl text-left w-full max-w-md font-mono text-[9px] text-slate-600 mt-4 h-40 overflow-y-auto shadow-sm">
-                <div className="flex items-center gap-1.5 text-indigo-700 border-b border-indigo-100 pb-1.5 mb-2 font-bold">
+              <div className="bg-[#F8F6FF] border border-[#E4DEF5] p-4 rounded-xl text-left w-full max-w-md font-mono text-[9px] text-slate-600 mt-4 h-40 overflow-y-auto shadow-sm">
+                <div className="flex items-center gap-1.5 text-[#6D28D9] border-b border-[#E4DEF5] pb-1.5 mb-2 font-bold">
                   <Terminal className="w-3.5 h-3.5" />
                   <span>
                     {t.pitchGenerationMonitor}
@@ -912,11 +912,11 @@ export default function ProposalGenerator({
                 <div className="space-y-1">
                   {generationLogs.map((log, idx) => (
                     <div key={idx} className="flex items-center gap-1.5 animate-fade-in">
-                      <span className="text-emerald-600 font-bold">&gt;</span>
+                      <span className="text-[#10B981] font-bold">&gt;</span>
                       <span>{log}</span>
                     </div>
                   ))}
-                  <div className="flex items-center gap-1.5 text-indigo-700 animate-pulse">
+                  <div className="flex items-center gap-1.5 text-[#6D28D9] animate-pulse">
                     <span>&gt;</span>
                     <span>
                       {t.consolidatingChapters}
@@ -927,7 +927,7 @@ export default function ProposalGenerator({
             </div>
           ) : proposal ? (
             <div 
-              className="prose max-w-none text-xs leading-relaxed border border-indigo-100 p-5 rounded-2xl bg-indigo-50"
+              className="prose max-w-none text-xs leading-relaxed border border-[#E4DEF5] p-5 rounded-2xl bg-[#F8F6FF]"
               dangerouslySetInnerHTML={{ __html: parseMarkdownToHtml(proposal) }}
             />
           ) : (
