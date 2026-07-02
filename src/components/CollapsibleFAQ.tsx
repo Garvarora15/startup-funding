@@ -93,7 +93,7 @@ export default function CollapsibleFAQ({ currentLanguage }: CollapsibleFAQProps)
   };
 
   return (
-    <div id="faq-section" className="bg-[#131A2E] border border-[#26314D] rounded-2xl p-6 shadow-sm mt-8">
+    <div id="faq-section" className="bg-[#000054] border border-[#3D3DAD] rounded-2xl p-6 shadow-sm mt-8">
       <h3 className="font-display font-semibold text-[#2563EB] text-sm md:text-base tracking-tight mb-4 flex items-center gap-2">
         <span className="flex items-center justify-center w-6 h-6 rounded bg-[#3B82F6]/10 text-[#3B82F6] text-xs font-mono font-bold">?</span>
         <span>{getTitle()}</span>
@@ -104,12 +104,12 @@ export default function CollapsibleFAQ({ currentLanguage }: CollapsibleFAQProps)
           return (
             <div 
               key={idx} 
-              className="border border-[#26314D] rounded-xl overflow-hidden transition-colors duration-200"
+              className="border border-[#3D3DAD] rounded-xl overflow-hidden transition-colors duration-200"
             >
               <button
                 type="button"
                 onClick={() => setOpenIdx(isOpen ? null : idx)}
-                className="w-full flex items-center justify-between p-4 bg-[#0F1526] hover:bg-[#1B2440] text-left transition cursor-pointer"
+                className="w-full flex items-center justify-between p-4 bg-[#000054] hover:bg-[#000054] text-left transition cursor-pointer"
               >
                 <span className="font-sans font-semibold text-[#2563EB] text-xs md:text-sm">
                   {faq.q}
@@ -121,7 +121,7 @@ export default function CollapsibleFAQ({ currentLanguage }: CollapsibleFAQProps)
                 )}
               </button>
               {isOpen && (
-                <div className="p-4 bg-[#131A2E] border-t border-[#26314D] font-sans text-xs text-slate-300 leading-relaxed">
+                <div className="p-4 bg-[#000054] border-t border-[#3D3DAD] font-sans text-xs text-slate-300 leading-relaxed">
                   {faq.a}
                 </div>
               )}

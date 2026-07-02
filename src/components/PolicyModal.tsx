@@ -29,7 +29,7 @@ export default function PolicyModal({ isOpen, onClose, type, currentLanguage }: 
 
   const getPrivacyContent = () => (
     <div className="space-y-4 font-sans text-xs text-slate-300 leading-relaxed">
-      <div className="bg-[#0F1526] border border-[#26314D] rounded-lg p-3.5 mb-4 flex items-start gap-3">
+      <div className="bg-[#000054] border border-[#3D3DAD] rounded-lg p-3.5 mb-4 flex items-start gap-3">
         <Lock className="w-5 h-5 text-[#3B82F6] shrink-0 mt-0.5" />
         <div>
           <h4 className="font-mono font-bold text-[10px] text-[#3B82F6] uppercase tracking-wide">Data Security Guarantee</h4>
@@ -71,7 +71,7 @@ export default function PolicyModal({ isOpen, onClose, type, currentLanguage }: 
 
   const getCookieContent = () => (
     <div className="space-y-4 font-sans text-xs text-slate-300 leading-relaxed">
-      <div className="bg-[#0F1526] border border-[#26314D] rounded-lg p-3.5 mb-4 flex items-start gap-3">
+      <div className="bg-[#000054] border border-[#3D3DAD] rounded-lg p-3.5 mb-4 flex items-start gap-3">
         <Info className="w-5 h-5 text-[#3B82F6] shrink-0 mt-0.5" />
         <div>
           <h4 className="font-mono font-bold text-[10px] text-[#3B82F6] uppercase tracking-wide">Zero Tracking Commitment</h4>
@@ -103,7 +103,7 @@ export default function PolicyModal({ isOpen, onClose, type, currentLanguage }: 
 
   const getTermsContent = () => (
     <div className="space-y-4 font-sans text-xs text-slate-300 leading-relaxed">
-      <div className="bg-[#0F1526] border border-[#26314D] rounded-lg p-3.5 mb-4 flex items-start gap-3">
+      <div className="bg-[#000054] border border-[#3D3DAD] rounded-lg p-3.5 mb-4 flex items-start gap-3">
         <FileText className="w-5 h-5 text-[#3B82F6] shrink-0 mt-0.5" />
         <div>
           <h4 className="font-mono font-bold text-[10px] text-[#3B82F6] uppercase tracking-wide">Enterprise Legal Framework</h4>
@@ -151,10 +151,10 @@ export default function PolicyModal({ isOpen, onClose, type, currentLanguage }: 
       />
       
       {/* Modal Dialog */}
-      <div className="relative bg-[#131A2E] border border-[#26314D] rounded-2xl shadow-2xl max-w-2xl w-full max-h-[85vh] flex flex-col z-10 overflow-hidden transform transition-all">
+      <div className="relative bg-[#000054] border border-[#3D3DAD] rounded-2xl shadow-2xl max-w-2xl w-full max-h-[85vh] flex flex-col z-10 overflow-hidden transform transition-all">
         
         {/* Header */}
-        <div className="px-6 py-4 bg-[#0F1526] border-b border-[#26314D] flex items-center justify-between">
+        <div className="px-6 py-4 bg-[#000054] border-b border-[#3D3DAD] flex items-center justify-between">
           <div className="flex items-center gap-2">
             {type === 'privacy' && <Shield className="w-5 h-5 text-[#3B82F6]" />}
             {type === 'cookies' && <Info className="w-5 h-5 text-[#3B82F6]" />}
@@ -165,7 +165,7 @@ export default function PolicyModal({ isOpen, onClose, type, currentLanguage }: 
           </div>
           <button 
             onClick={onClose}
-            className="p-1.5 rounded-lg border border-[#26314D] bg-[#131A2E] text-[#3B82F6] hover:bg-[#1B2440] transition cursor-pointer"
+            className="p-1.5 rounded-lg border border-[#3D3DAD] bg-[#000054] text-[#3B82F6] hover:bg-[#000054] transition cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -179,7 +179,7 @@ export default function PolicyModal({ isOpen, onClose, type, currentLanguage }: 
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-3.5 bg-[#0F1526] border-t border-[#26314D] flex items-center justify-between">
+        <div className="px-6 py-3.5 bg-[#000054] border-t border-[#3D3DAD] flex items-center justify-between">
           <span className="font-mono text-[9px] text-[#94A3B8]">
             LAST UPDATED: JUNE 2026 ● © {currentYear} STARTUP FUNDING HUB
           </span>
