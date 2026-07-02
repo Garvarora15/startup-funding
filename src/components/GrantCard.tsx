@@ -375,7 +375,7 @@ export default function GrantCard({
   };
 
   return (
-    <div className="bg-[#0E332C] border border-[#23574B] rounded-[20px] p-5 shadow-sm hover:border-[#3B82F6] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-[#F1F5F9]">
+    <div className="bg-[#000054] border border-[#3D3DAD] rounded-[20px] p-5 shadow-sm hover:border-[#3B82F6] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-[#F1F5F9]">
       {/* Visual Accent Bar */}
       <div className="absolute top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-[#3B82F6] via-[#8B5CF6] to-[#8B5CF6]" />
 
@@ -398,7 +398,7 @@ export default function GrantCard({
               className={`p-2 rounded-xl border transition-all duration-200 cursor-pointer flex items-center justify-center hover:scale-110 active:scale-95 ${
                 isFavorite 
                   ? 'bg-amber-50 border-amber-200 text-amber-500 hover:bg-amber-100 shadow-sm' 
-                  : 'bg-[#0E332C] border-[#23574B] text-[#94A3B8] hover:bg-[#0E332C] hover:text-[#3B82F6]'
+                  : 'bg-[#000054] border-[#3D3DAD] text-[#94A3B8] hover:bg-[#000054] hover:text-[#3B82F6]'
               }`}
               title={isFavorite ? "Remove from Favorites" : "Add to Favorites"}
             >
@@ -414,13 +414,13 @@ export default function GrantCard({
 
         {/* Amount, Stage, Domain & Deadline Badges */}
         <div className="flex flex-wrap gap-1.5 my-3">
-          <span className="bg-[#0E332C] text-[#3B82F6] border border-[#23574B] text-[11px] font-semibold px-2.5 py-1 rounded-lg">
+          <span className="bg-[#000054] text-[#3B82F6] border border-[#3D3DAD] text-[11px] font-semibold px-2.5 py-1 rounded-lg">
             💰 {grant.amount_display}
           </span>
-          <span className="bg-[#0E332C] text-[#2563EB] border border-[#23574B] text-[10px] font-mono px-2.5 py-1 rounded-full">
+          <span className="bg-[#000054] text-[#2563EB] border border-[#3D3DAD] text-[10px] font-mono px-2.5 py-1 rounded-full">
             🚀 {getStageLabel(grant.stage)}
           </span>
-          <span className="bg-[#0E332C] text-[#2563EB] border border-[#23574B] text-[10px] font-mono px-2.5 py-1 rounded-full">
+          <span className="bg-[#000054] text-[#2563EB] border border-[#3D3DAD] text-[10px] font-mono px-2.5 py-1 rounded-full">
             🏷️ {getDomainLabel(grant.domain)}
           </span>
           {deadlineBadge && (
@@ -436,7 +436,7 @@ export default function GrantCard({
           <button
             onClick={handleReadAloud}
             disabled={ttsLoading}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#23574B] bg-[#0E332C] hover:bg-[#0E332C] hover:scale-[1.03] active:scale-[0.97] text-[#3B82F6] transition-all duration-200 text-[10.5px] font-mono font-bold cursor-pointer disabled:opacity-50 disabled:hover:scale-100"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#3D3DAD] bg-[#000054] hover:bg-[#000054] hover:scale-[1.03] active:scale-[0.97] text-[#3B82F6] transition-all duration-200 text-[10.5px] font-mono font-bold cursor-pointer disabled:opacity-50 disabled:hover:scale-100"
           >
             {ttsLoading ? (
               <RefreshCw className="w-3.5 h-3.5 animate-spin" />
@@ -463,7 +463,7 @@ export default function GrantCard({
 
       <div>
         {/* Collapsible reasoning list */}
-        <div className="border-t border-[#23574B] pt-3 mt-2">
+        <div className="border-t border-[#3D3DAD] pt-3 mt-2">
           <button
             onClick={() => setExpanded(!expanded)}
             className="flex items-center justify-between w-full text-[#3B82F6] hover:text-[#F1F5F9] transition text-xs font-semibold uppercase tracking-wider"
@@ -473,13 +473,13 @@ export default function GrantCard({
           </button>
 
           {expanded && (
-            <div className="mt-3 space-y-2 bg-[#0E332C] p-3.5 rounded-xl border border-[#23574B] text-xs">
+            <div className="mt-3 space-y-2 bg-[#000054] p-3.5 rounded-xl border border-[#3D3DAD] text-xs">
               <div>
                 <span className="text-slate-400 font-medium block mb-1">{labels.boardReqs}</span>
                 <p className="text-slate-100 leading-normal font-sans">{grant.eligibility}</p>
               </div>
 
-              <div className="space-y-1.5 pt-2 border-t border-[#23574B]">
+              <div className="space-y-1.5 pt-2 border-t border-[#3D3DAD]">
                 <span className="text-slate-400 font-medium block">{labels.matchExplanation}</span>
                 {reasons.map((reason, idx) => {
                   const isWarning = reason.toLowerCase().includes('warning') || reason.toLowerCase().includes('mismatch') || reason.toLowerCase().includes('ineligible');
@@ -500,13 +500,13 @@ export default function GrantCard({
         </div>
 
         {/* Action Bar */}
-        <div className="flex gap-1.5 sm:gap-2 border-t border-[#23574B] pt-3 sm:pt-4 mt-3 sm:mt-4 text-[10.5px] sm:text-xs font-mono">
+        <div className="flex gap-1.5 sm:gap-2 border-t border-[#3D3DAD] pt-3 sm:pt-4 mt-3 sm:mt-4 text-[10.5px] sm:text-xs font-mono">
           <button
             onClick={() => onSelectForProposal(grant)}
             className={`flex-[2] flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-2 sm:py-2.5 rounded-xl border font-semibold transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98] ${
               isSelectedForProposal
                 ? 'bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] border-transparent text-white shadow-md'
-                : 'border-[#23574B] bg-[#0E332C] text-[#3B82F6] hover:bg-[#0E332C] hover:shadow-sm'
+                : 'border-[#3D3DAD] bg-[#000054] text-[#3B82F6] hover:bg-[#000054] hover:shadow-sm'
             }`}
           >
             <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
@@ -517,7 +517,7 @@ export default function GrantCard({
             href={grant.application_link}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-2 sm:py-2.5 rounded-xl border border-[#23574B] bg-[#0E332C] text-slate-200 hover:bg-[#0E332C] hover:text-[#F1F5F9] hover:border-[#3B82F6] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+            className="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-2 sm:py-2.5 rounded-xl border border-[#3D3DAD] bg-[#000054] text-slate-200 hover:bg-[#000054] hover:text-[#F1F5F9] hover:border-[#3B82F6] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
             title="Launch Official Application Portal"
           >
             <ExternalLink className="w-3 sm:w-3.5 h-3 sm:h-3.5 shrink-0" />
