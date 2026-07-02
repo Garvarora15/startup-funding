@@ -223,7 +223,7 @@ export default function GrantCard({
       }
       return {
         text,
-        className: 'bg-slate-100 text-slate-500 border-slate-200/60',
+        className: 'bg-slate-800 text-slate-400 border-slate-700/60',
         icon: <AlertCircle className="w-3 h-3 text-slate-400 shrink-0" />
       };
     } else if (diffDays < 7) {
@@ -275,7 +275,7 @@ export default function GrantCard({
 
   // Match score color classes using elegant natural tone variants
   const getScoreColor = (num: number) => {
-    if (num >= 80) return 'text-[#10B981] bg-[#10B981]/5 border-[#10B981]/20';
+    if (num >= 80) return 'text-[#14B8A6] bg-[#14B8A6]/5 border-[#14B8A6]/20';
     if (num >= 55) return 'text-[#b45309] bg-[#fef3c7] border-[#fde68a]';
     return 'text-[#b91c1c] bg-[#fee2e2] border-[#fecaca]';
   };
@@ -375,18 +375,18 @@ export default function GrantCard({
   };
 
   return (
-    <div className="bg-white border border-[#E4DEF5] rounded-[20px] p-5 shadow-sm hover:border-[#6D28D9] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-[#1E1533]">
+    <div className="bg-[#131A2E] border border-[#26314D] rounded-[20px] p-5 shadow-sm hover:border-[#3B82F6] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden flex flex-col justify-between text-[#F1F5F9]">
       {/* Visual Accent Bar */}
-      <div className="absolute top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-[#6D28D9] via-[#7C3AED] to-[#A78BFA]" />
+      <div className="absolute top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-[#3B82F6] via-[#8B5CF6] to-[#8B5CF6]" />
 
       <div>
         {/* Title and Score Row */}
         <div className="flex justify-between items-start gap-4 mb-2">
           <div className="flex-1">
-            <h3 className="font-display font-semibold text-[#4C1D95] text-base tracking-tight leading-tight hover:text-[#6D28D9] transition duration-200">
+            <h3 className="font-display font-semibold text-[#2563EB] text-base tracking-tight leading-tight hover:text-[#3B82F6] transition duration-200">
               {grant.name}
             </h3>
-            <p className="text-xs text-[#8B85A6] font-medium mt-1">
+            <p className="text-xs text-[#94A3B8] font-medium mt-1">
               {labels.source} {grant.source}
             </p>
           </div>
@@ -398,7 +398,7 @@ export default function GrantCard({
               className={`p-2 rounded-xl border transition-all duration-200 cursor-pointer flex items-center justify-center hover:scale-110 active:scale-95 ${
                 isFavorite 
                   ? 'bg-amber-50 border-amber-200 text-amber-500 hover:bg-amber-100 shadow-sm' 
-                  : 'bg-[#F1EBFF] border-[#E4DEF5] text-[#8B85A6] hover:bg-[#EDE6FB] hover:text-[#6D28D9]'
+                  : 'bg-[#151D33] border-[#26314D] text-[#94A3B8] hover:bg-[#1B2440] hover:text-[#3B82F6]'
               }`}
               title={isFavorite ? "Remove from Favorites" : "Add to Favorites"}
             >
@@ -406,7 +406,7 @@ export default function GrantCard({
             </button>
 
             <div className={`flex flex-col items-center justify-center px-3 py-1.5 rounded-xl border text-center ${getScoreColor(score)}`}>
-              <span className="text-[9px] font-mono font-semibold uppercase tracking-wider text-[#8B85A6]">{labels.match}</span>
+              <span className="text-[9px] font-mono font-semibold uppercase tracking-wider text-[#94A3B8]">{labels.match}</span>
               <span className="text-sm font-bold font-mono leading-none mt-0.5">{score}%</span>
             </div>
           </div>
@@ -414,13 +414,13 @@ export default function GrantCard({
 
         {/* Amount, Stage, Domain & Deadline Badges */}
         <div className="flex flex-wrap gap-1.5 my-3">
-          <span className="bg-[#F1EBFF] text-[#6D28D9] border border-[#E4DEF5] text-[11px] font-semibold px-2.5 py-1 rounded-lg">
+          <span className="bg-[#151D33] text-[#3B82F6] border border-[#26314D] text-[11px] font-semibold px-2.5 py-1 rounded-lg">
             💰 {grant.amount_display}
           </span>
-          <span className="bg-[#EDE6FB] text-[#4C1D95] border border-[#E4DEF5] text-[10px] font-mono px-2.5 py-1 rounded-full">
+          <span className="bg-[#1B2440] text-[#2563EB] border border-[#26314D] text-[10px] font-mono px-2.5 py-1 rounded-full">
             🚀 {getStageLabel(grant.stage)}
           </span>
-          <span className="bg-[#EDE6FB] text-[#4C1D95] border border-[#E4DEF5] text-[10px] font-mono px-2.5 py-1 rounded-full">
+          <span className="bg-[#1B2440] text-[#2563EB] border border-[#26314D] text-[10px] font-mono px-2.5 py-1 rounded-full">
             🏷️ {getDomainLabel(grant.domain)}
           </span>
           {deadlineBadge && (
@@ -436,14 +436,14 @@ export default function GrantCard({
           <button
             onClick={handleReadAloud}
             disabled={ttsLoading}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#E4DEF5] bg-[#F8F6FF] hover:bg-[#EDE6FB] hover:scale-[1.03] active:scale-[0.97] text-[#6D28D9] transition-all duration-200 text-[10.5px] font-mono font-bold cursor-pointer disabled:opacity-50 disabled:hover:scale-100"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-[#26314D] bg-[#0F1526] hover:bg-[#1B2440] hover:scale-[1.03] active:scale-[0.97] text-[#3B82F6] transition-all duration-200 text-[10.5px] font-mono font-bold cursor-pointer disabled:opacity-50 disabled:hover:scale-100"
           >
             {ttsLoading ? (
               <RefreshCw className="w-3.5 h-3.5 animate-spin" />
             ) : isPlaying ? (
-              <Square className="w-2.5 h-2.5 fill-[#6D28D9] text-[#6D28D9]" />
+              <Square className="w-2.5 h-2.5 fill-[#3B82F6] text-[#3B82F6]" />
             ) : (
-              <Volume2 className="w-3.5 h-3.5 text-[#6D28D9]" />
+              <Volume2 className="w-3.5 h-3.5 text-[#3B82F6]" />
             )}
             <span>
               {ttsLoading 
@@ -456,31 +456,31 @@ export default function GrantCard({
         </div>
 
         {/* Short Description */}
-        <p className="text-xs text-slate-700 leading-relaxed font-sans mb-4">
+        <p className="text-xs text-slate-200 leading-relaxed font-sans mb-4">
           {grant.description}
         </p>
       </div>
 
       <div>
         {/* Collapsible reasoning list */}
-        <div className="border-t border-[#E4DEF5] pt-3 mt-2">
+        <div className="border-t border-[#26314D] pt-3 mt-2">
           <button
             onClick={() => setExpanded(!expanded)}
-            className="flex items-center justify-between w-full text-[#6D28D9] hover:text-[#1E1533] transition text-xs font-semibold uppercase tracking-wider"
+            className="flex items-center justify-between w-full text-[#3B82F6] hover:text-[#F1F5F9] transition text-xs font-semibold uppercase tracking-wider"
           >
             <span>{labels.reasoningHeader}</span>
             {expanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
           </button>
 
           {expanded && (
-            <div className="mt-3 space-y-2 bg-[#F8F6FF] p-3.5 rounded-xl border border-[#E4DEF5] text-xs">
+            <div className="mt-3 space-y-2 bg-[#0F1526] p-3.5 rounded-xl border border-[#26314D] text-xs">
               <div>
-                <span className="text-slate-600 font-medium block mb-1">{labels.boardReqs}</span>
-                <p className="text-slate-800 leading-normal font-sans">{grant.eligibility}</p>
+                <span className="text-slate-400 font-medium block mb-1">{labels.boardReqs}</span>
+                <p className="text-slate-100 leading-normal font-sans">{grant.eligibility}</p>
               </div>
 
-              <div className="space-y-1.5 pt-2 border-t border-[#E4DEF5]">
-                <span className="text-slate-600 font-medium block">{labels.matchExplanation}</span>
+              <div className="space-y-1.5 pt-2 border-t border-[#26314D]">
+                <span className="text-slate-400 font-medium block">{labels.matchExplanation}</span>
                 {reasons.map((reason, idx) => {
                   const isWarning = reason.toLowerCase().includes('warning') || reason.toLowerCase().includes('mismatch') || reason.toLowerCase().includes('ineligible');
                   return (
@@ -488,9 +488,9 @@ export default function GrantCard({
                       {isWarning ? (
                         <AlertTriangle className="w-3.5 h-3.5 text-rose-600 shrink-0 mt-0.5" />
                       ) : (
-                        <CheckCircle className="w-3.5 h-3.5 text-[#10B981] shrink-0 mt-0.5" />
+                        <CheckCircle className="w-3.5 h-3.5 text-[#14B8A6] shrink-0 mt-0.5" />
                       )}
-                      <span className={isWarning ? 'text-rose-900' : 'text-slate-800'}>{reason}</span>
+                      <span className={isWarning ? 'text-rose-900' : 'text-slate-100'}>{reason}</span>
                     </div>
                   );
                 })}
@@ -500,13 +500,13 @@ export default function GrantCard({
         </div>
 
         {/* Action Bar */}
-        <div className="flex gap-1.5 sm:gap-2 border-t border-[#E4DEF5] pt-3 sm:pt-4 mt-3 sm:mt-4 text-[10.5px] sm:text-xs font-mono">
+        <div className="flex gap-1.5 sm:gap-2 border-t border-[#26314D] pt-3 sm:pt-4 mt-3 sm:mt-4 text-[10.5px] sm:text-xs font-mono">
           <button
             onClick={() => onSelectForProposal(grant)}
             className={`flex-[2] flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-2 sm:py-2.5 rounded-xl border font-semibold transition-all duration-200 cursor-pointer hover:scale-[1.02] active:scale-[0.98] ${
               isSelectedForProposal
-                ? 'bg-gradient-to-r from-[#6D28D9] to-[#7C3AED] border-transparent text-white shadow-md'
-                : 'border-[#E4DEF5] bg-[#F1EBFF] text-[#6D28D9] hover:bg-[#EDE6FB] hover:shadow-sm'
+                ? 'bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] border-transparent text-white shadow-md'
+                : 'border-[#26314D] bg-[#151D33] text-[#3B82F6] hover:bg-[#1B2440] hover:shadow-sm'
             }`}
           >
             <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
@@ -517,7 +517,7 @@ export default function GrantCard({
             href={grant.application_link}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-2 sm:py-2.5 rounded-xl border border-[#E4DEF5] bg-[#F1EBFF] text-slate-700 hover:bg-[#EDE6FB] hover:text-[#1E1533] hover:border-[#6D28D9] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
+            className="flex-1 flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3.5 py-2 sm:py-2.5 rounded-xl border border-[#26314D] bg-[#151D33] text-slate-200 hover:bg-[#1B2440] hover:text-[#F1F5F9] hover:border-[#3B82F6] hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
             title="Launch Official Application Portal"
           >
             <ExternalLink className="w-3 sm:w-3.5 h-3 sm:h-3.5 shrink-0" />
@@ -526,9 +526,9 @@ export default function GrantCard({
         </div>
 
         {/* Footer info row */}
-        <div className="flex justify-between text-[10px] text-[#8B85A6] font-mono mt-3">
+        <div className="flex justify-between text-[10px] text-[#94A3B8] font-mono mt-3">
           <span className="flex items-center gap-1">
-            <Calendar className="w-3 h-3 text-[#6D28D9]" /> {labels.deadline} {grant.deadline}
+            <Calendar className="w-3 h-3 text-[#3B82F6]" /> {labels.deadline} {grant.deadline}
           </span>
           <span>{labels.synced} {grant.last_scraped}</span>
         </div>

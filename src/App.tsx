@@ -195,7 +195,7 @@ export default function App() {
   const displayedGrants = showFavoritesOnly ? grants.filter(g => favorites.includes(g.id)) : grants;
 
   return (
-    <div className="min-h-screen bg-transparent text-slate-800 flex flex-col font-sans">
+    <div className="min-h-screen bg-transparent text-slate-100 flex flex-col font-sans">
       <Navbar currentLanguage={currentLanguage} onLanguageChange={setCurrentLanguage} />
 
       {/* Main Grid Layout */}
@@ -212,39 +212,39 @@ export default function App() {
                 setSaveSuccess(true);
                 setTimeout(() => setSaveSuccess(false), 3000);
               }}
-              className="w-full bg-gradient-to-r from-[#6D28D9] to-[#7C3AED] text-white hover:from-[#5B21B6] hover:to-[#6D28D9] py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl font-semibold text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] border border-[#4C1D95]"
+              className="w-full bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] text-white hover:from-[#1D4ED8] hover:to-[#3B82F6] py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl font-semibold text-xs uppercase tracking-wider transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] border border-[#2563EB]"
             >
               <Save className="w-4 h-4" />
               <span>{saveSuccess ? t.saveSuccessText : t.saveContextBtn}</span>
             </button>
             {saveSuccess && (
-              <p className="text-[10px] text-[#10B981] font-semibold text-center font-mono animate-fadeIn">
+              <p className="text-[10px] text-[#14B8A6] font-semibold text-center font-mono animate-fadeIn">
                 {t.saveNotification}
               </p>
             )}
           </div>
           
           {/* Quick Real-time Metrics Dashboard */}
-          <div className="bg-gradient-to-br from-[#EDE6FB] to-[#F1EBFF] border border-[#E4DEF5] rounded-[24px] p-5 shadow-sm font-mono text-xs text-[#1E1533] transition-shadow duration-300 hover:shadow-md">
-            <h4 className="font-display font-semibold text-[#4C1D95] mb-3 flex items-center gap-2 text-sm">
-              <Database className="w-4 h-4 text-[#6D28D9]" />
+          <div className="bg-gradient-to-br from-[#1B2440] to-[#151D33] border border-[#26314D] rounded-[24px] p-5 shadow-sm font-mono text-xs text-[#F1F5F9] transition-shadow duration-300 hover:shadow-md">
+            <h4 className="font-display font-semibold text-[#2563EB] mb-3 flex items-center gap-2 text-sm">
+              <Database className="w-4 h-4 text-[#3B82F6]" />
               {t.realtimeInsights}
             </h4>
             
             <div className="space-y-2.5">
-              <div className="flex justify-between items-center bg-white p-2.5 rounded-xl border border-[#E4DEF5] transition-all duration-200 hover:border-[#6D28D9]/40 hover:shadow-sm">
-                <span className="text-[#6D28D9] font-medium">{t.dpiitAge}</span>
-                <span className="text-[#1E1533] font-bold">
+              <div className="flex justify-between items-center bg-[#131A2E] p-2.5 rounded-xl border border-[#26314D] transition-all duration-200 hover:border-[#3B82F6]/40 hover:shadow-sm">
+                <span className="text-[#3B82F6] font-medium">{t.dpiitAge}</span>
+                <span className="text-[#F1F5F9] font-bold">
                   {new Date().getFullYear() - profile.incorporationYear} {t.yearsSuffix}
                 </span>
               </div>
-              <div className="flex justify-between items-center bg-white p-2.5 rounded-xl border border-[#E4DEF5] transition-all duration-200 hover:border-[#6D28D9]/40 hover:shadow-sm">
-                <span className="text-[#6D28D9] font-medium">{t.totalSchemes}</span>
-                <span className="text-[#6D28D9] font-bold">{GRANTS.length} {t.authenticatedLabel}</span>
+              <div className="flex justify-between items-center bg-[#131A2E] p-2.5 rounded-xl border border-[#26314D] transition-all duration-200 hover:border-[#3B82F6]/40 hover:shadow-sm">
+                <span className="text-[#3B82F6] font-medium">{t.totalSchemes}</span>
+                <span className="text-[#3B82F6] font-bold">{GRANTS.length} {t.authenticatedLabel}</span>
               </div>
-              <div className="flex justify-between items-center bg-white p-2.5 rounded-xl border border-[#E4DEF5] transition-all duration-200 hover:border-[#6D28D9]/40 hover:shadow-sm">
-                <span className="text-[#6D28D9] font-medium">{t.topMatch}</span>
-                <span className="text-[#10B981] font-bold">
+              <div className="flex justify-between items-center bg-[#131A2E] p-2.5 rounded-xl border border-[#26314D] transition-all duration-200 hover:border-[#3B82F6]/40 hover:shadow-sm">
+                <span className="text-[#3B82F6] font-medium">{t.topMatch}</span>
+                <span className="text-[#14B8A6] font-bold">
                   {grants.length > 0 && matchScores[grants[0].id] ? `${matchScores[grants[0].id].score}% ${t.matchLabel}` : 'N/A'}
                 </span>
               </div>
@@ -256,13 +256,13 @@ export default function App() {
         <div className="lg:col-span-7 flex flex-col gap-6 lg:self-start">
           
           {/* Navigation Tabs */}
-          <div className="bg-[#EDE6FB] border border-[#E4DEF5] rounded-2xl p-1 flex sm:p-1.5 gap-1 shadow-sm relative">
+          <div className="bg-[#1B2440] border border-[#26314D] rounded-2xl p-1 flex sm:p-1.5 gap-1 shadow-sm relative">
             <button
               onClick={() => setActiveTab('assistant')}
               className={`flex-1 py-2 sm:py-3 px-1 sm:px-4 rounded-xl flex items-center justify-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
                 activeTab === 'assistant'
-                  ? 'bg-gradient-to-r from-[#6D28D9] to-[#7C3AED] text-white shadow-md scale-[1.02]'
-                  : 'text-[#6D28D9] hover:text-[#1E1533] hover:bg-[#D8CEF0] hover:scale-[1.01]'
+                  ? 'bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] text-white shadow-md scale-[1.02]'
+                  : 'text-[#3B82F6] hover:text-[#F1F5F9] hover:bg-[#3B4568] hover:scale-[1.01]'
               }`}
             >
               <Bot className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
@@ -274,8 +274,8 @@ export default function App() {
               onClick={() => setActiveTab('browse')}
               className={`flex-1 py-2 sm:py-3 px-1 sm:px-4 rounded-xl flex items-center justify-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer ${
                 activeTab === 'browse'
-                  ? 'bg-gradient-to-r from-[#6D28D9] to-[#7C3AED] text-white shadow-md scale-[1.02]'
-                  : 'text-[#6D28D9] hover:text-[#1E1533] hover:bg-[#D8CEF0] hover:scale-[1.01]'
+                  ? 'bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] text-white shadow-md scale-[1.02]'
+                  : 'text-[#3B82F6] hover:text-[#F1F5F9] hover:bg-[#3B4568] hover:scale-[1.01]'
               }`}
             >
               <Database className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
@@ -287,8 +287,8 @@ export default function App() {
               onClick={() => setActiveTab('proposal')}
               className={`flex-1 py-2 sm:py-3 px-1 sm:px-4 rounded-xl flex items-center justify-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider transition-all duration-200 relative cursor-pointer ${
                 activeTab === 'proposal'
-                  ? 'bg-gradient-to-r from-[#6D28D9] to-[#7C3AED] text-white shadow-md scale-[1.02]'
-                  : 'text-[#6D28D9] hover:text-[#1E1533] hover:bg-[#D8CEF0] hover:scale-[1.01]'
+                  ? 'bg-gradient-to-r from-[#3B82F6] to-[#8B5CF6] text-white shadow-md scale-[1.02]'
+                  : 'text-[#3B82F6] hover:text-[#F1F5F9] hover:bg-[#3B4568] hover:scale-[1.01]'
               }`}
             >
               <FileText className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
@@ -322,12 +322,12 @@ export default function App() {
               <div className="space-y-6">
                 
                 {/* Search & Smart Filter Bar */}
-                <div className="bg-white border border-[#E4DEF5] rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col gap-3">
+                <div className="bg-[#131A2E] border border-[#26314D] rounded-2xl p-4 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col gap-3">
                   <div className="relative">
-                    <Search className="w-4 h-4 text-[#6D28D9] absolute left-3.5 top-3.5" />
+                    <Search className="w-4 h-4 text-[#3B82F6] absolute left-3.5 top-3.5" />
                     <input
                       type="text"
-                      className="w-full bg-[#F8F6FF] text-[#1E1533] text-xs pl-10 pr-4 py-3 rounded-xl border border-[#E4DEF5] focus:outline-none focus:border-[#6D28D9] focus:ring-2 focus:ring-[#6D28D9]/20 transition-all"
+                      className="w-full bg-[#0F1526] text-[#F1F5F9] text-xs pl-10 pr-4 py-3 rounded-xl border border-[#26314D] focus:outline-none focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 transition-all"
                       placeholder={t.searchPlaceholder || "Search schemes — e.g. biotech, NIDHI, women..."}
                       value={q}
                       onChange={(e) => setQ(e.target.value)}
@@ -336,17 +336,17 @@ export default function App() {
 
                   {/* Watson NLU Live Metadata */}
                   {nluMetadata && nluMetadata.keywords && nluMetadata.keywords.length > 0 && (
-                    <div className="bg-[#F1EBFF] border border-[#E4DEF5] rounded-xl px-3.5 py-2.5 text-xs text-[#6D28D9] flex flex-col md:flex-row md:items-center md:justify-between gap-2.5">
+                    <div className="bg-[#151D33] border border-[#26314D] rounded-xl px-3.5 py-2.5 text-xs text-[#3B82F6] flex flex-col md:flex-row md:items-center md:justify-between gap-2.5">
                       <div className="flex flex-wrap items-center gap-1.5">
-                        <span className="font-mono font-bold text-[9px] uppercase tracking-wider bg-[#6D28D9] text-white px-1.5 py-0.5 rounded">
+                        <span className="font-mono font-bold text-[9px] uppercase tracking-wider bg-[#3B82F6] text-white px-1.5 py-0.5 rounded">
                           IBM Watson NLU
                         </span>
-                        <span className="font-semibold text-[#4C1D95]">
+                        <span className="font-semibold text-[#2563EB]">
                           {t.parsedConcepts}
                         </span>
                         <div className="flex flex-wrap gap-1">
                           {nluMetadata.keywords.slice(0, 4).map((kw: any, idx: number) => (
-                            <span key={idx} className="bg-white px-2 py-0.5 rounded border border-[#E4DEF5] text-[#4C1D95] font-mono text-[10px] font-bold">
+                            <span key={idx} className="bg-[#131A2E] px-2 py-0.5 rounded border border-[#26314D] text-[#2563EB] font-mono text-[10px] font-bold">
                               {kw.text}
                             </span>
                           ))}
@@ -358,7 +358,7 @@ export default function App() {
                         </span>
                         <span className={`px-2 py-0.5 rounded text-white ${
                           nluMetadata.sentiment.score > 0.1 
-                            ? 'bg-[#10B981]' 
+                            ? 'bg-[#14B8A6]' 
                             : nluMetadata.sentiment.score < -0.1 
                               ? 'bg-rose-500' 
                               : 'bg-slate-500'
@@ -373,7 +373,7 @@ export default function App() {
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
                       <select
-                        className="w-full bg-[#F8F6FF] text-[#1E1533] text-xs px-3 py-2.5 rounded-xl border border-[#E4DEF5] focus:outline-none focus:border-[#6D28D9] focus:ring-2 focus:ring-[#6D28D9]/20 hover:border-[#6D28D9]/50 transition-all cursor-pointer"
+                        className="w-full bg-[#0F1526] text-[#F1F5F9] text-xs px-3 py-2.5 rounded-xl border border-[#26314D] focus:outline-none focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 hover:border-[#3B82F6]/50 transition-all cursor-pointer"
                         value={stageFilter}
                         onChange={(e) => setStageFilter(e.target.value)}
                       >
@@ -385,7 +385,7 @@ export default function App() {
 
                     <div>
                       <select
-                        className="w-full bg-[#F8F6FF] text-[#1E1533] text-xs px-3 py-2.5 rounded-xl border border-[#E4DEF5] focus:outline-none focus:border-[#6D28D9] focus:ring-2 focus:ring-[#6D28D9]/20 hover:border-[#6D28D9]/50 transition-all cursor-pointer"
+                        className="w-full bg-[#0F1526] text-[#F1F5F9] text-xs px-3 py-2.5 rounded-xl border border-[#26314D] focus:outline-none focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 hover:border-[#3B82F6]/50 transition-all cursor-pointer"
                         value={domainFilter}
                         onChange={(e) => setDomainFilter(e.target.value)}
                       >
@@ -397,7 +397,7 @@ export default function App() {
 
                     <div>
                       <select
-                        className="w-full bg-[#F8F6FF] text-[#1E1533] text-xs px-3 py-2.5 rounded-xl border border-[#E4DEF5] focus:outline-none focus:border-[#6D28D9] focus:ring-2 focus:ring-[#6D28D9]/20 hover:border-[#6D28D9]/50 transition-all cursor-pointer"
+                        className="w-full bg-[#0F1526] text-[#F1F5F9] text-xs px-3 py-2.5 rounded-xl border border-[#26314D] focus:outline-none focus:border-[#3B82F6] focus:ring-2 focus:ring-[#3B82F6]/20 hover:border-[#3B82F6]/50 transition-all cursor-pointer"
                         value={minAmountFilter}
                         onChange={(e) => setMinAmountFilter(Number(e.target.value))}
                       >
@@ -409,22 +409,22 @@ export default function App() {
                   </div>
 
                   {/* Bookmark Favorites Only Toggle Pill */}
-                  <div className="flex flex-wrap items-center justify-between gap-3 pt-2.5 border-t border-[#E4DEF5]/50">
+                  <div className="flex flex-wrap items-center justify-between gap-3 pt-2.5 border-t border-[#26314D]/50">
                     <button
                       type="button"
                       onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
                       className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border text-[11px] font-mono font-bold transition-all duration-200 cursor-pointer hover:scale-[1.03] active:scale-[0.97] ${
                         showFavoritesOnly 
                           ? 'bg-gradient-to-r from-amber-500 to-amber-400 border-amber-600 text-white shadow-sm hover:shadow-md' 
-                          : 'bg-[#F8F6FF] border-[#E4DEF5] text-[#6D28D9] hover:bg-[#EDE6FB] hover:text-[#4C1D95]'
+                          : 'bg-[#0F1526] border-[#26314D] text-[#3B82F6] hover:bg-[#1B2440] hover:text-[#2563EB]'
                       }`}
                     >
-                      <Star className={`w-3.5 h-3.5 ${showFavoritesOnly ? 'fill-white text-white animate-pulse' : 'text-[#8B85A6]'}`} />
+                      <Star className={`w-3.5 h-3.5 ${showFavoritesOnly ? 'fill-white text-white animate-pulse' : 'text-[#94A3B8]'}`} />
                       <span>
                         {showFavoritesOnly ? t.showAllSchemes : t.showFavoritesOnly}
                       </span>
                     </button>
-                    <span className="text-[10px] font-mono font-semibold text-[#8B85A6]">
+                    <span className="text-[10px] font-mono font-semibold text-[#94A3B8]">
                       {`${displayedGrants.length} ${t.schemesDisplayedSuffix}`}
                     </span>
                   </div>
@@ -433,8 +433,8 @@ export default function App() {
                 {/* Grants List Grid */}
                 {loadingGrants ? (
                   <div className="py-20 flex justify-center items-center gap-3">
-                    <RefreshCw className="w-6 h-6 text-[#6D28D9] animate-spin" />
-                    <span className="text-[#8B85A6] text-sm font-mono">
+                    <RefreshCw className="w-6 h-6 text-[#3B82F6] animate-spin" />
+                    <span className="text-[#94A3B8] text-sm font-mono">
                       {t.runningQuery}
                     </span>
                   </div>
@@ -462,14 +462,14 @@ export default function App() {
                       ))}
                   </div>
                 ) : (
-                  <div className="bg-white border border-[#E4DEF5] rounded-2xl py-20 px-6 text-center shadow-sm">
-                    <HelpCircle className="w-12 h-12 text-[#8B85A6] mx-auto mb-3" />
-                    <p className="text-sm font-semibold text-[#4C1D95]">
+                  <div className="bg-[#131A2E] border border-[#26314D] rounded-2xl py-20 px-6 text-center shadow-sm">
+                    <HelpCircle className="w-12 h-12 text-[#94A3B8] mx-auto mb-3" />
+                    <p className="text-sm font-semibold text-[#2563EB]">
                       {showFavoritesOnly
                         ? t.noGrantsBookmarked
                         : t.noMatchingGrants}
                     </p>
-                    <p className="text-xs text-[#8B85A6] max-w-sm mx-auto mt-1 leading-normal">
+                    <p className="text-xs text-[#94A3B8] max-w-sm mx-auto mt-1 leading-normal">
                       {showFavoritesOnly
                         ? t.favoritesHint
                         : t.relaxFiltersHint}

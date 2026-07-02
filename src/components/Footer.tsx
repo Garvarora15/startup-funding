@@ -31,7 +31,7 @@ export default function Footer({ currentLanguage, onOpenPolicy }: FooterProps) {
   };
 
   return (
-    <footer id="app-footer" className="bg-[#6D28D9] text-white border-t border-[#4C1D95]/30 mt-12">
+    <footer id="app-footer" className="bg-[#3B82F6] text-white border-t border-[#2563EB]/30 mt-12">
       <div className="max-w-[1536px] mx-auto px-6 py-12 md:py-16">
         {/* Main Grid Columns */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-12">
@@ -61,20 +61,20 @@ export default function Footer({ currentLanguage, onOpenPolicy }: FooterProps) {
             </h4>
             <div className="space-y-2 text-xs font-mono text-white/90">
               <div className="flex items-center gap-2 bg-white/5 px-3 py-2 rounded-lg border border-white/10">
-                <Globe className="w-3.5 h-3.5 text-[#10B981]" />
-                <span>NLU: <strong className="text-[#10B981]">Watson NLU Analysed</strong></span>
+                <Globe className="w-3.5 h-3.5 text-[#14B8A6]" />
+                <span>NLU: <strong className="text-[#14B8A6]">Watson NLU Analysed</strong></span>
               </div>
               <div className="flex items-center gap-2 bg-white/5 px-3 py-2 rounded-lg border border-white/10">
-                <Cpu className="w-3.5 h-3.5 text-[#10B981]" />
-                <span>LLM Backend: <strong className="text-[#10B981]">Granite-4-H-Small</strong></span>
+                <Cpu className="w-3.5 h-3.5 text-[#14B8A6]" />
+                <span>LLM Backend: <strong className="text-[#14B8A6]">Granite-4-H-Small</strong></span>
               </div>
               <div className="flex items-center gap-2 bg-white/5 px-3 py-2 rounded-lg border border-white/10">
-                <Terminal className="w-3.5 h-3.5 text-[#10B981]" />
-                <span>Agent Layer: <strong className="text-[#10B981]">Watsonx Orchestrate Ready</strong></span>
+                <Terminal className="w-3.5 h-3.5 text-[#14B8A6]" />
+                <span>Agent Layer: <strong className="text-[#14B8A6]">Watsonx Orchestrate Ready</strong></span>
               </div>
               <div className="flex items-center gap-2 bg-white/5 px-3 py-2 rounded-lg border border-white/10">
-                <Shield className="w-3.5 h-3.5 text-[#10B981]" />
-                <span>Guardrail: <strong className="text-[#10B981]">Compliance Layer Active</strong></span>
+                <Shield className="w-3.5 h-3.5 text-[#14B8A6]" />
+                <span>Guardrail: <strong className="text-[#14B8A6]">Compliance Layer Active</strong></span>
               </div>
             </div>
           </div>
